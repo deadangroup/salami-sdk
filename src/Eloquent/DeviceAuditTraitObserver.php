@@ -25,7 +25,7 @@ class DeviceAuditTraitObserver
             $model->device_id = $this->getCurrentDevice();
         }
     }
-    
+
     /**
      * Get authenticated user id depending on model's auth guard.
      *
@@ -34,10 +34,10 @@ class DeviceAuditTraitObserver
     protected function getCurrentDevice()
     {
         $device = app(DeviceFactory::class)->getSessionDevice();
-        
+
         return $device ? $device->id : 0;
     }
-    
+
     /**
      * Model's deleting event hook.
      *
@@ -49,7 +49,7 @@ class DeviceAuditTraitObserver
             $model->device_id = $this->getCurrentDevice();
         }
     }
-    
+
     /**
      * Model's deleting event hook.
      *

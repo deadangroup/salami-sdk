@@ -26,7 +26,7 @@ class CustomReplacer extends Validator
      * @param  string $message
      * @param  string $attribute
      * @param  string $rule
-     * @param  array  $parameters
+     * @param  array $parameters
      *
      * @return string
      */
@@ -34,14 +34,14 @@ class CustomReplacer extends Validator
     {
         return str_replace(':value', $this->getValue($attribute), $message);
     }
-    
+
     /**
      * Replace all place-holders for the unique rule.
      *
      * @param  string $message
      * @param  string $attribute
      * @param  string $rule
-     * @param  array  $parameters
+     * @param  array $parameters
      *
      * @return string
      */
@@ -49,14 +49,14 @@ class CustomReplacer extends Validator
     {
         return str_replace(':value', $this->getValue($attribute), $message);
     }
-    
+
     /**
      * Replace all place-holders for the exists rule.
      *
      * @param  string $message
      * @param  string $attribute
      * @param  string $rule
-     * @param  array  $parameters
+     * @param  array $parameters
      *
      * @return string
      */
@@ -64,14 +64,14 @@ class CustomReplacer extends Validator
     {
         return str_replace(':value', $this->getValue($attribute), $message);
     }
-    
+
     /**
      * Replace all place-holders for the exists rule.
      *
      * @param  string $message
      * @param  string $attribute
      * @param  string $rule
-     * @param  array  $parameters
+     * @param  array $parameters
      *
      * @return string
      */

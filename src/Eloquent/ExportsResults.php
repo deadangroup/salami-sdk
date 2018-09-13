@@ -18,7 +18,7 @@ trait ExportsResults
 {
     public $supportedFormats = ['xls', 'xlsx', 'csv', /*'pdf'*/];
     public $defaultFormat = 'xlsx';
-    
+
     /**
      * @param $collection
      *
@@ -30,19 +30,19 @@ trait ExportsResults
         $format = in_array($format, $this->supportedFormats) ? $format : $this->defaultFormat;
         $filename = time() . "-" . $name;
         $collection = $this->prepareCollection($collection);
-        
+
         $excel = Excel::create($filename, function ($excel) use ($collection, $filename) {
-            
+
             $excel->sheet('Sheet 1', function ($sheet) use ($collection) {
                 $sheet->fromArray($collection->toArray());
             });
         });
-        
+
         event(new EloquentResultsExportedEvent($filename, $format));
-        
+
         return $excel->download($format);
     }
-    
+
     /**
      * Process the collection and hide or show fields as required.
      *
@@ -56,13 +56,13 @@ trait ExportsResults
             if ($item instanceof IsExportable) {
                 return $item->only($item->exportFields());
             }
-            
+
             return $item->toArray();
         });
-        
+
         return $collection;
     }
-    
+
     public function requestsDownload()
     {
         return request()->get('download') ? true : false;

@@ -10,16 +10,16 @@
 
 namespace Deadan\Support\Eloquent;
 
+use Deadan\Analytics\Contracts\Trackable;
+use Deadan\Analytics\Traits\TrackableTrait;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Deadan\Analytics\Contracts\Trackable;
-use Deadan\Analytics\Traits\TrackableTrait;
 
 class EloquentResultsExportedEvent implements Trackable
 {
     use Dispatchable, InteractsWithSockets, SerializesModels, TrackableTrait;
-    
+
     /**
      * @var
      */
@@ -28,7 +28,7 @@ class EloquentResultsExportedEvent implements Trackable
      * @var
      */
     public $exportType;
-    
+
     /**
      * EloquentResultsExportedEvent constructor.
      *
@@ -40,7 +40,7 @@ class EloquentResultsExportedEvent implements Trackable
         $this->filename = $filename;
         $this->exportType = $exportType;
     }
-    
+
     /**
      * @return array
      */

@@ -15,7 +15,7 @@ class DeleteObserver
             $model->deleted_by = $this->getAuthenticatedUserId();
         }
     }
-    
+
     /**
      * Get authenticated user id depending on model's auth guard.
      *

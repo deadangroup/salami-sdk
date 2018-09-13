@@ -21,7 +21,7 @@ trait DeleteAuditTrait
     {
         static::observe(new DeleteObserver);
     }
-    
+
     /**
      * Get user model who created the record.
      *
@@ -31,7 +31,7 @@ trait DeleteAuditTrait
     {
         return $this->belongsTo($this->getUserInstance(), $this->getDeletedByColumn());
     }
-    
+
     /**
      * Get column name for created by.
      *
@@ -41,7 +41,7 @@ trait DeleteAuditTrait
     {
         return 'deleted_by';
     }
-    
+
     /**
      * Get updated by user full name.
      *
@@ -52,7 +52,7 @@ trait DeleteAuditTrait
         if ($this->{$this->getDeletedByColumn()}) {
             return $this->deletor->name;
         }
-        
+
         return '';
     }
 }

@@ -17,7 +17,7 @@ trait TimedJob
      * @var int
      */
     public $maxTries = 5;
-    
+
     /**
      * @var int
      */

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Console\Commands;
+
 use DB;
 use Illuminate\Console\Command;
 
@@ -23,6 +25,7 @@ class UpgradeTimestamps extends Command
      * @var string
      */
     protected $description = 'Upgrades timestamp columns to be compatible with MySQL 5.7 strict mode.';
+
     /**
      * Execute the console command.
      *
@@ -37,6 +40,7 @@ class UpgradeTimestamps extends Command
             $this->upgradeTable($database, $table->table_name);
         }
     }
+
     protected function upgradeTable($database, $table)
     {
         $columns = DB::select('SHOW COLUMNS FROM `' . $database . '`.`' . $table . '`');
@@ -46,6 +50,7 @@ class UpgradeTimestamps extends Command
             }
         }
     }
+
     protected function upgradeColumn($database, $table, $column)
     {
         $sql = "ALTER TABLE `$table` CHANGE `$column` `$column` TIMESTAMP NULL DEFAULT NULL;";

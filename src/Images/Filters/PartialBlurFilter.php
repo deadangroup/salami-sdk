@@ -20,7 +20,7 @@ class PartialBlurFilter implements FilterInterface
     private $height;
     private $x;
     private $y;
-    
+
     public function __construct($width = 300, $height = 300, $x = 0, $y = 0)
     {
         $this->width = $width;
@@ -28,7 +28,7 @@ class PartialBlurFilter implements FilterInterface
         $this->x = $x;
         $this->y = $y;
     }
-    
+
     public function applyFilter(Image $image)
     {
         $crop = clone $image;

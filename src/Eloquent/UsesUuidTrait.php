@@ -21,7 +21,7 @@ trait UsesUuidTrait
     {
         static::observe(new UuidTraitObserver);
     }
-    
+
     /**
      * Defines the UUID field for the model.
      *
@@ -31,7 +31,7 @@ trait UsesUuidTrait
     {
         return 'uuid';
     }
-    
+
     /**
      * Get the route key for the model.
      * This is used to load model from db for route model binding

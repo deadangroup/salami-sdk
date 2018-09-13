@@ -10,8 +10,8 @@
 
 namespace Deadan\Support\Notifications;
 
-use GuzzleHttp\Client;
 use Deadan\Support\Http\GuzzleWithBackoff;
+use GuzzleHttp\Client;
 use NotificationChannels\Webhook\WebhookChannel as OriginalChannel;
 
 /**
@@ -27,7 +27,7 @@ class WebhookChannel extends OriginalChannel
     public function __construct(Client $client)
     {
         $client = GuzzleWithBackoff::make();
-        
+
         parent::__construct($client);
     }
 }

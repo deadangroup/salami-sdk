@@ -54,9 +54,9 @@ class DetectEnvVariables extends Command
     public function findTranslations($path = null)
     {
         $path = $path ?: base_path();
-        $groupKeys = array();
-        $stringKeys = array();
-        $functions = array('env',);
+        $groupKeys = [];
+        $stringKeys = [];
+        $functions = ['env',];
 
         $groupPattern =                              // See http://regexr.com/392hu
             "[^\w|>]" .                          // Must not have an alphanum or _ or > before real method

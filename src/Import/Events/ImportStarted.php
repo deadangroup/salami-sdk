@@ -10,22 +10,22 @@
 
 namespace Deadan\Support\Import\Events;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 use Deadan\Analytics\Contracts\Trackable;
 use Deadan\Analytics\Traits\TrackableTrait;
 use Deadan\Support\Import\ImportQueue;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class ImportStarted implements Trackable
 {
     use Dispatchable, InteractsWithSockets, SerializesModels, TrackableTrait;
-    
+
     /**
      * @var \Deadan\Support\Import\ImportQueue
      */
     public $queue;
-    
+
     /**
      * ImportCompleted constructor.
      *
@@ -35,7 +35,7 @@ class ImportStarted implements Trackable
     {
         $this->queue = $queue;
     }
-    
+
     /**
      * @return array
      */

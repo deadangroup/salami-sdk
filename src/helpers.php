@@ -18,13 +18,13 @@ if (!function_exists('format_number')) {
     {
         // first strip any formatting;
         // $n = (0 str_replace(",", "", $n));
-        
+
         // is this a number?
         if (!is_numeric($n)) {
             // return 0;
             return $n;
         }
-        
+
         // now filter it;
         if ($n > 1000000000000) {
             return round(($n / 1000000000000), 1) . 'T';
@@ -41,7 +41,7 @@ if (!function_exists('format_number')) {
                 }
             }
         }
-        
+
         return number_format($n);
     }
 }
@@ -57,18 +57,18 @@ if (!function_exists('get_file_size')) {
     {
         $from_start = strspn($old ^ $new, "\0");
         $from_end = strspn(strrev($old) ^ strrev($new), "\0");
-        
+
         $old_end = strlen($old) - $from_end;
         $new_end = strlen($new) - $from_end;
-        
+
         $start = substr($new, 0, $from_start);
         $end = substr($new, $new_end);
         $new_diff = substr($new, $from_start, $new_end - $from_start);
         $old_diff = substr($old, $from_start, $old_end - $from_start);
-        
+
         $new = "$start<span style='background-color:#ccffcc; text-decoration: underline'>$new_diff</span>$end";
         $old = "$start<span style='background-color:#ffcccc; text-decoration: line-through;'>$old_diff</span>$end";
-        
+
         return [$old, $new];
     }
 }
@@ -147,7 +147,7 @@ function json_format($json)
     if (!is_string($json)) {
         $json = json_encode($json);
     }
-    
+
     throw_if(!phpversion() || phpversion() < 5.4, Exception::class);
     return json_encode($json, JSON_PRETTY_PRINT);
 }
@@ -161,9 +161,9 @@ if (!function_exists('xml_to_json')) {
     function xml_to_json($string)
     {
         $xml = simplexml_load_string($string);
-        
+
         $json = json_encode($xml);
-        
+
         return json_decode($json, true);
     }
 }
@@ -181,7 +181,7 @@ if (!function_exists('is_xml')) {
         } catch (\Exception $exception) {
             return false;
         }
-        
+
         return !empty($doc);
     }
 }
@@ -257,7 +257,7 @@ if (!function_exists('has')) {
         if (is_null($user)) {
             $user = Auth::user();
         }
-        
+
         return $user->{$relationship}()->count() > 0;
     }
 }
@@ -305,7 +305,7 @@ if (!defined('get_private_field')) {
         $reflectionClass = new ReflectionObject($item);
         $args = $reflectionClass->getProperty($field);
         $args->setAccessible(true);
-        
+
         return $args->getValue($item);
     }
 }
@@ -322,7 +322,7 @@ if (!defined('url_add')) {
     {
         $url = request()->url();
         $params = http_build_query($query);
-        
+
         if ($params != '') {
             $url .= '?' . $params;
         }
@@ -342,7 +342,7 @@ if (!defined('url_with')) {
     {
         $url = request()->url();
         $params = http_build_query(request()->only(array_values($query)));
-        
+
         if ($params != '') {
             $url .= '?' . $params;
         }
@@ -359,7 +359,7 @@ if (!defined('is_search')) {
     function is_search()
     {
         $searchKeys = config('general.search_query');
-        
+
         //we use keys to because we want to know even when the search params don't have a value
         $keys = request()->keys();
         return count(array_intersect($keys, $searchKeys)) > 0;
@@ -402,17 +402,17 @@ if (!defined('force_s3_download')) {
     function force_s3_download($storedName, $displayedName)
     {
         $disk = Storage::disk('s3');
-        
+
         $displayedName = iconv('UTF-8', 'ASCII//TRANSLIT', $displayedName);
-        
+
         $command = $disk->getDriver()->getAdapter()->getClient()->getCommand('GetObject', [
             'Bucket'                     => config('filesystems.disks.s3.bucket'),
             'Key'                        => $storedName,
             'ResponseContentDisposition' => 'inline; filename="' . $displayedName . '"',
         ]);
         $request = $disk->getDriver()->getAdapter()->getClient()->createPresignedRequest($command, '+5 minutes');
-        $url = (string)$request->getUri();
-        
+        $url = (string) $request->getUri();
+
         return response()->redirectTo($url);
     }
 }
@@ -451,7 +451,7 @@ if (!defined('ascii_art')) {
                 $g = (($rgb >> 8) & 0xFF);
                 $b = ($rgb & 0xFF);
                 $sat = ($r + $g + $b) / (255 * 3);
-                $out .= $chars[(int)($sat * ($c_count - 1))];
+                $out .= $chars[(int) ($sat * ($c_count - 1))];
             }
             $out .= PHP_EOL;
         }
@@ -474,7 +474,7 @@ if (!defined('_copy')) {
     {
         Storage::disk($toDriver)->put($filePath,
             Storage::disk($fromDriver)->get($filePath));
-        
+
         return Storage::disk($toDriver)->url($filePath);
     }
 }

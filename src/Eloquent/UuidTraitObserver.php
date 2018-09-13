@@ -24,7 +24,7 @@ class UuidTraitObserver
     public function created(Model $model)
     {
         $columnName = $model->getUuidColumn();
-        
+
         //if the field has not been populated, populate it
         if (!$model->{$columnName}) {
             //if model explicitly requests for UUID4, use it
@@ -32,11 +32,11 @@ class UuidTraitObserver
                 $token = Uuid::uuid4()->toString();
             } else {
                 $token = Hashids::encode($model->id);
-                
+
                 $classPrefix = substr(get_class($model), 0, 2);
                 $token = strtoupper($classPrefix) . $token;
             }
-            
+
             $model->{$columnName} = $token;
             $model->save();
         }

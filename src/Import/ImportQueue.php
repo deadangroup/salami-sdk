@@ -10,43 +10,43 @@
 
 namespace Deadan\Support\Import;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
 use Deadan\Support\Eloquent\ActivityAuditorTrait;
 use Deadan\Support\Eloquent\UsesUuidTrait;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ImportQueue extends Model
 {
     use ActivityAuditorTrait;
     use UsesUuidTrait;
     use SoftDeletes;
-    
+
     /**
      *
      */
     const STATUS_PENDING = "PENDING";
-    
+
     /**
      *
      */
     const STATUS_PROCESSING = "PROCESSING";
-    
+
     /**
      *
      */
     const STATUS_COMPLETED = "COMPLETED";
-    
+
     /**
      *
      */
     const STATUS_CANCELLED = "CANCELLED";
-    
+
     /**
      * @type string
      */
     protected $table = 'import_queue';
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -63,9 +63,9 @@ class ImportQueue extends Model
         'status',
         'created_by',
     ];
-    
+
     protected $hidden = ['id', 'type', 'deleted_by', 'updated_by', 'created_by'];
-    
+
     /**
      * @param Builder $builder
      * @param         $id
@@ -76,7 +76,7 @@ class ImportQueue extends Model
     {
         return $builder->where('created_by', $id);
     }
-    
+
     /**
      * @param Builder $builder
      * @param         $type

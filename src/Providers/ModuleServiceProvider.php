@@ -11,14 +11,14 @@
 
 namespace Deadan\Support\Providers;
 
+use Deadan\Support\Validation\CustomReplacer;
+use Deadan\Support\Validation\CustomValidationRules;
+use Deadan\Support\Validation\PhoneNumberRegexRule;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\Rule;
-use Deadan\Support\Validation\CustomReplacer;
-use Deadan\Support\Validation\CustomValidationRules;
-use Deadan\Support\Validation\PhoneNumberRegexRule;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -33,7 +33,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->hookBcAliases();
         $this->registerMigrationMacros();
     }
-    
+
     /*
      * Some external packages have hardcoded App/User and App\Http\Controllers\Controller.
      *
@@ -50,22 +50,22 @@ class ModuleServiceProvider extends ServiceProvider
                 return new PhoneNumberRegexRule();
             });
         }
-        
+
         //make sure array validation errors are shown in a better way
         Validator::resolver(function ($translator, $data, $rules, $messages, $attributes) {
             return new CustomReplacer($translator, $data, $rules, $messages, $attributes);
         });
-        
+
         Validator::extend('old_password', CustomValidationRules::class . '@validateOldPassword');
         Validator::extend('excel_columns', CustomValidationRules::class . '@validateExcelColumns');
     }
-    
+
     public function hookBcAliases()
     {
         class_alias(config('auth.providers.users.model'), 'App\User');
         class_alias('Mkodi\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
     }
-    
+
     public function registerMigrationMacros()
     {
         Blueprint::macro('deletable', function () {
@@ -74,14 +74,14 @@ class ModuleServiceProvider extends ServiceProvider
         Blueprint::macro('dropDeletable', function () {
             $this->dropColumn(['deleted_by']);
         });
-        
+
         Blueprint::macro('device', function () {
             $this->unsignedInteger('device_id')->nullable()->index();
         });
         Blueprint::macro('dropDevice', function () {
             $this->dropColumn(['device_id']);
         });
-        
+
         Blueprint::macro('hasUuid', function () {
             $this->uuid('uuid')->nullable(true);
         });

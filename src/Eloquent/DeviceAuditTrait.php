@@ -23,7 +23,7 @@ trait DeviceAuditTrait
     {
         static::observe(new DeviceAuditTraitObserver);
     }
-    
+
     /**
      * Get user model who created the record.
      *
@@ -33,7 +33,7 @@ trait DeviceAuditTrait
     {
         return $this->belongsTo(Device::class, $this->getDeviceIdColumn());
     }
-    
+
     /**
      * Get column name for created by.
      *

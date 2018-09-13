@@ -52,22 +52,22 @@ class LoadBalancer
      * ]
      * ];
      */
-    
+
     private $__SERVERS__ = [];
-    
+
     /**
      * LoadBalancer constructor.
      *
      * @param array $servers
-     * @param null  $i
+     * @param null $i
      */
     public function __construct(array $servers, $i = null)
     {
         $this->__SERVERS__ = $servers;
         $this->__I__ = (!is_null($i)) ? $i : -1;
-        
+
     }
-    
+
     /**
      *
      */
@@ -75,7 +75,7 @@ class LoadBalancer
     {
         return $this->weightedRoundRobbin($this->__SERVERS__);
     }
-    
+
     /**
      * This selects the server to dispatch load to using a weighted Round robbin algorithm.
      * Servers with higher weights receive new connections first than those with less weights,
@@ -107,7 +107,7 @@ class LoadBalancer
         $max = array_reduce($serverPool, function ($v, $w) {
             return max($v, $w['weight']);
         }, -9999999);
-        
+
         //run!
         while (1) {
             $i = ($this->__I__ + 1) % $n;
@@ -128,7 +128,7 @@ class LoadBalancer
             }
         }
     }
-    
+
     /**
      * Get the weight of a specific provider
      *

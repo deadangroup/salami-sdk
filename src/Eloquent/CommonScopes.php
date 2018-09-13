@@ -27,16 +27,16 @@ trait CommonScopes
         $instance = new static();
         $type = DB::select(DB::raw('SHOW COLUMNS FROM ' . $instance->getTable() . ' WHERE Field = "' . $column . '"'))[0]->Type;
         preg_match('/^enum\((.*)\)$/', $type, $matches);
-        
+
         $enum = [];
         foreach (explode(',', $matches[1]) as $value) {
             $v = trim($value, "'");
             $enum = array_add($enum, $v, $v);
         }
-        
+
         return $enum;
     }
-    
+
     /**
      * Scope the query
      *
@@ -46,16 +46,16 @@ trait CommonScopes
     {
         $from = now()->startOfWeek();
         $to = now()->endOfWeek();
-        
+
         if (!is_null($field)) {
-            
+
             return $query->whereBetween($field, [$from, $to]);
         }
-        
+
         return $query;
-        
+
     }
-    
+
     /**
      * Scope the query
      *
@@ -65,15 +65,15 @@ trait CommonScopes
     {
         $from = now()->startOfDay();
         $to = now()->endOfDay();
-        
+
         if (!$field) {
             $field = "created_at";
         }
-        
+
         return $query->whereBetween($field, [$from, $to]);
-        
+
     }
-    
+
     /**
      * Scope the query
      *
@@ -83,7 +83,7 @@ trait CommonScopes
     {
         return $query->orderBy('id', $type);
     }
-    
+
     /**
      * Scope the query
      *

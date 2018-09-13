@@ -5,7 +5,6 @@ namespace Deadan\Support\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
-use Deadan\Support\Notifications\TimedJob;
 use NotificationChannels\Gcm\GcmChannel;
 use NotificationChannels\Gcm\GcmMessage;
 
@@ -16,12 +15,12 @@ class BroadcastModelChanges extends Notification implements ShouldQueue
      * @var
      */
     public $model;
-    
+
     /**
      * @var
      */
     public $action;
-    
+
     /**
      * Create a new notification instance.
      *
@@ -32,7 +31,7 @@ class BroadcastModelChanges extends Notification implements ShouldQueue
         $this->model = $model;
         $this->action = $action;
     }
-    
+
     /**
      * Get the notification's delivery channels.
      *
@@ -44,7 +43,7 @@ class BroadcastModelChanges extends Notification implements ShouldQueue
     {
         return [GcmChannel::class];
     }
-    
+
     /**
      * @param $user
      *

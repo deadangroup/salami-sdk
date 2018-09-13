@@ -29,7 +29,7 @@ class Dynamic implements FilterInterface
         // $contrast   = Input::get('cntrst', 0);
         // $flip       = Input::get('flip', 'h');
         // $greyscale  = Input::get('grey', 'n');
-        
+
         return $image->fit($w, $h);
     }
 }

@@ -29,18 +29,18 @@ class GuzzleWithBackoff
     public static function make()
     {
         $stack = HandlerStack::create();
-        
+
         $stack->push(Middleware::mapRequest(function (RequestInterface $request) {
-            
+
             return $request
                 ->withHeader('App-Version', config('general.app.version'))
                 ->withHeader('User-Agent', config('general.webhooks.user_agent'));
         }));
-        
+
         $stack->push(Middleware::retry(static::retryDecider(), static::retryDelay()));
         return new Client(['handler' => $stack]);
     }
-    
+
     /**
      * @return \Closure
      */
@@ -56,23 +56,23 @@ class GuzzleWithBackoff
             if ($retries >= 5) {
                 return false;
             }
-            
+
             // Retry connection exceptions
             if ($exception instanceof ConnectException) {
                 return true;
             }
-            
+
             if ($response) {
                 // Retry on server errors
                 if ($response->getStatusCode() >= 500) {
                     return true;
                 }
             }
-            
+
             return false;
         };
     }
-    
+
     /**
      * delay 1s 2s 3s 4s 5s
      *
