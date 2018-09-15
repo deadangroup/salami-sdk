@@ -31,7 +31,7 @@ trait SavesImports
      */
     public function getPreviousImports()
     {
-        $result = ImportQueue::byUser(Auth::id())->byType($this->importType)->recent()->get();
+        $result = ImportQueue::byUser(Auth::id())->byType($this->importType)->orderBy('id','desc')->get();
         $result->transform(function ($item, $key) {
             $out = $item->toArray();
 

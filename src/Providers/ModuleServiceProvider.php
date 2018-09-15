@@ -11,6 +11,8 @@
 
 namespace Deadan\Support\Providers;
 
+use Deadan\Support\Console\DetectEnvVariables;
+use Deadan\Support\Console\InstallCommand;
 use Deadan\Support\Validation\CustomReplacer;
 use Deadan\Support\Validation\CustomValidationRules;
 use Deadan\Support\Validation\PhoneNumberRegexRule;
@@ -32,6 +34,11 @@ class ModuleServiceProvider extends ServiceProvider
         $this->registerValidationRules();
         $this->hookBcAliases();
         $this->registerMigrationMacros();
+
+        $this->commands([
+            DetectEnvVariables::class,
+            InstallCommand::class,
+        ]);
     }
 
     /*
