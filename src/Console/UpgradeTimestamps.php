@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Deadan\Support\Console;
 
 use DB;
 use Illuminate\Console\Command;

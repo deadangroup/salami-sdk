@@ -8,7 +8,7 @@
  *
  */
 
-namespace Deadan\Support\Eloquent;
+namespace Deadan\Support\Contracts;
 
 interface IsExportable
 {

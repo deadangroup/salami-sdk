@@ -207,6 +207,10 @@ if (!function_exists('route_is')) {
      */
     function route_is($string)
     {
+        if (is_null(request()->route())) {
+            return false;
+        }
+
         if (is_array($string)) {
             return in_array(request()->route()->getName(), $string);
         } else {
@@ -248,11 +252,11 @@ if (!function_exists('has')) {
      *
      * @param                                 $relationship
      *
-     * @param \Deadan\Account\Models\User|null $user
+     * @param \App\User|null $user
      *
      * @return bool
      */
-    function has($relationship, \Deadan\Account\Models\User $user = null)
+    function has($relationship, \App\User $user = null)
     {
         if (is_null($user)) {
             $user = Auth::user();

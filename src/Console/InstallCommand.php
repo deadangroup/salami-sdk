@@ -13,14 +13,14 @@ class InstallCommand extends Command
      * @var string
      */
     protected $signature = 'app:install';
-    
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Creates some default plans, roles and admin user to get things going';
-    
+
     /**
      * Execute the console command.
      *

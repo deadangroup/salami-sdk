@@ -20,6 +20,7 @@ class UuidTraitObserver
      * Model's created event hook.
      *
      * @param Model $model
+     * @throws \Exception
      */
     public function created(Model $model)
     {

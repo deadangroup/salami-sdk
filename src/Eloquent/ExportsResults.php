@@ -10,6 +10,7 @@
 
 namespace Deadan\Support\Eloquent;
 
+use Deadan\Support\Contracts\IsExportable;
 use Excel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

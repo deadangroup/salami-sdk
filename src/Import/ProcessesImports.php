@@ -90,6 +90,26 @@ trait ProcessesImports
     }
 
     /**
+     * @param \Deadan\Support\Import\ImportQueue $importQueue
+     *
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    protected function prepareFilePath(ImportQueue $importQueue)
+    {
+        $path = $importQueue->original_file_path;
+
+        //if the file is stored in the cloud, we have to download it and store locally
+        if (config('filesystems.default') != 'local') {
+            $fileDriver = config('filesystems.default');
+            _copy($fileDriver, 'local', $importQueue->original_file_path);
+        }
+
+        //laravel excel expects a full path
+        return storage_path('app/' . $path);
+    }
+
+    /**
      * @param array $row
      *
      * @throws \Throwable
@@ -144,25 +164,5 @@ trait ProcessesImports
         }
 
         return 'imports/' . $filename . ".xlsx";
-    }
-
-    /**
-     * @param \Deadan\Support\Import\ImportQueue $importQueue
-     *
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    protected function prepareFilePath(ImportQueue $importQueue)
-    {
-        $path = $importQueue->original_file_path;
-
-        //if the file is stored in the cloud, we have to download it and store locally
-        if (config('filesystems.default') != 'local') {
-            $fileDriver = config('filesystems.default');
-            _copy($fileDriver, 'local', $importQueue->original_file_path);
-        }
-
-        //laravel excel expects a full path
-        return storage_path('app/' . $path);
     }
 }

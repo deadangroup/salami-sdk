@@ -11,9 +11,6 @@
   "require": {
     "php": ">=5.6.4",
     "illuminate/support": "~5.1",
-    "ipunkt/laravel-analytics": "^1.3",
-    "genealabs/laravel-mixpanel": "0.7.4",
-    "zumba/amplitude-php": "^1.0",
     "jelovac/bitly4laravel": "3.*"
   },
   "autoload": {

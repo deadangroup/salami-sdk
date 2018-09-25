@@ -35,7 +35,7 @@ class LoadBalancer
      */
     private $__I__ = -1;
     /**
-     * @var A list of partners/servers/devices with their associated weights i.e max requests they can handled
+     * @var array A list of partners/servers/devices with their associated weights i.e max requests they can handled
      * Format:
      *         $__SERVERS__ = [
      * 0 => [

@@ -13,6 +13,7 @@ namespace Deadan\Support\Providers;
 
 use Deadan\Support\Console\DetectEnvVariables;
 use Deadan\Support\Console\InstallCommand;
+use Deadan\Support\Console\UpgradeTimestamps;
 use Deadan\Support\Validation\CustomReplacer;
 use Deadan\Support\Validation\CustomValidationRules;
 use Deadan\Support\Validation\PhoneNumberRegexRule;
@@ -38,6 +39,19 @@ class ModuleServiceProvider extends ServiceProvider
         $this->commands([
             DetectEnvVariables::class,
             InstallCommand::class,
+            UpgradeTimestamps::class,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/deadan_support.php', 'deadan_support');
+
+        $this->publishes([
+            __DIR__ . '/../../config/deadan_support.php' => config_path('deadan_support.php'),
         ]);
     }
 
@@ -70,7 +84,7 @@ class ModuleServiceProvider extends ServiceProvider
     public function hookBcAliases()
     {
         class_alias(config('auth.providers.users.model'), 'App\User');
-        class_alias('Mkodi\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
+//        class_alias('Mkodi\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
     }
 
     public function registerMigrationMacros()
