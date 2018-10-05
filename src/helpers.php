@@ -228,7 +228,7 @@ if (!function_exists('url_is')) {
      */
     function url_is($string)
     {
-        return str_contains(request()->url(), $string) || str_contains($string, request()->url());
+        return str_contains(request()->fullUrl(), $string) || str_contains($string, request()->fullUrl());
     }
 }
 

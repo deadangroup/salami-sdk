@@ -84,25 +84,11 @@ class ModuleServiceProvider extends ServiceProvider
     public function hookBcAliases()
     {
         class_alias(config('auth.providers.users.model'), 'App\User');
-//        class_alias('Mkodi\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
+//        class_alias('App\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
     }
 
     public function registerMigrationMacros()
     {
-        Blueprint::macro('deletable', function () {
-            $this->unsignedInteger('deleted_by')->nullable()->index();
-        });
-        Blueprint::macro('dropDeletable', function () {
-            $this->dropColumn(['deleted_by']);
-        });
-
-        Blueprint::macro('device', function () {
-            $this->unsignedInteger('device_id')->nullable()->index();
-        });
-        Blueprint::macro('dropDevice', function () {
-            $this->dropColumn(['device_id']);
-        });
-
         Blueprint::macro('hasUuid', function () {
             $this->uuid('uuid')->nullable(true);
         });

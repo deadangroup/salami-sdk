@@ -15,6 +15,4 @@ use Yajra\Auditable\AuditableTrait;
 trait ActivityAuditorTrait
 {
     use AuditableTrait;
-    use DeleteAuditTrait;
-    use DeviceAuditTrait;
 }

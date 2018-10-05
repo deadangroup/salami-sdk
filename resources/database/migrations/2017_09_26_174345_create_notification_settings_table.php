@@ -37,8 +37,8 @@ class CreateNotificationSettingsTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
 
             $table->auditable();
-            $table->deletable();
-            $table->device();
+
+
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

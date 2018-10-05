@@ -31,8 +31,8 @@ class UserSettings extends Migration
             $table->integer('user_id')->unsigned()->nullable(true);
 
             $table->auditable();
-            $table->deletable();
-            $table->device();
+
+
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

@@ -10,7 +10,7 @@
 
 namespace Deadan\Support\Import;
 
-use Deadan\Support\Eloquent\ActivityAuditorTrait;
+use Yajra\Auditable\AuditableTrait;
 use Deadan\Support\Eloquent\UsesUuidTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ImportQueue extends Model
 {
-    use ActivityAuditorTrait;
+    use AuditableTrait;
     use UsesUuidTrait;
     use SoftDeletes;
 
