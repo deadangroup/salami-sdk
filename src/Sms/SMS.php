@@ -47,7 +47,11 @@ class SMS
      */
     public function __call($method, $parameters)
     {
-        return (new static(config('deadan_support')))->smsFactory->$method(...$parameters);
+        $config = config('deadan_support.sms');
+        if ($config && array_key_exists('oauthClientId', $config) && array_key_exists('oauthClientSecret', $config)) {
+            return (new static($config))->smsFactory->$method(...$parameters);
+        }
+        return null;
     }
 
     /**
@@ -60,6 +64,10 @@ class SMS
      */
     public static function __callStatic($method, $parameters)
     {
-        return (new static(config('deadan_support')))->smsFactory->$method(...$parameters);
+        $config = config('deadan_support.sms');
+        if ($config && array_key_exists('oauthClientId', $config) && array_key_exists('oauthClientSecret', $config)) {
+            return (new static($config))->smsFactory->$method(...$parameters);
+        }
+        return null;
     }
 }

@@ -45,7 +45,7 @@ class Factory
      * The DeadanSMS API version
      * @var string
      */
-    private $version = ''; //v1
+    private $version = null; //v1
 
     /**
      * @var LoggerInterface
@@ -154,11 +154,12 @@ class Factory
      */
     public function fetch($endpoint, $method, $payload = [])
     {
-        $url = $this->baseEndpoint . $this->getVersion() . $endpoint;
+        $baseEndpoint = rtrim($this->baseEndpoint . $this->getVersion(), '/\\');
+        $url = $baseEndpoint . $endpoint;
         $this->log("DeadanSMS API URL:" . $url);
         $this->log("DeadanSMS API Payload:", $payload);
 
-        $response = $this->http->request(strtoupper($method), $url, [
+        $response = $this->getHttpClient()->request(strtoupper($method), $url, [
             'json'    => $payload,
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->generateAccessToken(),
