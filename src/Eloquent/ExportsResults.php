@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 
 trait ExportsResults
 {
-    public $supportedFormats = ['xls', 'xlsx', 'csv', /*'pdf'*/];
+    public $supportedFormats = ['xls', 'xlsx', 'csv', 'pdf'];
     public $defaultFormat = 'xlsx';
 
     /**

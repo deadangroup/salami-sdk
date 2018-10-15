@@ -38,7 +38,6 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->commands([
             DetectEnvVariables::class,
-            InstallCommand::class,
             UpgradeTimestamps::class,
         ]);
     }
