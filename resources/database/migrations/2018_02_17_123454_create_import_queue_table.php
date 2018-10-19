@@ -29,7 +29,6 @@ class CreateImportQueueTable extends Migration
 
             $table->softDeletes();
             $table->timestamps();
-
         });
     }
 
