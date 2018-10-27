@@ -41,6 +41,6 @@ class SmsChannel
         ];
 
         //send it baby!
-        SMS::send($payload);
+        app('deadan_sms')->send($payload);
     }
 }

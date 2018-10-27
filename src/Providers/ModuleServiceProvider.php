@@ -35,6 +35,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->registerValidationRules();
         $this->hookBcAliases();
         $this->registerMigrationMacros();
+        $this->registerSmsProvider();
 
         $this->commands([
             DetectEnvVariables::class,
@@ -80,12 +81,18 @@ class ModuleServiceProvider extends ServiceProvider
         Validator::extend('excel_columns', CustomValidationRules::class . '@validateExcelColumns');
     }
 
+    /**
+     *
+     */
     public function hookBcAliases()
     {
         class_alias(config('auth.providers.users.model'), 'App\User');
 //        class_alias('App\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
     }
 
+    /**
+     *
+     */
     public function registerMigrationMacros()
     {
         Blueprint::macro('hasUuid', function () {
@@ -93,6 +100,24 @@ class ModuleServiceProvider extends ServiceProvider
         });
         Blueprint::macro('dropHasUuid', function () {
             $this->dropColumn(['uuid']);
+        });
+    }
+
+    /**
+     * Register the service provider.
+     */
+    public function registerSmsProvider()
+    {
+        $this->app->singleton('deadan_sms', function ($app) {
+            $config = config('deadan_support.sms');
+
+            $factory = with(new \Deadan\Support\Sms\Factory())
+                ->withBaseEndpoint($config['baseEndpoint'])
+                ->withVersion($config['version'])
+                ->withAccessToken($config['accessToken'])
+                ->withLogger(app(\Psr\Log\LoggerInterface::class));
+
+            return $factory;
         });
     }
 }

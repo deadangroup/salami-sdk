@@ -17,16 +17,6 @@ use Psr\Log\LoggerInterface;
 class Factory
 {
     /**
-     * @var mixed
-     */
-    private $oauthClientId;
-
-    /**
-     * @var mixed
-     */
-    private $oauthClientSecret;
-
-    /**
      * @var
      */
     private $accessToken;
@@ -34,7 +24,7 @@ class Factory
     /**
      * @var string
      */
-    private $baseEndpoint = "https://sms.deadangroup.com/api";
+    private $baseEndpoint = "https://sms.deadangroup.com";
 
     /**
      * @var Client
@@ -51,16 +41,6 @@ class Factory
      * @var LoggerInterface
      */
     private $logger = null;
-
-    /**
-     * @param mixed $oauthClientSecret
-     * @return Factory
-     */
-    public function withOauthClientSecret($oauthClientSecret)
-    {
-        $this->oauthClientSecret = $oauthClientSecret;
-        return $this;
-    }
 
     /**
      * @param string $baseEndpoint
@@ -127,16 +107,6 @@ class Factory
     }
 
     /**
-     * @param mixed $oauthClientId
-     * @return Factory
-     */
-    public function withOauthClientId($oauthClientId)
-    {
-        $this->oauthClientId = $oauthClientId;
-        return $this;
-    }
-
-    /**
      * @return null|string
      */
     public function getVersion()
@@ -148,13 +118,36 @@ class Factory
     }
 
     /**
+     * @param bool $withVersion
+     * @return string
+     */
+    public function getBaseEndpoint($withVersion = false): string
+    {
+        $endpoint = rtrim($this->baseEndpoint, '/\\');
+        if ($withVersion) {
+            $endpoint = $endpoint . '/' . $this->getVersion();
+        }
+        return rtrim($endpoint, '/\\');
+    }
+
+    /**
+     * @param mixed $accessToken
+     * @return Factory
+     */
+    public function withAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+        return $this;
+    }
+
+    /**
      * @param $endpoint
      * @param $payload
      * @return array
      */
     public function fetch($endpoint, $method, $payload = [])
     {
-        $baseEndpoint = rtrim($this->baseEndpoint . $this->getVersion(), '/\\');
+        $baseEndpoint = $this->getBaseEndpoint(true);
         $url = $baseEndpoint . $endpoint;
         $this->log("DeadanSMS API URL:" . $url);
         $this->log("DeadanSMS API Payload:", $payload);
@@ -162,7 +155,8 @@ class Factory
         $response = $this->getHttpClient()->request(strtoupper($method), $url, [
             'json'    => $payload,
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->generateAccessToken(),
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getAccessToken(),
             ],
         ]);
 
@@ -188,40 +182,22 @@ class Factory
      *
      * @return string
      */
-    private function generateAccessToken()
+    public function getAccessToken()
     {
-        if (!is_null($this->accessToken)) {
-            return $this->accessToken;
-        }
-
-        // Setup the guzzle client
-        $client = $this->getHttpClient();
-
-        // Attempt to fetch an access token
-        $response = $client->request('POST', $this->baseEndpoint . '/oauth/token',
-            [
-                'form_params' => [
-                    'grant_type'    => 'client_credentials',
-                    'client_id'     => $this->oauthClientId,
-                    'client_secret' => $this->oauthClientSecret,
-                    'scope'         => '*',
-                ],
-            ]);
-
-        // Get the result
-        $result = json_decode($response->getBody(), true);
-        $this->accessToken = $result['access_token'];
-
         return $this->accessToken;
     }
 
     /**
-     * @param array $payload
+     * @param $to
+     * @param $message
      * @return array
      */
-    public function send(array $payload = [])
+    public function sendRaw($to, $message)
     {
-        return $this->fetch('/send', 'POST', $payload);
+        return $this->send([
+            'to'      => $to,
+            'message' => $message,
+        ]);
     }
 
     /**
@@ -230,7 +206,25 @@ class Factory
      */
     public function getSmsApps(array $payload = [])
     {
-        return $this->fetch('/apps', 'GET', $payload);
+        return $this->fetch('/api/apps', 'GET', $payload);
+    }
+
+    /**
+     * @param $appId
+     * @return array
+     */
+    public function getSmsApp($appId)
+    {
+        return $this->fetch('/api/apps/' . $appId, 'GET');
+    }
+
+    /**
+     * @param array $payload
+     * @return array
+     */
+    public function send($appId, array $payload = [])
+    {
+        return $this->fetch("/api/apps/$appId/send", 'POST', $payload);
     }
 
     /**
@@ -239,7 +233,7 @@ class Factory
      */
     public function getAppInbox($appId)
     {
-        return $this->fetch('/apps/' . $appId . '/inbox', 'GET');
+        return $this->fetch('/api/apps/' . $appId . '/inbox', 'GET');
     }
 
     /**
@@ -248,7 +242,7 @@ class Factory
      */
     public function getAppOutbox($appId)
     {
-        return $this->fetch('/apps/' . $appId . '/outbox', 'GET');
+        return $this->fetch('/api/apps/' . $appId . '/outbox', 'GET');
     }
 
     /**
@@ -257,7 +251,7 @@ class Factory
      */
     public function getAppsCalls($appId)
     {
-        return $this->fetch('/apps/' . $appId . '/calls', 'GET');
+        return $this->fetch('/api/apps/' . $appId . '/calls', 'GET');
     }
 
     /**
@@ -266,7 +260,7 @@ class Factory
      */
     public function createApp(array $payload = [])
     {
-        return $this->fetch('/apps/create', 'POST', $payload);
+        return $this->fetch('/api/apps/create', 'POST', $payload);
     }
 
     /**
@@ -275,6 +269,6 @@ class Factory
      */
     public function getSingleMessage($smsId)
     {
-        return $this->fetch('/sms/' . $smsId, 'GET');
+        return $this->fetch('/api/sms/' . $smsId, 'GET');
     }
 }
