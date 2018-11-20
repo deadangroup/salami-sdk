@@ -19,6 +19,7 @@ class SmsMessage
      * @var string
      */
     public $content;
+
     /**
      * Create a new message instance.
      *
@@ -28,6 +29,7 @@ class SmsMessage
     {
         $this->content = $content;
     }
+
     /**
      * Add a line to message content
      *
@@ -40,6 +42,7 @@ class SmsMessage
         $this->content .= $line . "\n";
         return $this;
     }
+
     /**
      * @param array $extra
      *
@@ -50,6 +53,7 @@ class SmsMessage
         $this->extra = $extra;
         return $this;
     }
+
     /**
      * Gets the The message content.
      *
@@ -59,6 +63,7 @@ class SmsMessage
     {
         return $this->content;
     }
+
     /**
      * @param string $content
      *

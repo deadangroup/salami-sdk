@@ -24,6 +24,7 @@ class EloquentResultsExportedEvent implements Trackable
      * @var
      */
     public $filename;
+
     /**
      * @var
      */
