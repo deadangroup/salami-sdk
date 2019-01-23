@@ -51,6 +51,15 @@ class PhoneNumberRegexRule
     }
 
     /**
+     * @param $phonenumber
+     * @return bool
+     */
+    public function isValid($phonenumber)
+    {
+        return preg_match($phonenumber, $this->regex[$this->mno]) > 0;
+    }
+
+    /**
      * Convert the rule to a validation string.
      *
      * @return string
