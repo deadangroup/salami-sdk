@@ -56,7 +56,7 @@ class PhoneNumberRegexRule
      */
     public function isValid($phonenumber)
     {
-        return preg_match($phonenumber, $this->regex[$this->mno]) > 0;
+        return preg_match($this->regex[$this->mno], $phonenumber) > 0;
     }
 
     /**
