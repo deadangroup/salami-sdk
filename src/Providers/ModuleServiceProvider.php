@@ -12,12 +12,15 @@
 namespace Deadan\Support\Providers;
 
 use Deadan\Support\Console\DetectEnvVariables;
-use Deadan\Support\Console\InstallCommand;
 use Deadan\Support\Console\UpgradeTimestamps;
+use Deadan\Support\Log\DeadanSmsLogHandler;
+use Deadan\Support\Log\SmsLogHandler;
 use Deadan\Support\Validation\CustomReplacer;
 use Deadan\Support\Validation\CustomValidationRules;
 use Deadan\Support\Validation\PhoneNumberRegexRule;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Log\LogManager;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
@@ -36,6 +39,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->hookBcAliases();
         $this->registerMigrationMacros();
         $this->registerSmsProvider();
+        $this->registerSmsLogger();
 
         $this->commands([
             DetectEnvVariables::class,
@@ -119,5 +123,17 @@ class ModuleServiceProvider extends ServiceProvider
 
             return $factory;
         });
+    }
+
+    public function registerSmsLogger()
+    {
+        if ($this->app['log'] instanceof LogManager) {
+
+            $this->app['log']->extend('deadan_sms', function (Container $app, array $config) {
+                $logger = new DeadanSmsLogHandler();
+
+                return $logger($config);
+            });
+        }
     }
 }
