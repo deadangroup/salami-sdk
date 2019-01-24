@@ -13,7 +13,7 @@ namespace Deadan\Support\Providers;
 
 use Deadan\Support\Console\DetectEnvVariables;
 use Deadan\Support\Console\UpgradeTimestamps;
-use Deadan\Support\Log\DeadanSmsLogHandler;
+use Deadan\Support\Log\SmsLogger;
 use Deadan\Support\Log\SmsLogHandler;
 use Deadan\Support\Validation\CustomReplacer;
 use Deadan\Support\Validation\CustomValidationRules;
@@ -116,10 +116,8 @@ class ModuleServiceProvider extends ServiceProvider
             $config = config('deadan_support.sms');
 
             $factory = with(new \Deadan\Support\Sms\Factory())
-                ->withBaseEndpoint($config['baseEndpoint'])
-                ->withVersion($config['version'])
-                ->withAccessToken($config['accessToken'])
-                ->withLogger(app(\Psr\Log\LoggerInterface::class));
+                ->withConfig($config);
+//                ->withLogger(app(\Psr\Log\LoggerInterface::class));
 
             return $factory;
         });
@@ -130,7 +128,7 @@ class ModuleServiceProvider extends ServiceProvider
         if ($this->app['log'] instanceof LogManager) {
 
             $this->app['log']->extend('deadan_sms', function (Container $app, array $config) {
-                $logger = new DeadanSmsLogHandler();
+                $logger = new SmsLogger();
 
                 return $logger($config);
             });

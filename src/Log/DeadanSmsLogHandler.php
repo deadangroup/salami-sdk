@@ -33,10 +33,8 @@ class DeadanSmsLogHandler extends AbstractProcessingHandler
     {
         $payload = [
             'to'      => config('logging.channels.deadan_sms.to'),
-            'message' => $record["level_name"] . "::" . $record["message"],
+            'message' => $record["formatted"]
         ];
-
-        \Log::info("DeadanSmsLogHandler", $record);
 
         //send it baby!
         app('deadan_sms')->send($payload);

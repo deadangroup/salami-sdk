@@ -17,25 +17,9 @@ use Psr\Log\LoggerInterface;
 class Factory
 {
     /**
-     * @var
-     */
-    private $accessToken;
-
-    /**
-     * @var string
-     */
-    private $baseEndpoint = "https://sms.deadangroup.com";
-
-    /**
      * @var Client
      */
     private $http;
-
-    /**
-     * The DeadanSMS API version
-     * @var string
-     */
-    private $version = null; //v1
 
     /**
      * @var LoggerInterface
@@ -43,13 +27,27 @@ class Factory
     private $logger = null;
 
     /**
-     * @param string $baseEndpoint
+     * @var array
+     */
+    private $config = [];
+
+    /**
+     * @param array $config
      * @return Factory
      */
-    public function withBaseEndpoint(string $baseEndpoint): Factory
+    public function withConfig(array $config): Factory
     {
-        $this->baseEndpoint = $baseEndpoint;
+        $this->config = $config;
         return $this;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function config($key, $default = null)
+    {
+        return array_get($this->config, $key, $default);
     }
 
     /**
@@ -59,16 +57,6 @@ class Factory
     public function withHttp(Client $http): Factory
     {
         $this->http = $http;
-        return $this;
-    }
-
-    /**
-     * @param mixed $version
-     * @return Factory
-     */
-    public function withVersion($version)
-    {
-        $this->version = $version;
         return $this;
     }
 
@@ -83,7 +71,7 @@ class Factory
         return $this->http = new Client([
             'timeout'         => 60,
             'allow_redirects' => true,
-            'http_errors'     => true, //let users handle errors
+            'http_errors'     => $this->config('http_errors', false), //let users handle errors
             'verify'          => false,
         ]);
     }
@@ -107,37 +95,16 @@ class Factory
     }
 
     /**
-     * @return null|string
-     */
-    public function getVersion()
-    {
-        if (!is_null($this->version)) {
-            return '/' . $this->version;
-        }
-        return null;
-    }
-
-    /**
      * @param bool $withVersion
      * @return string
      */
     public function getBaseEndpoint($withVersion = false): string
     {
-        $endpoint = rtrim($this->baseEndpoint, '/\\');
-        if ($withVersion) {
-            $endpoint = $endpoint . '/' . $this->getVersion();
+        $endpoint = rtrim($this->config('baseEndpoint'), '/\\');
+        if ($withVersion && $version = $this->config('version')) {
+            $endpoint = $endpoint . '/' . $version;
         }
         return rtrim($endpoint, '/\\');
-    }
-
-    /**
-     * @param mixed $accessToken
-     * @return Factory
-     */
-    public function withAccessToken($accessToken)
-    {
-        $this->accessToken = $accessToken;
-        return $this;
     }
 
     /**
@@ -156,7 +123,7 @@ class Factory
             'json'    => $payload,
             'headers' => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                'Authorization' => 'Bearer ' . $this->config('accessToken'),
             ],
         ]);
 
@@ -175,16 +142,6 @@ class Factory
         if ($this->logger) {
             $this->logger->log("info", $message, $context);
         }
-    }
-
-    /**
-     * Fetch an access token from API
-     *
-     * @return string
-     */
-    public function getAccessToken()
-    {
-        return $this->accessToken;
     }
 
     /**
@@ -210,48 +167,44 @@ class Factory
     }
 
     /**
-     * @param $appId
      * @return array
      */
-    public function getSmsApp($appId)
+    public function getSmsApp()
     {
-        return $this->fetch('/api/apps/' . $appId, 'GET');
+        return $this->fetch('/api/apps/' . 'GET');
     }
 
     /**
      * @param array $payload
      * @return array
      */
-    public function send($appId, array $payload = [])
+    public function send(array $payload = [])
     {
-        return $this->fetch("/api/apps/$appId/send", 'POST', $payload);
+        return $this->fetch("/api/apps/" . $this->config('appId') . "/send", 'POST', $payload);
     }
 
     /**
-     * @param int $appId
      * @return array
      */
-    public function getAppInbox($appId)
+    public function getAppInbox()
     {
-        return $this->fetch('/api/apps/' . $appId . '/inbox', 'GET');
+        return $this->fetch('/api/apps/' . $this->config('appId') . '/inbox', 'GET');
     }
 
     /**
-     * @param int $appId
      * @return array
      */
-    public function getAppOutbox($appId)
+    public function getAppOutbox()
     {
-        return $this->fetch('/api/apps/' . $appId . '/outbox', 'GET');
+        return $this->fetch('/api/apps/' . $this->config('appId') . '/outbox', 'GET');
     }
 
     /**
-     * @param int $appId
      * @return array
      */
-    public function getAppsCalls($appId)
+    public function getAppsCalls()
     {
-        return $this->fetch('/api/apps/' . $appId . '/calls', 'GET');
+        return $this->fetch('/api/apps/' . $this->config('appId') . '/calls', 'GET');
     }
 
     /**
