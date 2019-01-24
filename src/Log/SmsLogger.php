@@ -2,6 +2,7 @@
 
 namespace Deadan\Support\Log;
 
+use Monolog\Handler\SamplingHandler;
 use Monolog\Logger;
 
 class SmsLogger
@@ -22,7 +23,9 @@ class SmsLogger
             $this->config('bubble')
         );
 
+        //we use a sampling handler to prevent an overflow of messages
         $smsHandler->setFormatter(new SmsFormatter());
+        $samplinHandler = new SamplingHandler($smsHandler, 2);
 
         return new Logger('deadan_sms', [$smsHandler]);
     }
