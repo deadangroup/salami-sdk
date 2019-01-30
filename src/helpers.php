@@ -144,8 +144,8 @@ if (!function_exists('mask_phone')) {
  */
 function json_format($json)
 {
-    if (!is_string($json)) {
-        $json = json_encode($json);
+    if (is_string($json)) {
+        $json = json_decode($json, true);
     }
 
     throw_if(!phpversion() || phpversion() < 5.4, Exception::class);
@@ -214,7 +214,7 @@ if (!function_exists('route_is')) {
         if (is_array($string)) {
             return in_array(request()->route()->getName(), $string);
         } else {
-            return request()->route()->getName() === $string;
+            return str_contains(request()->route()->getName(), $string);
         }
     }
 }
