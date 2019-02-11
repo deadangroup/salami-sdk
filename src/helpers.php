@@ -232,7 +232,6 @@ if (!function_exists('url_is')) {
     }
 }
 
-
 if (!function_exists('mode')) {
     /**
      * Changes to the specified mode
@@ -242,6 +241,19 @@ if (!function_exists('mode')) {
     function mode($mode)
     {
         Session::put(config('general.session.state_key'), $mode);
+    }
+}
+
+if (!function_exists('mode_is')) {
+    /**
+     * Checks whether user is in the specified mode
+     *
+     * @param $mode
+     * @return bool
+     */
+    function mode_is($mode)
+    {
+        return Session::get(config('general.session.state_key'))== $mode;
     }
 }
 
