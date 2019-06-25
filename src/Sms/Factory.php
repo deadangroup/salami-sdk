@@ -171,7 +171,7 @@ class Factory
      */
     public function getSmsApp()
     {
-        return $this->fetch('/api/apps/' . 'GET');
+        return $this->fetch('/api/apps/' , 'GET');
     }
 
     /**
