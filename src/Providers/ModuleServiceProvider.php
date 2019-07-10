@@ -123,6 +123,9 @@ class ModuleServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Sends log files to sms.
+     */
     public function registerSmsLogger()
     {
         if ($this->app['log'] instanceof LogManager) {

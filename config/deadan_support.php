@@ -16,6 +16,6 @@ return [
         'appId'        => '1',//e.g 1
         //your personal access token from http://sms.deadangroup.com/api/personal-tokens
         "accessToken"  => file_get_contents(__DIR__ . '/personal_token.txt'),
-        "http_errors"  => false,//show Guzzlehttp errors?
+        "httpErrors"  => false,//show Guzzlehttp errors?
     ],
 ];

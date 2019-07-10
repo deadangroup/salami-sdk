@@ -19,17 +19,37 @@ class Factory
     /**
      * @var Client
      */
-    private $http;
+    public $http;
 
     /**
      * @var LoggerInterface
      */
-    private $logger = null;
+    public $logger = null;
 
     /**
-     * @var array
+     * @var string
      */
-    private $config = [];
+    public $version = '';
+
+    /**
+     * @var string
+     */
+    public $baseEndpoint = 'http://sms.deadangroup.com';
+
+    /**
+     * @var string
+     */
+    public $appId;
+
+    /**
+     * @var string
+     */
+    public $accessToken;
+
+    /**
+     * @var bool
+     */
+    public $httpErrors = false;
 
     /**
      * @param array $config
@@ -37,17 +57,12 @@ class Factory
      */
     public function withConfig(array $config): Factory
     {
-        $this->config = $config;
+        $this->version = array_get($config, 'version', $this->version);
+        $this->baseEndpoint = array_get($config, 'baseEndpoint', $this->baseEndpoint);
+        $this->appId = array_get($config, 'appId', $this->appId);
+        $this->accessToken = array_get($config, 'accessToken', $this->accessToken);
+        $this->httpErrors = array_get($config, 'httpErrors', $this->httpErrors);
         return $this;
-    }
-
-    /**
-     * @param $key
-     * @return mixed
-     */
-    public function config($key, $default = null)
-    {
-        return array_get($this->config, $key, $default);
     }
 
     /**
@@ -71,7 +86,7 @@ class Factory
         return $this->http = new Client([
             'timeout'         => 60,
             'allow_redirects' => true,
-            'http_errors'     => $this->config('http_errors', false), //let users handle errors
+            'http_errors'     => $this->httpErrors, //let users handle errors
             'verify'          => false,
         ]);
     }
@@ -100,8 +115,8 @@ class Factory
      */
     public function getBaseEndpoint($withVersion = false): string
     {
-        $endpoint = rtrim($this->config('baseEndpoint'), '/\\');
-        if ($withVersion && $version = $this->config('version')) {
+        $endpoint = rtrim($this->baseEndpoint, '/\\');
+        if ($withVersion && $version = $this->version) {
             $endpoint = $endpoint . '/' . $version;
         }
         return rtrim($endpoint, '/\\');
@@ -123,7 +138,7 @@ class Factory
             'json'    => $payload,
             'headers' => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Bearer ' . $this->config('accessToken'),
+                'Authorization' => 'Bearer ' . $this->accessToken,
             ],
         ]);
 
@@ -171,7 +186,7 @@ class Factory
      */
     public function getSmsApp()
     {
-        return $this->fetch('/api/apps/' , 'GET');
+        return $this->fetch('/api/apps/', 'GET');
     }
 
     /**
@@ -180,7 +195,7 @@ class Factory
      */
     public function send(array $payload = [])
     {
-        return $this->fetch("/api/apps/" . $this->config('appId') . "/send", 'POST', $payload);
+        return $this->fetch("/api/apps/" . $this->appId . "/send", 'POST', $payload);
     }
 
     /**
@@ -188,7 +203,7 @@ class Factory
      */
     public function getAppInbox()
     {
-        return $this->fetch('/api/apps/' . $this->config('appId') . '/inbox', 'GET');
+        return $this->fetch('/api/apps/' . $this->appId . '/inbox', 'GET');
     }
 
     /**
@@ -196,7 +211,7 @@ class Factory
      */
     public function getAppOutbox()
     {
-        return $this->fetch('/api/apps/' . $this->config('appId') . '/outbox', 'GET');
+        return $this->fetch('/api/apps/' . $this->appId . '/outbox', 'GET');
     }
 
     /**
@@ -204,7 +219,7 @@ class Factory
      */
     public function getAppsCalls()
     {
-        return $this->fetch('/api/apps/' . $this->config('appId') . '/calls', 'GET');
+        return $this->fetch('/api/apps/' . $this->appId . '/calls', 'GET');
     }
 
     /**
