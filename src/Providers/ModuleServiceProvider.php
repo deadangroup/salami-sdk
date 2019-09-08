@@ -36,7 +36,6 @@ class ModuleServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerValidationRules();
-        $this->hookBcAliases();
         $this->registerMigrationMacros();
         $this->registerSmsProvider();
         $this->registerSmsLogger();
@@ -59,12 +58,6 @@ class ModuleServiceProvider extends ServiceProvider
         ]);
     }
 
-    /*
-     * Some external packages have hardcoded App/User and App\Http\Controllers\Controller.
-     *
-     * We will alias them here for compatibility.
-     */
-
     /**
      * Register the "phonenumberRegex" rule macro.
      */
@@ -83,15 +76,6 @@ class ModuleServiceProvider extends ServiceProvider
 
         Validator::extend('old_password', CustomValidationRules::class . '@validateOldPassword');
         Validator::extend('excel_columns', CustomValidationRules::class . '@validateExcelColumns');
-    }
-
-    /**
-     *
-     */
-    public function hookBcAliases()
-    {
-        class_alias(config('auth.providers.users.model'), 'App\User');
-//        class_alias('App\Http\Controllers\Controller', 'App\Http\Controllers\Controller');
     }
 
     /**

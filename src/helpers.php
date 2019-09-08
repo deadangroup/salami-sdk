@@ -264,11 +264,11 @@ if (!function_exists('has')) {
      *
      * @param                                 $relationship
      *
-     * @param \App\User|null $user
+     * @param $user
      *
      * @return bool
      */
-    function has($relationship, \App\User $user = null)
+    function has($relationship, $user = null)
     {
         if (is_null($user)) {
             $user = Auth::user();
