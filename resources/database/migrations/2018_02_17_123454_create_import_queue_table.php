@@ -24,8 +24,9 @@ class CreateImportQueueTable extends Migration
             $table->biginteger('successful')->nullable()->default(0);
             $table->biginteger('failed')->nullable()->default(0);
             $table->text('failed_entries_path')->nullable();
-
-            $table->auditable();
+    
+            $table->integer('created_by')->nullable()->default(0);
+            $table->integer('updated_by')->nullable()->default(0);
 
             $table->softDeletes();
             $table->timestamps();

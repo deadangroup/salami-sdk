@@ -10,9 +10,7 @@
 
 namespace Deadan\Support\Eloquent;
 
-use Yajra\Auditable\AuditableTrait;
-
 trait ActivityAuditorTrait
 {
-    use AuditableTrait;
+
 }

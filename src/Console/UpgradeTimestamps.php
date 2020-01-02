@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 
 /**
  * Class UpgradeTimestamps
- * @package App\Console\Commands
  * Laravel Artisan command to upgrade timestamp columns for MySQL 5.7 strict mode.
  * If a timestamp column has a default of 0000-00-00 00:00:00, it now defaults to null.
  */

@@ -11,7 +11,6 @@
 
 namespace Deadan\Support\Images;
 
-use Illuminate\Support\Facades\Input;
 use Intervention\Image\Filters\FilterInterface;
 use Intervention\Image\Image;
 
@@ -19,8 +18,8 @@ class DynamicFilter implements FilterInterface
 {
     public function applyFilter(Image $image)
     {
-        $w = Input::get('w', 50);
-        $h = Input::get('h', 50);
+        $w = request()->get('w', 50);
+        $h = request()->get('h', 50);
         // $format = Input::get('fm', 'png');
         // $quality    = Input::get('q', 75);
         // $blur       = Input::get('blr', 0);
