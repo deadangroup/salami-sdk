@@ -3,5 +3,6 @@
 /.vagrant
 Homestead.json
 Homestead.yaml
+composer.lock
 npm-debug.log
 yarn-error.log
