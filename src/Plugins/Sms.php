@@ -40,6 +40,7 @@ class Sms
      *
      * @return array
      * @throws \Exception
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function sendRaw($to, $message, $appId)
     {
@@ -56,10 +57,11 @@ class Sms
      * @param array $payload
      *
      * @return array
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function getSmsApps(array $payload = [])
     {
-        return $this->sdk->fetch('/api/apps', 'GET', $payload);
+        return $this->sdk->fetch('/sms/apps', 'GET', $payload);
     }
     
     /**
@@ -67,10 +69,11 @@ class Sms
      *
      * @return array
      * @throws \Exception
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function getSmsApp($appId)
     {
-        return $this->sdk->fetch('/api/apps/'.$this->getAppId($appId), 'GET');
+        return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId), 'GET');
     }
     
     /**
@@ -80,10 +83,11 @@ class Sms
      *
      * @return array
      * @throws \Exception
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function send(array $payload = [], $appId)
     {
-        return $this->sdk->fetch("/api/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
+        return $this->sdk->fetch("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
     }
     
     /**
@@ -91,10 +95,11 @@ class Sms
      *
      * @return array
      * @throws \Exception
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function getAppInbox($appId)
     {
-        return $this->sdk->fetch('/api/apps/'.$this->getAppId($appId).'/inbox', 'GET');
+        return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId).'/inbox', 'GET');
     }
     
     /**
@@ -102,10 +107,11 @@ class Sms
      *
      * @return array
      * @throws \Exception
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function getAppOutbox($appId)
     {
-        return $this->sdk->fetch('/api/apps/'.$this->getAppId($appId).'/outbox', 'GET');
+        return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId).'/outbox', 'GET');
     }
     
     /**
@@ -113,30 +119,33 @@ class Sms
      *
      * @return array
      * @throws \Exception
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function getAppsCalls($appId)
     {
-        return $this->sdk->fetch('/api/apps/'.$this->getAppId($appId).'/calls', 'GET');
+        return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId).'/calls', 'GET');
     }
     
     /**
      * @param array $payload
      *
      * @return array
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function createApp(array $payload = [])
     {
-        return $this->sdk->fetch('/api/apps/create', 'POST', $payload);
+        return $this->sdk->fetch('/sms/apps/create', 'POST', $payload);
     }
     
     /**
      * @param $smsId
      *
      * @return array
+     * @throws \GuzzleHttp\GuzzleException
      */
     public function getSingleMessage($smsId)
     {
-        return $this->sdk->fetch('/api/sms/'.$smsId, 'GET');
+        return $this->sdk->fetch('/sms/'.$smsId, 'GET');
     }
     
     /**
