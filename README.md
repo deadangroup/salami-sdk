@@ -1,9 +1,9 @@
 # A minimal implementation of Salami API
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/deadan/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadan/salami-sdk)
-[![Build Status](https://img.shields.io/travis/deadan/salami-sdk/master.svg?style=flat-square)](https://travis-ci.org/deadan/salami-sdk)
+
 [![StyleCI](https://styleci.io/repos/88621289/shield?branch=master)](https://styleci.io/repos/88621289)
-[![Quality Score](https://img.shields.io/scrutinizer/g/deadan/salami-sdk.svg?style=flat-square)](https://scrutinizer-ci.com/g/deadan/salami-sdk)
+
 [![Total Downloads](https://img.shields.io/packagist/dt/deadan/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadan/salami-sdk)
 
 This is a minimal PHP implementation of the [Salami API](https://salami.co.ke). 
