@@ -1,4 +1,4 @@
-# A minimal implementation of Salami API
+# Salami API
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/deadan/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadan/salami-sdk)
 
@@ -20,7 +20,7 @@ composer require deadan/salami-sdk
 
 The first thing you need to do is get an authorization token at Salami. 
 
-Look in [the source code of `Deadan\Salami\Sdk`](https://github.com/deadan/salami-sdk/blob/master/src/Sdk.php) to discover the methods you can use.
+Look in [the source code of `Deadan\Salami\Sdk`](https://github.com/deadangroup/salami-sdk/blob/master/src/Sdk.php) to discover the methods you can use.
 
 Here's an example:
 Here are a few examples on how you can use the package:
