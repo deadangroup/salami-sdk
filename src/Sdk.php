@@ -53,30 +53,95 @@ class Sdk
     public $httpErrors = false;
     
     /**
-     * @param array $config
+     * Sdk constructor.
+     *
+     * @param string $apiToken
+     */
+    public function __construct($apiToken)
+    {
+        $this->withApiToken($apiToken);
+    }
+    
+    /**
+     * @param \GuzzleHttp\Client $http
      *
      * @return Sdk
      */
-    public function withConfig(array $config)
+    public function withHttp($http)
     {
-        $this->version = isset($config['version']) ? $config['version'] : $this->version;
-        $this->baseEndpoint = isset($config['baseEndpoint']) ? $config['baseEndpoint'] : $this->baseEndpoint;
-        $this->appId = isset($config['appId']) ? $config['appId'] : $this->appId;
-        $this->apiToken = isset($config['apiToken']) ? $config['apiToken'] : $this->apiToken;
-        $this->apiToken = isset($config['apiToken']) ? $config['apiToken'] : $this->apiToken;
-        $this->httpErrors = isset($config['httpErrors']) ? $config['httpErrors'] : $this->httpErrors;
+        $this->http = $http;
         
         return $this;
     }
     
     /**
-     * @param Client $http
+     * @param \Psr\Log\LoggerInterface $logger
      *
      * @return Sdk
      */
-    public function withHttp(Client $http)
+    public function withLogger($logger)
     {
-        $this->http = $http;
+        $this->logger = $logger;
+        
+        return $this;
+    }
+    
+    /**
+     * @param string $version
+     *
+     * @return Sdk
+     */
+    public function withVersion($version)
+    {
+        $this->version = $version;
+        
+        return $this;
+    }
+    
+    /**
+     * @param string $baseEndpoint
+     *
+     * @return Sdk
+     */
+    public function withBaseEndpoint($baseEndpoint)
+    {
+        $this->baseEndpoint = $baseEndpoint;
+        
+        return $this;
+    }
+    
+    /**
+     * @param string $appId
+     *
+     * @return Sdk
+     */
+    public function withAppId($appId)
+    {
+        $this->appId = $appId;
+        
+        return $this;
+    }
+    
+    /**
+     * @param string $apiToken
+     *
+     * @return Sdk
+     */
+    public function withApiToken($apiToken)
+    {
+        $this->apiToken = $apiToken;
+        
+        return $this;
+    }
+    
+    /**
+     * @param bool $httpErrors
+     *
+     * @return Sdk
+     */
+    public function withHttpErrors($httpErrors)
+    {
+        $this->httpErrors = $httpErrors;
         
         return $this;
     }
@@ -106,18 +171,6 @@ class Sdk
     public function getLogger()
     {
         return $this->logger;
-    }
-    
-    /**
-     * @param LoggerInterface $logger
-     *
-     * @return Sdk
-     */
-    public function withLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        
-        return $this;
     }
     
     /**
