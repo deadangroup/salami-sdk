@@ -15,9 +15,14 @@
   "authors": [
     {
       "name": "James Ngugi",
-      "email": "james@deadangroup.com",
+      "email": "james@deadangroup.com"
     }
   ],
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
+  },
   "autoload": {
     "psr-4": {
       "Deadan\\Salami\\": "src"
