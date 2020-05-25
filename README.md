@@ -1,10 +1,10 @@
 # Salami API
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/deadan/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadan/salami-sdk)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/deadangroup/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadangroup/salami-sdk)
 
 [![StyleCI](https://styleci.io/repos/88621289/shield?branch=master)](https://styleci.io/repos/88621289)
 
-[![Total Downloads](https://img.shields.io/packagist/dt/deadan/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadan/salami-sdk)
+[![Total Downloads](https://img.shields.io/packagist/dt/deadangroup/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadangroup/salami-sdk)
 
 This is a minimal PHP implementation of the [Salami API](https://salami.co.ke). 
 
@@ -13,7 +13,7 @@ This is a minimal PHP implementation of the [Salami API](https://salami.co.ke).
 You can install the package via composer:
 
 ``` bash
-composer require deadan/salami-sdk
+composer require deadangroup/salami-sdk
 ```
 
 ## Usage

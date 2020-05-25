@@ -1,16 +1,25 @@
 {
-  "name": "deadan/salami-sdk",
+  "name": "deadangroup/salami-sdk",
   "description": "A PHP SDK to consume Salami",
-  "license": "MIT",
-  "type": "library",
   "keywords": [
-    "Salami",
-    "deadan"
+    "support",
+    "deadan",
+    "hive"
   ],
+  "license": "MIT",
+  "type": "package",
+  "minimum-stability": "dev",
   "require": {
     "php": ">=5.6.4",
     "guzzlehttp/guzzle": "~6.0",
     "psr/log": "^1.1@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Deadan\\Salami\\": "src"
+    },
+    "files": [
+    ]
   },
   "authors": [
     {
@@ -22,13 +31,5 @@
     "branch-alias": {
       "dev-master": "0.x-dev"
     }
-  },
-  "autoload": {
-    "psr-4": {
-      "Deadan\\Salami\\": "src"
-    },
-    "files": [
-    ]
-  },
-  "minimum-stability": "dev"
+  }
 }
