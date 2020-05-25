@@ -11,6 +11,7 @@
 namespace Deadan\Salami\Plugins;
 
 use Deadan\Salami\Sdk;
+use Deadan\Salami\Transaction;
 
 class Sms
 {
@@ -18,12 +19,12 @@ class Sms
      * @var \Deadan\Salami\Sdk
      */
     private $sdk;
-    
+
     /**
      * @var int
      */
     private $appId;
-    
+
     /**
      * Pay constructor.
      */
@@ -31,14 +32,14 @@ class Sms
     {
         $this->sdk = $sdk;
     }
-    
+
     /**
      * @param $to
      * @param $message
      *
      * @param $appId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -52,22 +53,22 @@ class Sms
             ]
         );
     }
-    
+
     /**
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \GuzzleHttp\GuzzleException
      */
     public function getSmsApps(array $payload = [])
     {
         return $this->sdk->fetch('/sms/apps', 'GET', $payload);
     }
-    
+
     /**
      * @param $appId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -75,13 +76,13 @@ class Sms
     {
         return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId), 'GET');
     }
-    
+
     /**
      * @param array $payload
      *
      * @param       $appId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -89,11 +90,11 @@ class Sms
     {
         return $this->sdk->fetch("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
     }
-    
+
     /**
      * @param $appId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -101,11 +102,11 @@ class Sms
     {
         return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId).'/inbox', 'GET');
     }
-    
+
     /**
      * @param $appId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -113,11 +114,11 @@ class Sms
     {
         return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId).'/outbox', 'GET');
     }
-    
+
     /**
      * @param $appId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -125,29 +126,29 @@ class Sms
     {
         return $this->sdk->fetch('/sms/apps/'.$this->getAppId($appId).'/calls', 'GET');
     }
-    
+
     /**
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \GuzzleHttp\GuzzleException
      */
     public function createApp(array $payload = [])
     {
         return $this->sdk->fetch('/sms/apps/create', 'POST', $payload);
     }
-    
+
     /**
      * @param $smsId
      *
-     * @return array
+     * @return Transaction
      * @throws \GuzzleHttp\GuzzleException
      */
     public function getSingleMessage($smsId)
     {
         return $this->sdk->fetch('/sms/'.$smsId, 'GET');
     }
-    
+
     /**
      * @param int $appId
      *
@@ -156,10 +157,10 @@ class Sms
     public function setAppId($appId)
     {
         $this->appId = $appId;
-        
+
         return $this;
     }
-    
+
     /**
      * @param $fallbackAppId
      *
@@ -171,11 +172,11 @@ class Sms
         if ($fallbackAppId) {
             return $fallbackAppId;
         }
-        
+
         if ($this->appId) {
             return $this->appId;
         }
-        
+
         throw new \Exception("Please specify an SmsApp Id");
     }
 }

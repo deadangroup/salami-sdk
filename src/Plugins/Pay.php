@@ -11,6 +11,7 @@
 namespace Deadan\Salami\Plugins;
 
 use Deadan\Salami\Sdk;
+use Deadan\Salami\Transaction;
 
 class Pay
 {
@@ -18,12 +19,12 @@ class Pay
      * @var \Deadan\Salami\Sdk
      */
     private $sdk;
-    
+
     /**
      * @var int
      */
     private $appId;
-    
+
     /**
      * Pay constructor.
      */
@@ -31,12 +32,12 @@ class Pay
     {
         $this->sdk = $sdk;
     }
-    
+
     /**
      * @param       $appId
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -44,12 +45,12 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/queryTransactions", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      * @param       $transactionId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -57,13 +58,13 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/transaction/".$transactionId, 'GET');
     }
-    
+
     /**
      * @param       $appId
      *
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -71,13 +72,13 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/checkBalance", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      *
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -85,13 +86,13 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/extractTransaction", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      *
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -99,12 +100,12 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/fetchTransactions", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      * @param       $transactionId
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -112,33 +113,33 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/getTransactionStatus/".$transactionId, 'GET');
     }
-    
+
     /**
      * @param       $appId
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
-    public function registerUrls($appId,  array $payload = [])
+    public function registerUrls($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/registerUrls", 'GET',$payload);
+        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/registerUrls", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
-    public function requestPayment($appId,  array $payload = [])
+    public function requestPayment($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/requestPayment", 'GET',$payload);
+        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/requestPayment", 'GET', $payload);
     }
-    
+
     /**
      * @param int $appId
      *
@@ -147,10 +148,10 @@ class Pay
     public function setAppId($appId)
     {
         $this->appId = $appId;
-        
+
         return $this;
     }
-    
+
     /**
      * @param $fallbackAppId
      *
@@ -162,11 +163,11 @@ class Pay
         if ($fallbackAppId) {
             return $fallbackAppId;
         }
-        
+
         if ($this->appId) {
             return $this->appId;
         }
-        
+
         throw new \Exception("Please specify a PaymentApp Id");
     }
 }

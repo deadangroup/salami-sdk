@@ -21,37 +21,37 @@ class Sdk
      * @var Client
      */
     public $http;
-    
+
     /**
      * @var LoggerInterface
      */
     public $logger = null;
-    
+
     /**
      * @var string
      */
     public $version = '';
-    
+
     /**
      * @var string
      */
     public $baseEndpoint = 'http://salami.co.ke/api';
-    
+
     /**
      * @var string
      */
     public $appId;
-    
+
     /**
      * @var string
      */
     public $apiToken;
-    
+
     /**
      * @var bool
      */
     public $httpErrors = false;
-    
+
     /**
      * Sdk constructor.
      *
@@ -61,7 +61,7 @@ class Sdk
     {
         $this->withApiToken($apiToken);
     }
-    
+
     /**
      * @param \GuzzleHttp\Client $http
      *
@@ -70,10 +70,10 @@ class Sdk
     public function withHttp($http)
     {
         $this->http = $http;
-        
+
         return $this;
     }
-    
+
     /**
      * @param \Psr\Log\LoggerInterface $logger
      *
@@ -82,10 +82,10 @@ class Sdk
     public function withLogger($logger)
     {
         $this->logger = $logger;
-        
+
         return $this;
     }
-    
+
     /**
      * @param string $version
      *
@@ -94,10 +94,10 @@ class Sdk
     public function withVersion($version)
     {
         $this->version = $version;
-        
+
         return $this;
     }
-    
+
     /**
      * @param string $baseEndpoint
      *
@@ -106,10 +106,10 @@ class Sdk
     public function withBaseEndpoint($baseEndpoint)
     {
         $this->baseEndpoint = $baseEndpoint;
-        
+
         return $this;
     }
-    
+
     /**
      * @param string $appId
      *
@@ -118,10 +118,10 @@ class Sdk
     public function withAppId($appId)
     {
         $this->appId = $appId;
-        
+
         return $this;
     }
-    
+
     /**
      * @param string $apiToken
      *
@@ -130,10 +130,10 @@ class Sdk
     public function withApiToken($apiToken)
     {
         $this->apiToken = $apiToken;
-        
+
         return $this;
     }
-    
+
     /**
      * @param bool $httpErrors
      *
@@ -142,10 +142,10 @@ class Sdk
     public function withHttpErrors($httpErrors)
     {
         $this->httpErrors = $httpErrors;
-        
+
         return $this;
     }
-    
+
     /**
      * @return Client
      */
@@ -154,7 +154,7 @@ class Sdk
         if ($this->http) {
             return $this->http;
         }
-        
+
         return $this->http = new Client(
             [
                 'timeout'         => 60,
@@ -164,7 +164,7 @@ class Sdk
             ]
         );
     }
-    
+
     /**
      * @return LoggerInterface
      */
@@ -172,7 +172,7 @@ class Sdk
     {
         return $this->logger;
     }
-    
+
     /**
      * @param bool $withVersion
      *
@@ -184,45 +184,46 @@ class Sdk
         if ($withVersion && $version = $this->version) {
             $endpoint = $endpoint.'/'.$version;
         }
-        
+
         return rtrim($endpoint, '/\\');
     }
-    
+
     /**
      * @param       $endpoint
      * @param       $method
      * @param array $payload
      *
-     * @return array
+     * @return Transaction
      * @throws \GuzzleHttp\GuzzleException
      */
     public function fetch($endpoint, $method, $payload = [])
     {
         $baseEndpoint = $this->getBaseEndpoint(true);
         $url = $baseEndpoint.$endpoint;
-        $this->log("DeadanSMS API URL:".$url);
-        $this->log("DeadanSMS API Payload:", $payload);
-        
+        $this->log("Salami API URL:".$url);
+        $this->log("Salami API Payload:", $payload);
+
         $response = $this->getHttpClient()
-                         ->request(
-                             strtoupper($method),
-                             $url,
-                             [
-                                 'json'    => $payload,
-                                 'headers' => [
-                                     'Accept'        => 'application/json',
-                                     'Authorization' => 'Bearer '.$this->apiToken,
-                                 ],
-                             ]
-                         );
-        
+            ->request(
+                strtoupper($method),
+                $url,
+                [
+                    'form_params' => $payload,
+                    'query'       => $payload,
+                    'headers'     => [
+                        'Accept'        => 'application/json',
+                        'Authorization' => 'Bearer '.$this->apiToken,
+                    ],
+                ]
+            );
+
         $contents = $response->getBody()
-                             ->getContents();
-        $this->log("DeadanSMS API Response:".$contents);
-        
-        return json_decode($contents);
+            ->getContents();
+        $this->log("Salami API Response:".$contents);
+
+        return Transaction::buildFromApiCall(json_decode($contents, true));
     }
-    
+
     /**
      * @param       $message
      * @param array $context
@@ -233,7 +234,7 @@ class Sdk
             $this->logger->log("info", $message, $context);
         }
     }
-    
+
     /**
      * @return \Deadan\Salami\Plugins\Sms
      */
@@ -241,7 +242,7 @@ class Sdk
     {
         return new Sms($this);
     }
-    
+
     /**
      * @return \Deadan\Salami\Plugins\Pay
      */
