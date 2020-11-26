@@ -19,20 +19,22 @@ class Pay
      * @var \Deadan\Salami\Sdk
      */
     private $sdk;
-
+    
     /**
      * @var int
      */
     private $appId;
-
+    
     /**
      * Pay constructor.
+     *
+     * @param \Deadan\Salami\Sdk $sdk
      */
     public function __construct(Sdk $sdk)
     {
         $this->sdk = $sdk;
     }
-
+    
     /**
      * @param       $appId
      * @param array $payload
@@ -45,7 +47,38 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/queryTransactions", 'GET', $payload);
     }
-
+    
+    /**
+     * @param $fallbackAppId
+     *
+     * @return int
+     * @throws \Exception
+     */
+    public function getAppId($fallbackAppId)
+    {
+        if ($fallbackAppId) {
+            return $fallbackAppId;
+        }
+        
+        if ($this->appId) {
+            return $this->appId;
+        }
+        
+        throw new \Exception("Please specify a PaymentApp Id");
+    }
+    
+    /**
+     * @param int $appId
+     *
+     * @return \Deadan\Salami\Plugins\Pay
+     */
+    public function setAppId($appId)
+    {
+        $this->appId = $appId;
+        
+        return $this;
+    }
+    
     /**
      * @param       $appId
      * @param       $transactionId
@@ -58,7 +91,7 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/transaction/".$transactionId, 'GET');
     }
-
+    
     /**
      * @param       $appId
      *
@@ -72,7 +105,7 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/checkBalance", 'GET', $payload);
     }
-
+    
     /**
      * @param       $appId
      *
@@ -86,7 +119,7 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/extractTransaction", 'GET', $payload);
     }
-
+    
     /**
      * @param       $appId
      *
@@ -100,7 +133,7 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/fetchTransactions", 'GET', $payload);
     }
-
+    
     /**
      * @param       $appId
      * @param       $transactionId
@@ -113,7 +146,7 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/getTransactionStatus/".$transactionId, 'GET');
     }
-
+    
     /**
      * @param       $appId
      * @param array $payload
@@ -126,7 +159,7 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/registerUrls", 'GET', $payload);
     }
-
+    
     /**
      * @param       $appId
      * @param array $payload
@@ -139,35 +172,14 @@ class Pay
     {
         return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/requestPayment", 'GET', $payload);
     }
-
+    
     /**
-     * @param int $appId
+     * @param $array
      *
-     * @return \Deadan\Salami\Plugins\Pay
+     * @return Transaction
      */
-    public function setAppId($appId)
+    public function processCallback($array)
     {
-        $this->appId = $appId;
-
-        return $this;
-    }
-
-    /**
-     * @param $fallbackAppId
-     *
-     * @return int
-     * @throws \Exception
-     */
-    public function getAppId($fallbackAppId)
-    {
-        if ($fallbackAppId) {
-            return $fallbackAppId;
-        }
-
-        if ($this->appId) {
-            return $this->appId;
-        }
-
-        throw new \Exception("Please specify a PaymentApp Id");
+        return Transaction::buildFromCallback($array);
     }
 }

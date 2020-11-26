@@ -61,34 +61,6 @@ class Transaction
     ];
     
     /**
-     * Get an attribute from the model.
-     *
-     * @param  string $key
-     *
-     * @return mixed
-     */
-    public function getAttribute($key)
-    {
-        if (! $key) {
-            return;
-        }
-        
-        return $this->data[$key];
-    }
-    
-    /**
-     * Dynamically retrieve attributes on the model.
-     *
-     * @param  string $key
-     *
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-    
-    /**
      * @param array $callbackPayload
      *
      * @return static
@@ -120,5 +92,57 @@ class Transaction
         $transaction->data = $apiResponsePayload['data'];
         
         return $transaction;
+    }
+    
+    /**
+     * Dynamically retrieve attributes on the model.
+     *
+     * @param  string $key
+     *
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+    
+    /**
+     * Get an attribute from the model.
+     *
+     * @param  string $key
+     *
+     * @return mixed
+     */
+    public function getAttribute($key)
+    {
+        if (! $key) {
+            return;
+        }
+        
+        return $this->data[$key];
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return 'STATUS_COMPLETED' == $this->getAttribute('status');
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isDeclined()
+    {
+        return 'STATUS_DECLINED' === $this->getAttribute('status');
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return 'STATUS_FAILED' === $this->getAttribute('status');
     }
 }
