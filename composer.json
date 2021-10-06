@@ -10,8 +10,9 @@
   "type": "package",
   "minimum-stability": "dev",
   "require": {
-    "php": ">=5.6.4",
-    "guzzlehttp/guzzle": "~6.0",
+    "php": ">=7.1",
+    "guzzlehttp/guzzle": "~6|~7",
+    "spatie/laravel-webhook-client": ">=2.7.5",
     "psr/log": "^1.1@dev"
   },
   "autoload": {

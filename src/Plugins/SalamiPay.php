@@ -10,34 +10,14 @@
 
 namespace Deadan\Salami\Plugins;
 
-use Deadan\Salami\Sdk;
 use Deadan\Salami\Transaction;
+use Illuminate\Http\Request;
 
-class Pay
+class SalamiPay extends BaseSdk
 {
     /**
-     * @var \Deadan\Salami\Sdk
-     */
-    private $sdk;
-    
-    /**
-     * @var int
-     */
-    private $appId;
-    
-    /**
-     * Pay constructor.
-     *
-     * @param \Deadan\Salami\Sdk $sdk
-     */
-    public function __construct(Sdk $sdk)
-    {
-        $this->sdk = $sdk;
-    }
-    
-    /**
      * @param       $appId
-     * @param array $payload
+     * @param  array  $payload
      *
      * @return Transaction
      * @throws \Exception
@@ -45,9 +25,9 @@ class Pay
      */
     public function queryTransactions($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/queryTransactions", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId($appId)."/queryTransactions", 'GET', $payload);
     }
-    
+
     /**
      * @param $fallbackAppId
      *
@@ -59,26 +39,26 @@ class Pay
         if ($fallbackAppId) {
             return $fallbackAppId;
         }
-        
+
         if ($this->appId) {
             return $this->appId;
         }
-        
+
         throw new \Exception("Please specify a PaymentApp Id");
     }
-    
+
     /**
-     * @param int $appId
+     * @param  int  $appId
      *
-     * @return \Deadan\Salami\Plugins\Pay
+     * @return \Deadan\Salami\Plugins\SalamiPay
      */
     public function setAppId($appId)
     {
         $this->appId = $appId;
-        
+
         return $this;
     }
-    
+
     /**
      * @param       $appId
      * @param       $transactionId
@@ -89,13 +69,13 @@ class Pay
      */
     public function getTransaction($appId, $transactionId)
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/transaction/".$transactionId, 'GET');
+        return $this->fetch("/payments/".$this->getAppId($appId)."/transaction/".$transactionId, 'GET');
     }
-    
+
     /**
      * @param       $appId
      *
-     * @param array $payload
+     * @param  array  $payload
      *
      * @return Transaction
      * @throws \Exception
@@ -103,13 +83,13 @@ class Pay
      */
     public function checkBalance($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/checkBalance", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId($appId)."/checkBalance", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      *
-     * @param array $payload
+     * @param  array  $payload
      *
      * @return Transaction
      * @throws \Exception
@@ -117,13 +97,13 @@ class Pay
      */
     public function extractTransaction($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/extractTransaction", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId($appId)."/extractTransaction", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      *
-     * @param array $payload
+     * @param  array  $payload
      *
      * @return Transaction
      * @throws \Exception
@@ -131,9 +111,9 @@ class Pay
      */
     public function fetchTransactions($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/fetchTransactions", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId($appId)."/fetchTransactions", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
      * @param       $transactionId
@@ -144,12 +124,12 @@ class Pay
      */
     public function getTransactionStatus($appId, $transactionId)
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/getTransactionStatus/".$transactionId, 'GET');
+        return $this->fetch("/payments/".$this->getAppId($appId)."/getTransactionStatus/".$transactionId, 'GET');
     }
-    
+
     /**
      * @param       $appId
-     * @param array $payload
+     * @param  array  $payload
      *
      * @return Transaction
      * @throws \Exception
@@ -157,12 +137,12 @@ class Pay
      */
     public function registerUrls($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/registerUrls", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId($appId)."/registerUrls", 'GET', $payload);
     }
-    
+
     /**
      * @param       $appId
-     * @param array $payload
+     * @param  array  $payload
      *
      * @return Transaction
      * @throws \Exception
@@ -170,16 +150,32 @@ class Pay
      */
     public function requestPayment($appId, array $payload = [])
     {
-        return $this->sdk->fetch("/payments/".$this->getAppId($appId)."/requestPayment", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId($appId)."/requestPayment", 'GET', $payload);
     }
-    
+
     /**
-     * @param $array
+     * @param $rawPayload
+     * @param $webhookSecret
      *
-     * @return Transaction
+     * @return bool
      */
-    public function processCallback($array)
+    public function processWebhook(Request $request)
     {
-        return Transaction::buildFromCallback($array);
+        if ($this->disableVerification) {
+            Transaction::buildFromCallback($request->input());
+        }
+
+        $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
+            'name'                  => 'salami',
+            'signing_secret'        => $this->apiToken,
+            'signature_header_name' => 'Signature',
+            'signature_validator'   => \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class,
+            'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
+            'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
+            'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
+            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessPaymentWebhook::class,
+        ]);
+
+        (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
     }
 }
