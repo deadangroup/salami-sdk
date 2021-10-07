@@ -2,8 +2,13 @@
 
 namespace Deadan\Salami\Events;
 
-class SalamiTransactionProcessed extends Event
+use Deadan\Salami\Transaction;
+use Illuminate\Queue\SerializesModels;
+
+class SalamiTransactionProcessed
 {
+    use SerializesModels;
+
     /**
      * @var \Deadan\Salami\Transaction
      */
@@ -12,7 +17,7 @@ class SalamiTransactionProcessed extends Event
     /**
      * SalamiTransactionProcessed constructor.
      *
-     * @param  \Deadan\Salami\Events\Transaction  $transaction
+     * @param  \Deadan\Salami\Transaction  $transaction
      */
     public function __construct(Transaction $transaction)
     {

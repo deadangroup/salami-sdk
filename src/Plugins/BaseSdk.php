@@ -142,6 +142,36 @@ abstract class BaseSdk
     }
 
     /**
+     * @param $fallbackAppId
+     *
+     * @return int
+     * @throws \Exception
+     */
+    public function getAppId($fallbackAppId = null)
+    {
+        if ($fallbackAppId) {
+            return $fallbackAppId;
+        }
+
+        if ($this->appId) {
+            return $this->appId;
+        }
+
+        throw new \Exception("Please specify an APP Id");
+    }
+
+    /**
+     * @param $appId
+     * @return $this
+     */
+    public function setAppId($appId)
+    {
+        $this->appId = $appId;
+
+        return $this;
+    }
+
+    /**
      * @param  bool  $httpErrors
      *
      * @return BaseSdk

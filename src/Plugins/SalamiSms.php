@@ -10,7 +10,6 @@
 
 namespace Deadan\Salami\Plugins;
 
-use Deadan\Salami\Sdk;
 use Deadan\Salami\Transaction;
 
 class SalamiSms extends BaseSdk
@@ -32,46 +31,13 @@ class SalamiSms extends BaseSdk
 
     /**
      * @param  array  $payload
-     *
-     * @param       $appId
-     *
-     * @return Transaction
+     * @param  null  $appId
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function send(array $payload = [], $appId)
+    public function send(array $payload = [], $appId = null)
     {
         return $this->fetch("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
-    }
-
-    /**
-     * @param  null  $fallbackAppId
-     * @return mixed|string
-     * @throws \Exception
-     */
-    public function getAppId($fallbackAppId = null)
-    {
-        if ($fallbackAppId) {
-            return $fallbackAppId;
-        }
-
-        if ($this->appId) {
-            return $this->appId;
-        }
-
-        throw new \Exception("Please specify an SmsApp Id");
-    }
-
-    /**
-     * @param  int  $appId
-     *
-     * @return SalamiSms
-     */
-    public function setAppId($appId)
-    {
-        $this->appId = $appId;
-
-        return $this;
     }
 
     /**
@@ -94,7 +60,7 @@ class SalamiSms extends BaseSdk
      */
     public function getSmsApp($appId)
     {
-        return $this->fetch('/sms/apps/'.$this->getAppId($appId), 'GET');
+        return $this->fetch('/sms/apps/'.$appId, 'GET');
     }
 
     /**

@@ -13,156 +13,106 @@ namespace Deadan\Salami\Plugins;
 use Deadan\Salami\Transaction;
 use Illuminate\Http\Request;
 
+/**
+ * Class SalamiPay
+ *
+ * @package Deadan\Salami\Plugins
+ */
 class SalamiPay extends BaseSdk
 {
     /**
-     * @param       $appId
      * @param  array  $payload
-     *
-     * @return Transaction
-     * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
-     */
-    public function queryTransactions($appId, array $payload = [])
-    {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/queryTransactions", 'GET', $payload);
-    }
-
-    /**
-     * @param $fallbackAppId
-     *
-     * @return int
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
      */
-    public function getAppId($fallbackAppId)
+    public function queryTransactions(array $payload = [])
     {
-        if ($fallbackAppId) {
-            return $fallbackAppId;
-        }
-
-        if ($this->appId) {
-            return $this->appId;
-        }
-
-        throw new \Exception("Please specify a PaymentApp Id");
+        return $this->fetch("/payments/".$this->getAppId()."/queryTransactions", 'GET', $payload);
     }
 
     /**
-     * @param  int  $appId
-     *
-     * @return \Deadan\Salami\Plugins\SalamiPay
-     */
-    public function setAppId($appId)
-    {
-        $this->appId = $appId;
-
-        return $this;
-    }
-
-    /**
-     * @param       $appId
-     * @param       $transactionId
-     *
-     * @return Transaction
+     * @param $transactionId
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function getTransaction($appId, $transactionId)
+    public function getTransaction($transactionId)
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/transaction/".$transactionId, 'GET');
+        return $this->fetch("/payments/".$this->getAppId()."/transaction/".$transactionId, 'GET');
     }
 
     /**
-     * @param       $appId
-     *
      * @param  array  $payload
-     *
-     * @return Transaction
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function checkBalance($appId, array $payload = [])
+    public function checkBalance(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/checkBalance", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId()."/checkBalance", 'GET', $payload);
     }
 
     /**
-     * @param       $appId
-     *
      * @param  array  $payload
-     *
-     * @return Transaction
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function extractTransaction($appId, array $payload = [])
+    public function extractTransaction(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/extractTransaction", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId()."/extractTransaction", 'GET', $payload);
     }
 
     /**
-     * @param       $appId
-     *
      * @param  array  $payload
-     *
-     * @return Transaction
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function fetchTransactions($appId, array $payload = [])
+    public function fetchTransactions(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/fetchTransactions", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId()."/fetchTransactions", 'GET', $payload);
     }
 
     /**
-     * @param       $appId
-     * @param       $transactionId
-     *
-     * @return Transaction
+     * @param $transactionId
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function getTransactionStatus($appId, $transactionId)
+    public function getTransactionStatus($transactionId)
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/getTransactionStatus/".$transactionId, 'GET');
+        return $this->fetch("/payments/".$this->getAppId()."/getTransactionStatus/".$transactionId, 'GET');
     }
 
     /**
-     * @param       $appId
      * @param  array  $payload
-     *
-     * @return Transaction
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function registerUrls($appId, array $payload = [])
+    public function registerUrls(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/registerUrls", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId()."/registerUrls", 'GET', $payload);
     }
 
     /**
-     * @param       $appId
      * @param  array  $payload
-     *
-     * @return Transaction
+     * @return \Deadan\Salami\Transaction
      * @throws \Exception
-     * @throws \GuzzleHttp\GuzzleException
      */
-    public function requestPayment($appId, array $payload = [])
+    public function requestPayment(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId($appId)."/requestPayment", 'GET', $payload);
+        return $this->fetch("/payments/".$this->getAppId()."/requestPayment", 'GET', $payload);
     }
 
     /**
-     * @param $rawPayload
-     * @param $webhookSecret
-     *
-     * @return bool
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Spatie\WebhookClient\Exceptions\InvalidConfig
      */
     public function processWebhook(Request $request)
     {
         if ($this->disableVerification) {
             Transaction::buildFromCallback($request->input());
+
+            return response()->json([
+                'success' => true,
+            ]);
         }
 
         $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
@@ -176,6 +126,6 @@ class SalamiPay extends BaseSdk
             'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessPaymentWebhook::class,
         ]);
 
-        (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
+        return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
     }
 }

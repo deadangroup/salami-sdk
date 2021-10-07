@@ -16,35 +16,96 @@ You can install the package via composer:
 composer require deadangroup/salami-sdk
 ```
 
+You can publish the config file with:
+```bash
+php artisan vendor:publish --provider="Deadan\Salami\Providers\ModuleServiceProvider" --tag="config"
+```
+
+This is the contents of the published config file:
+
+```php
+return [
+    'pay_api_token'          => env('SALAMI_PAY_API_TOKEN'),
+    'sms_api_token'          => env('SALAMI_SMS_API_TOKEN'),
+    'signature_verification' => env('SALAMI_VERIFY_SIGNATURES', true),
+    'sms_app_id'             => env('SALAMI_SMS_APP'),
+    'pay_app_id'             => env('SALAMI_PAY_APP'),
+];
+```
+
 ## Usage
 
-The first thing you need to do is get an authorization token at Salami. 
+The first thing you need to do is get an api token at Salami. 
 
-Look in [the source code of `Deadan\Salami\Sdk`](https://github.com/deadangroup/salami-sdk/blob/master/src/Sdk.php) to discover the methods you can use.
+Look in [the source code of `Deadan\Salami\Sdk`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/BaseSdk.php) to discover the methods you can use.
 
 Here's an example:
 Here are a few examples on how you can use the package:
 
 ```php
-$client = new Deadan\Salami\Sdk($apiToken);
-$sms=$client->sms();
+use Deadan\Salami\Facades\SalamiPay;
+use Deadan\Salami\Facades\SalamiSms;
+//
+SalamiPay::fetchTransactions();
 
 //send an sms via a specific app
-$sms->sendRaw($to, $message, $appId)
-
-//get a specific sms app
-$sms->getSmsApp($appId);
+SalamiSms::sendRaw("+254728270795", "Hi");
 
 ```
 
-If you need to change the subdomain of the endpoint URL used in the API request, you can prefix the endpoint path with `subdomain::`.
+This package exposes an api IPN endpoint for Salami at ``'/api/salami/callback'``.
 
-Here's an example:
+When a Salami IPN is received, the package emmits the following event:``Deadan\Salami\Events\SalamiTransactionProcessed`.
+You should implement a listener for this event to save the transaction. An example is shown below:
 
 ```php
-$client->rpcEndpointRequest('content::files/get_thumbnail_batch', $parameters);
-```
+<?php
 
+namespace App\Listeners;
+
+use Deadan\Salami\Events\SalamiTransactionProcessed;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class SaveSalamiTransaction implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * @var \Deadan\Salami\Events\SalamiTransactionProcessed
+     */
+    protected $event;
+
+    /**
+     * ProcessSalamiTransaction constructor.
+     *
+     * @param  \Deadan\Salami\Events\SalamiTransactionProcessed  $event
+     */
+    public function __construct(SalamiTransactionProcessed $event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     *
+     */
+    public function handle()
+    {
+        $salamiTransaction = $this->event->transaction;
+
+        if ($salamiTransaction->isCompleted()) {
+
+            $reference = $salamiTransaction->getAttribute('reference');
+
+            //do something.
+        }
+    }
+}
+
+```
 
 ## Changelog
 
