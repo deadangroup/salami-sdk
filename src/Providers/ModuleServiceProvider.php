@@ -59,8 +59,6 @@ class ModuleServiceProvider extends ServiceProvider
 
             return $salami->setAppId(config('salami.sms_app_id'));
         });
-
-        $this->app->register(RouteServiceProvider::class);
     }
 
     /**

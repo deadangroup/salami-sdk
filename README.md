@@ -53,7 +53,13 @@ SalamiSms::sendRaw("+254728270795", "Hi");
 
 ```
 
-This package exposes an api IPN endpoint for Salami at ``'/api/salami/callback'``.
+This package implements a controller that you can use to consume Salami callbacks.
+E.g in your routes file:
+
+```php
+Route::any('/api/salami/callback', '\Deadan\Salami\Http\Controllers\SalamiController@salamiCallback');
+
+```
 
 When a Salami IPN is received, the package emmits the following event:``Deadan\Salami\Events\SalamiTransactionProcessed`.
 You should implement a listener for this event to save the transaction. An example is shown below:
