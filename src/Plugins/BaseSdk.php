@@ -59,7 +59,7 @@ abstract class BaseSdk
     /**
      * @var bool
      */
-    public $signatureVerification= false;
+    public $signatureVerification = false;
 
     /**
      * @var string
@@ -96,6 +96,18 @@ abstract class BaseSdk
     public function withApiToken($apiToken)
     {
         $this->apiToken = $apiToken;
+
+        return $this;
+    }
+
+    /**
+     * @param  string  $webhookSecret
+     *
+     * @return BaseSdk
+     */
+    public function withWebhookSecret($webhookSecret)
+    {
+        $this->webhookSecret = $webhookSecret;
 
         return $this;
     }

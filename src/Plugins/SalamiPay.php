@@ -111,12 +111,12 @@ class SalamiPay extends BaseSdk
     public function processWebhook(Request $request)
     {
         if ($this->signatureVerification == true) {
-            $queueClass = QueuedWebhookPaymentProcess::class;
+            $validator = \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class;
         } else {
-            $queueClass = RealtimeWebhookPaymentProcess::class;
+            $validator = \Deadan\Salami\SignatureValidator\NullValidator::class;
         }
 
-        if (class_exists(\Stancl\Tenancy\Tenancy::class) && function_exists('tenant')) {
+        if (class_exists(\Stancl\Tenancy\Tenancy::class) && !is_null(tenant('id'))) {
             $name = 'salami_tenant_'.tenant('id');
         } else {
             $name = 'salami_no_tenant';
@@ -126,11 +126,11 @@ class SalamiPay extends BaseSdk
             'name' => $name,
             'signing_secret' => $this->webhookSecret,
             'signature_header_name' => $this->signatureHeaderName,
-            'signature_validator' => \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class,
+            'signature_validator' => $validator,
             'webhook_profile' => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
             'webhook_response' => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
             'webhook_model' => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job' => $queueClass,
+            'process_webhook_job' => \Deadan\Salami\Jobs\ProcessSalamiPaymentWebhook::class,
         ]);
 
         return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
