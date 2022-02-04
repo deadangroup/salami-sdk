@@ -49,15 +49,19 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($this->getConfig(), 'salami');
 
         $this->app->bind('salami_pay', function ($app) {
-            $salami = new SalamiPay(config('salami.pay_api_token'), config('salami.signature_verification'));
+            $salamiPay = new SalamiPay(config('salami.pay_api_token'), config('salami.pay_webhook_secret'));
 
-            return $salami->setAppId(config('salami.pay_app_id'));
+            return $salamiPay
+                ->setSignatureVerification(config('salami.signature_verification'))
+                ->setAppId(config('salami.pay_app_id'));
         });
 
         $this->app->bind('salami_sms', function ($app) {
-            $salami = new SalamiSms(config('salami.sms_api_token'), config('salami.signature_verification'));
+            $salamiSms = new SalamiSms(config('salami.sms_api_token'), config('salami.sms_webhook_secret'));
 
-            return $salami->setAppId(config('salami.sms_app_id'));
+            return $salamiSms
+                ->setSignatureVerification(config('salami.signature_verification'))
+                ->setAppId(config('salami.sms_app_id'));
         });
     }
 

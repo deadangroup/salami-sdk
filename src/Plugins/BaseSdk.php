@@ -47,6 +47,11 @@ abstract class BaseSdk
     public $apiToken;
 
     /**
+     * @var string
+     */
+    public $webhookSecret;
+
+    /**
      * @var bool
      */
     public $httpErrors = false;
@@ -54,19 +59,33 @@ abstract class BaseSdk
     /**
      * @var bool
      */
-    public $disableVerification;
+    public $signatureVerification= false;
 
     /**
-     * Sdk constructor.
-     *
-     * @param  string  $apiToken
-     * @param  bool  $disableVerification
+     * @var string
      */
-    public function __construct($apiToken, $disableVerification = false)
+    public $signatureHeaderName = 'Signature';
+
+    /**
+     * BaseSdk constructor.
+     * @param $apiToken
+     * @param $webhookSecret
+     */
+    public function __construct($apiToken, $webhookSecret)
     {
-        $this->withApiToken($apiToken);
         $this->apiToken = $apiToken;
-        $this->disableVerification = $disableVerification;
+        $this->webhookSecret = $webhookSecret;
+    }
+
+    /**
+     * @param $signatureVerification
+     * @return BaseSdk
+     */
+    public function setSignatureVerification($signatureVerification)
+    {
+        $this->signatureVerification = $signatureVerification;
+
+        return $this;
     }
 
     /**
@@ -207,17 +226,17 @@ abstract class BaseSdk
         $this->log("Salami API Payload:", $payload);
 
         $response = $this->getHttpClient()
-                         ->request(strtoupper($method), $url, [
-                             'form_params' => $payload,
-                             'query'       => $payload,
-                             'headers'     => [
-                                 'Accept'        => 'application/json',
-                                 'Authorization' => 'Bearer '.$this->apiToken,
-                             ],
-                         ]);
+            ->request(strtoupper($method), $url, [
+                'form_params' => $payload,
+                'query' => $payload,
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer '.$this->apiToken,
+                ],
+            ]);
 
         $contents = $response->getBody()
-                             ->getContents();
+            ->getContents();
         $this->log("Salami API Response:".$contents);
 
         return Transaction::buildFromApiCall(json_decode($contents, true));
@@ -259,11 +278,11 @@ abstract class BaseSdk
         }
 
         return $this->http = new Client([
-            'timeout'         => 60,
+            'timeout' => 60,
             'allow_redirects' => true,
-            'http_errors'     => $this->httpErrors,
+            'http_errors' => $this->httpErrors,
             //let users handle errors
-            'verify'          => false,
+            'verify' => false,
         ]);
     }
 }

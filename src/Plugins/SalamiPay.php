@@ -10,6 +10,9 @@
 
 namespace Deadan\Salami\Plugins;
 
+use Deadan\Salami\Jobs\ProcessPaymentWebhook;
+use Deadan\Salami\Jobs\QueuedWebhookPaymentProcess;
+use Deadan\Salami\Jobs\RealtimeWebhookPaymentProcess;
 use Deadan\Salami\Transaction;
 use Illuminate\Http\Request;
 
@@ -107,23 +110,21 @@ class SalamiPay extends BaseSdk
      */
     public function processWebhook(Request $request)
     {
-        if ($this->disableVerification) {
-            Transaction::buildFromCallback($request->input());
-
-            return response()->json([
-                'success' => true,
-            ]);
+        if ($this->signatureVerification == true) {
+            $queueClass = QueuedWebhookPaymentProcess::class;
+        } else {
+            $queueClass = RealtimeWebhookPaymentProcess::class;
         }
 
         $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
-            'name'                  => 'salami',
-            'signing_secret'        => $this->apiToken,
-            'signature_header_name' => 'Signature',
-            'signature_validator'   => \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class,
-            'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
-            'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
-            'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessPaymentWebhook::class,
+            'name' => 'salami',
+            'signing_secret' => $this->webhookSecret,
+            'signature_header_name' => $this->signatureHeaderName,
+            'signature_validator' => \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class,
+            'webhook_profile' => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
+            'webhook_response' => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
+            'webhook_model' => \Spatie\WebhookClient\Models\WebhookCall::class,
+            'process_webhook_job' => $queueClass,
         ]);
 
         return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
