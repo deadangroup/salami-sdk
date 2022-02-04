@@ -16,6 +16,6 @@ class QueuedWebhookPaymentProcess extends SpatieProcessWebhookJob
 
         // perform the work here
         $transaction = Transaction::buildFromCallback($this->webhookCall->payload);
-        event(new SalamiTransactionProcessed($transaction));
+        event(new SalamiTransactionProcessed($transaction, $this->webhookCall->name));
     }
 }

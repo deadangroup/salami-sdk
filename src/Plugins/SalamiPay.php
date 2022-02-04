@@ -116,8 +116,14 @@ class SalamiPay extends BaseSdk
             $queueClass = RealtimeWebhookPaymentProcess::class;
         }
 
+        if (class_exists(\Stancl\Tenancy\Tenancy::class) && function_exists('tenant')) {
+            $name = 'salami_tenant_'.tenant('id');
+        } else {
+            $name = 'salami_no_tenant';
+        }
+
         $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
-            'name' => 'salami',
+            'name' => $name,
             'signing_secret' => $this->webhookSecret,
             'signature_header_name' => $this->signatureHeaderName,
             'signature_validator' => \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class,

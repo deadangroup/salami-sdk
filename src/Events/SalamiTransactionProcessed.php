@@ -15,13 +15,19 @@ class SalamiTransactionProcessed
     public $transaction;
 
     /**
+     * @var string
+     */
+    public $context;
+
+    /**
      * SalamiTransactionProcessed constructor.
      *
      * @param  \Deadan\Salami\Transaction  $transaction
      */
-    public function __construct(Transaction $transaction)
+    public function __construct(Transaction $transaction, $context)
     {
         $this->transaction = $transaction;
+        $this->context = $context;
     }
 
     /**
@@ -30,5 +36,13 @@ class SalamiTransactionProcessed
     public function getTransaction()
     {
         return $this->transaction;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 }
