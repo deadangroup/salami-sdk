@@ -1,5 +1,5 @@
-
 # Salami API SDK
+
 [![StyleCI](https://styleci.io/repos/88621289/shield?branch=master)](https://styleci.io/repos/88621289)
 
 This is a minimal PHP implementation of the [Salami API](https://salami.co.ke).
@@ -16,7 +16,9 @@ composer require deadangroup/salami-sdk
 
 The first thing you need to do is get an api token at Salami.
 
-Look in [the source code of `Deadan\Salami\Plugins\SalamiPay`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiPay.php) to discover the methods you can use.
+Look
+in [the source code of `Deadan\Salami\Plugins\SalamiPay`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiPay.php)
+to discover the methods you can use.
 
 ```php
 use Deadan\Salami\Plugins\SalamiPay;
@@ -29,13 +31,13 @@ $paymentAppId = 1;  //gotten from salami.co.ke
   
 $salamiPay = (new SalamiPay($apiToken, $webhookSecret))
 ->setSignatureVerification($verify)
-->setAppId($appId); 
+->setAppId($paymentAppId); 
 
 //Init a transaction
 //Note that the fields passed depend on the payment app driver
 $result = $salamiPay->requestPayment([  
   'Amount' => 10,  
-  'PhoneNumber' => 0711800780,  
+  'PhoneNumber' => '+254711800780',  
   'AccountReference' => 'INV110',  
   'TransactionDesc' => 'Invoice payment',  
 ]);
@@ -48,47 +50,57 @@ return $salamiPay->processWebhook($request);
 
 ```
 
-When a Salami Payment IPN is received, the package emmits the following event:``Deadan\Salami\Events\SalamiTransactionProcessed`.
-You should implement a listener for this event to save the transaction. An example is shown below:
+When a Salami Payment IPN is received, the package emmits the following event:``
+Deadan\Salami\Events\SalamiTransactionProcessed`. You should implement a listener for this event to save the
+transaction. An example is shown below:
 
 ```php
-<?php  
-  
-namespace App\Listeners;  
-  
-use Deadan\Salami\Events\SalamiTransactionProcessed;  
-use Illuminate\Bus\Queueable;  
-use Illuminate\Contracts\Queue\ShouldQueue;  
-use Illuminate\Foundation\Bus\Dispatchable;  
-use Illuminate\Queue\InteractsWithQueue;  
-use Illuminate\Queue\SerializesModels;  
-  
-class SaveSalamiTransaction implements ShouldQueue  
-{  
-  use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;  
-  
-  /**  
- * @var \Deadan\Salami\Events\SalamiTransactionProcessed  
- */  protected $event;  
-  
-  /**  
- * ProcessSalamiTransaction constructor. * * @param \Deadan\Salami\Events\SalamiTransactionProcessed $event  
-  */  
-  public function __construct(SalamiTransactionProcessed $event)  
- {  $this->event = $event;  
-  }  
-  
-  /**  
- * */  public function handle()  
- {  //the sdk will automatically detect whether a tenant is available.  
- //if none, the context will be `salami_no_tenant` else it will be `salami_tenant_{TENANT_ID}` // e.g. salami_tenant_10  if ($this->event->context == 'salami_no_tenant') {  
-  $salamiTransaction = $this->event->transaction;  
-  
- if ($salamiTransaction->isCompleted()) {  
-  //do something.  
-  }  
- } 
-}
+<?php
+
+namespace App\Listeners;
+
+use Deadan\Salami\Events\SalamiTransactionProcessed;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class SaveSalamiTransaction implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * @var \Deadan\Salami\Events\SalamiTransactionProcessed
+     */
+    protected $event;
+
+    /**
+     * ProcessSalamiTransaction constructor.
+     *
+     * @param  \Deadan\Salami\Events\SalamiTransactionProcessed  $event
+     */
+    public function __construct(SalamiTransactionProcessed $event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     *
+     */
+    public function handle()
+    {
+        //the sdk will automatically detect whether a tenant is available.
+        //if none, the context will be `salami_no_tenant` else it will be `salami_tenant_{TENANT_ID}`
+        // e.g. salami_tenant_10
+        if ($this->event->context == 'salami_no_tenant') {
+            $salamiTransaction = $this->event->transaction;
+
+            if ($salamiTransaction->isCompleted()) {
+                //do something.
+            }
+        }
+    }
 }
 ```
 
@@ -96,7 +108,9 @@ class SaveSalamiTransaction implements ShouldQueue
 
 The first thing you need to do is get an api token at Salami.
 
-Look in [the source code of `Deadan\Salami\Plugins\SalamiSms`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiSms.php) to discover the methods you can use.
+Look
+in [the source code of `Deadan\Salami\Plugins\SalamiSms`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiSms.php)
+to discover the methods you can use.
 
 ```php
 use Deadan\Salami\Plugins\SalamiSms;
@@ -108,7 +122,7 @@ $smsAppId = 1;  //gotten from salami.co.ke
   
 $salamiSms = (new SalamiSms($apiToken, $webhookSecret))
 ->setSignatureVerification($verify)
-->setAppId($appId); 
+->setAppId($smsAppId); 
 
 //send an sms via the specific app
 $salamiSms->sendRaw("+254728270795", "Hi");
