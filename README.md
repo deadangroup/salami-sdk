@@ -22,7 +22,7 @@ to discover the methods you can use.
 
 ```php
 use Deadan\Salami\Plugins\SalamiPay;
-use Deadan\Salami\Plugins\SalamiSms;
+
 //First create an instance
 $apiToken = 'api_token';  //gotten from salami.co.ke
 $webhookSecret = 'webhook_secret';  //gotten from salami.co.ke
@@ -34,7 +34,7 @@ $salamiPay = (new SalamiPay($apiToken, $webhookSecret))
 ->setAppId($paymentAppId); 
 
 //Init a transaction
-//Note that the fields passed depend on the payment app driver
+//Note: The fields passed depend on the payment app driver
 $result = $salamiPay->requestPayment([  
   'Amount' => 10,  
   'PhoneNumber' => '+254711800780',  
@@ -50,9 +50,11 @@ return $salamiPay->processWebhook($request);
 
 ```
 
-When a Salami Payment IPN is received, the package emmits the following event:``
-Deadan\Salami\Events\SalamiTransactionProcessed`. You should implement a listener for this event to save the
-transaction. An example is shown below:
+When a Salami Payment IPN is received, the package emmits the following event:
+``Deadan\Salami\Events\SalamiTransactionProcessed``. 
+
+You should implement a listener for this event to save the transaction. 
+An example is shown below:
 
 ```php
 <?php
@@ -90,7 +92,7 @@ class SaveSalamiTransaction implements ShouldQueue
      */
     public function handle()
     {
-        //the sdk will automatically detect whether a tenant is available.
+        //the sdk will automatically detect whether multitenancy is enabled and a tenant is available.
         //if none, the context will be `salami_no_tenant` else it will be `salami_tenant_{TENANT_ID}`
         // e.g. salami_tenant_10
         if ($this->event->context == 'salami_no_tenant') {
