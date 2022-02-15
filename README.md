@@ -1,12 +1,8 @@
-# Salami API
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/deadangroup/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadangroup/salami-sdk)
-
+# Salami API SDK
 [![StyleCI](https://styleci.io/repos/88621289/shield?branch=master)](https://styleci.io/repos/88621289)
 
-[![Total Downloads](https://img.shields.io/packagist/dt/deadangroup/salami-sdk.svg?style=flat-square)](https://packagist.org/packages/deadangroup/salami-sdk)
-
-This is a minimal PHP implementation of the [Salami API](https://salami.co.ke). 
+This is a minimal PHP implementation of the [Salami API](https://salami.co.ke).
 
 ## Installation
 
@@ -16,100 +12,106 @@ You can install the package via composer:
 composer require deadangroup/salami-sdk
 ```
 
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Deadan\Salami\Providers\ModuleServiceProvider" --tag="config"
-```
+## Usage: Payments
 
-This is the contents of the published config file:
+The first thing you need to do is get an api token at Salami.
 
-```php
-return [
-    'pay_api_token'          => env('SALAMI_PAY_API_TOKEN'),
-    'sms_api_token'          => env('SALAMI_SMS_API_TOKEN'),
-    'signature_verification' => env('SALAMI_VERIFY_SIGNATURES', true),
-    'sms_app_id'             => env('SALAMI_SMS_APP'),
-    'pay_app_id'             => env('SALAMI_PAY_APP'),
-];
-```
-
-## Usage
-
-The first thing you need to do is get an api token at Salami. 
-
-Look in [the source code of `Deadan\Salami\Sdk`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/BaseSdk.php) to discover the methods you can use.
-
-Here's an example:
-Here are a few examples on how you can use the package:
+Look in [the source code of `Deadan\Salami\Plugins\SalamiPay`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiPay.php) to discover the methods you can use.
 
 ```php
-use Deadan\Salami\Facades\SalamiPay;
-use Deadan\Salami\Facades\SalamiSms;
-//
-SalamiPay::fetchTransactions();
+use Deadan\Salami\Plugins\SalamiPay;
+use Deadan\Salami\Plugins\SalamiSms;
+//First create an instance
+$apiToken = 'api_token';  //gotten from salami.co.ke
+$webhookSecret = 'webhook_secret';  //gotten from salami.co.ke
+$verify = true;  
+$paymentAppId = 1;  //gotten from salami.co.ke
+  
+$salamiPay = (new SalamiPay($apiToken, $webhookSecret))
+->setSignatureVerification($verify)
+->setAppId($appId); 
 
-//send an sms via a specific app
-SalamiSms::sendRaw("+254728270795", "Hi");
+//Init a transaction
+//Note that the fields passed depend on the payment app driver
+$result = $salamiPay->requestPayment([  
+  'Amount' => 10,  
+  'PhoneNumber' => 0711800780,  
+  'AccountReference' => 'INV110',  
+  'TransactionDesc' => 'Invoice payment',  
+]);
+
+//fetch transactions
+$transactions= $salamiPay->fetchTransactions();
+
+//process webhooks
+return $salamiPay->processWebhook($request);
 
 ```
 
-This package implements a controller that you can use to consume Salami callbacks.
-E.g in your routes file:
-
-```php
-Route::any('/api/salami/callback', '\Deadan\Salami\Http\Controllers\SalamiController@salamiCallback');
-
-```
-
-When a Salami IPN is received, the package emmits the following event:``Deadan\Salami\Events\SalamiTransactionProcessed`.
+When a Salami Payment IPN is received, the package emmits the following event:``Deadan\Salami\Events\SalamiTransactionProcessed`.
 You should implement a listener for this event to save the transaction. An example is shown below:
 
 ```php
-<?php
-
-namespace App\Listeners;
-
-use Deadan\Salami\Events\SalamiTransactionProcessed;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-
-class SaveSalamiTransaction implements ShouldQueue
-{
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * @var \Deadan\Salami\Events\SalamiTransactionProcessed
-     */
-    protected $event;
-
-    /**
-     * ProcessSalamiTransaction constructor.
-     *
-     * @param  \Deadan\Salami\Events\SalamiTransactionProcessed  $event
-     */
-    public function __construct(SalamiTransactionProcessed $event)
-    {
-        $this->event = $event;
-    }
-
-    /**
-     *
-     */
-    public function handle()
-    {
-        $salamiTransaction = $this->event->transaction;
-
-        if ($salamiTransaction->isCompleted()) {
-
-            $reference = $salamiTransaction->getAttribute('reference');
-
-            //do something.
-        }
-    }
+<?php  
+  
+namespace App\Listeners;  
+  
+use Deadan\Salami\Events\SalamiTransactionProcessed;  
+use Illuminate\Bus\Queueable;  
+use Illuminate\Contracts\Queue\ShouldQueue;  
+use Illuminate\Foundation\Bus\Dispatchable;  
+use Illuminate\Queue\InteractsWithQueue;  
+use Illuminate\Queue\SerializesModels;  
+  
+class SaveSalamiTransaction implements ShouldQueue  
+{  
+  use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;  
+  
+  /**  
+ * @var \Deadan\Salami\Events\SalamiTransactionProcessed  
+ */  protected $event;  
+  
+  /**  
+ * ProcessSalamiTransaction constructor. * * @param \Deadan\Salami\Events\SalamiTransactionProcessed $event  
+  */  
+  public function __construct(SalamiTransactionProcessed $event)  
+ {  $this->event = $event;  
+  }  
+  
+  /**  
+ * */  public function handle()  
+ {  //the sdk will automatically detect whether a tenant is available.  
+ //if none, the context will be `salami_no_tenant` else it will be `salami_tenant_{TENANT_ID}` // e.g. salami_tenant_10  if ($this->event->context == 'salami_no_tenant') {  
+  $salamiTransaction = $this->event->transaction;  
+  
+ if ($salamiTransaction->isCompleted()) {  
+  //do something.  
+  }  
+ } 
 }
+}
+```
+
+## Usage: SMS
+
+The first thing you need to do is get an api token at Salami.
+
+Look in [the source code of `Deadan\Salami\Plugins\SalamiSms`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiSms.php) to discover the methods you can use.
+
+```php
+use Deadan\Salami\Plugins\SalamiSms;
+//First create an instance
+$apiToken = 'api_token';  //gotten from salami.co.ke
+$webhookSecret = 'webhook_secret';  //gotten from salami.co.ke
+$verify = true;  
+$smsAppId = 1;  //gotten from salami.co.ke
+  
+$salamiSms = (new SalamiSms($apiToken, $webhookSecret))
+->setSignatureVerification($verify)
+->setAppId($appId); 
+
+//send an sms via the specific app
+$salamiSms->sendRaw("+254728270795", "Hi");
 
 ```
 

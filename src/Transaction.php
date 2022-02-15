@@ -16,22 +16,22 @@ class Transaction
      * @var
      */
     public $status_code;
-    
+
     /**
      * @var
      */
     public $status_name;
-    
+
     /**
      * @var
      */
     public $message;
-    
+
     /**
      * @var
      */
     public $errors;
-    
+
     /**
      * @var array
      */
@@ -59,9 +59,9 @@ class Transaction
         'updated_at',
         'deleted_at',
     ];
-    
+
     /**
-     * @param array $callbackPayload
+     * @param  array  $callbackPayload
      *
      * @return static
      */
@@ -73,12 +73,12 @@ class Transaction
         $transaction->message = "OK";
         $transaction->errors = null;
         $transaction->data = $callbackPayload;
-        
+
         return $transaction;
     }
-    
+
     /**
-     * @param array $apiResponsePayload
+     * @param  array  $apiResponsePayload
      *
      * @return static
      */
@@ -90,14 +90,14 @@ class Transaction
         $transaction->message = $apiResponsePayload['message'];
         $transaction->errors = $apiResponsePayload['errors'];
         $transaction->data = $apiResponsePayload['data'];
-        
+
         return $transaction;
     }
-    
+
     /**
      * Dynamically retrieve attributes on the model.
      *
-     * @param  string $key
+     * @param  string  $key
      *
      * @return mixed
      */
@@ -105,23 +105,23 @@ class Transaction
     {
         return $this->getAttribute($key);
     }
-    
+
     /**
      * Get an attribute from the model.
      *
-     * @param  string $key
+     * @param  string  $key
      *
      * @return mixed
      */
     public function getAttribute($key)
     {
-        if (! $key) {
+        if (!$key) {
             return;
         }
-        
+
         return $this->data[$key];
     }
-    
+
     /**
      * @return bool
      */
@@ -129,7 +129,7 @@ class Transaction
     {
         return 'STATUS_COMPLETED' == $this->getAttribute('status');
     }
-    
+
     /**
      * @return bool
      */
@@ -137,7 +137,7 @@ class Transaction
     {
         return 'STATUS_DECLINED' === $this->getAttribute('status');
     }
-    
+
     /**
      * @return bool
      */

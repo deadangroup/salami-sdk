@@ -223,8 +223,8 @@ abstract class BaseSdk
     }
 
     /**
-     * @param       $endpoint
-     * @param       $method
+     * @param         $endpoint
+     * @param         $method
      * @param  array  $payload
      *
      * @return Transaction
@@ -240,9 +240,9 @@ abstract class BaseSdk
         $response = $this->getHttpClient()
             ->request(strtoupper($method), $url, [
                 'form_params' => $payload,
-                'query' => $payload,
-                'headers' => [
-                    'Accept' => 'application/json',
+                'query'       => $payload,
+                'headers'     => [
+                    'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$this->apiToken,
                 ],
             ]);
@@ -270,7 +270,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param       $message
+     * @param         $message
      * @param  array  $context
      */
     public function log($message, $context = [])
@@ -290,11 +290,11 @@ abstract class BaseSdk
         }
 
         return $this->http = new Client([
-            'timeout' => 60,
+            'timeout'         => 60,
             'allow_redirects' => true,
-            'http_errors' => $this->httpErrors,
+            'http_errors'     => $this->httpErrors,
             //let users handle errors
-            'verify' => false,
+            'verify'          => false,
         ]);
     }
 }

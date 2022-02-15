@@ -15,8 +15,8 @@ use Deadan\Salami\Transaction;
 class SalamiSms extends BaseSdk
 {
     /**
-     * @param $to
-     * @param $message
+     * @param        $to
+     * @param        $message
      * @param  null  $appId
      * @return \Deadan\Salami\Transaction
      * @throws \Exception
@@ -31,7 +31,7 @@ class SalamiSms extends BaseSdk
 
     /**
      * @param  array  $payload
-     * @param  null  $appId
+     * @param  null   $appId
      * @return \Deadan\Salami\Transaction
      * @throws \Exception
      */

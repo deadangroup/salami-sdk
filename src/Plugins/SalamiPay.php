@@ -11,9 +11,6 @@
 namespace Deadan\Salami\Plugins;
 
 use Deadan\Salami\Jobs\ProcessPaymentWebhook;
-use Deadan\Salami\Jobs\QueuedWebhookPaymentProcess;
-use Deadan\Salami\Jobs\RealtimeWebhookPaymentProcess;
-use Deadan\Salami\Transaction;
 use Illuminate\Http\Request;
 
 /**
@@ -123,14 +120,14 @@ class SalamiPay extends BaseSdk
         }
 
         $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
-            'name' => $name,
-            'signing_secret' => $this->webhookSecret,
+            'name'                  => $name,
+            'signing_secret'        => $this->webhookSecret,
             'signature_header_name' => $this->signatureHeaderName,
-            'signature_validator' => $validator,
-            'webhook_profile' => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
-            'webhook_response' => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
-            'webhook_model' => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job' => \Deadan\Salami\Jobs\ProcessSalamiPaymentWebhook::class,
+            'signature_validator'   => $validator,
+            'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
+            'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
+            'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
+            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiPaymentWebhook::class,
         ]);
 
         return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
