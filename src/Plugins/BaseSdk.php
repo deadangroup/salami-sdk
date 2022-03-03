@@ -64,7 +64,7 @@ abstract class BaseSdk
     /**
      * @var string
      */
-    public $signatureHeaderName = 'Signature';
+    public $signatureHeaderName = 'x_salami_signature';
 
     /**
      * BaseSdk constructor.
@@ -85,6 +85,16 @@ abstract class BaseSdk
     {
         $this->signatureVerification = $signatureVerification;
 
+        return $this;
+    }
+
+    /**
+     * @param  string  $signatureHeaderName
+     * @return BaseSdk
+     */
+    public function setSignatureHeaderName(string $signatureHeaderName): BaseSdk
+    {
+        $this->signatureHeaderName = $signatureHeaderName;
         return $this;
     }
 
