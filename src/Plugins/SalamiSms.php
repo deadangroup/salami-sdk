@@ -23,10 +23,10 @@ class SalamiSms extends BaseSdk
      */
     public function sendRaw($to, $message, $appId = null)
     {
-        return $this->send($this->getAppId($appId), [
+        return $this->send([
             'to'      => $to,
             'message' => $message,
-        ]);
+        ],$this->getAppId($appId));
     }
 
     /**
@@ -37,7 +37,7 @@ class SalamiSms extends BaseSdk
      */
     public function send(array $payload = [], $appId = null)
     {
-        return $this->fetch("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
+        return $this->call("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
     }
 
     /**
@@ -48,7 +48,7 @@ class SalamiSms extends BaseSdk
      */
     public function getSmsApps(array $payload = [])
     {
-        return $this->fetch('/sms/apps', 'GET', $payload);
+        return $this->call('/sms/apps', 'GET', $payload);
     }
 
     /**
@@ -60,7 +60,7 @@ class SalamiSms extends BaseSdk
      */
     public function getSmsApp($appId)
     {
-        return $this->fetch('/sms/apps/'.$appId, 'GET');
+        return $this->call('/sms/apps/'.$appId, 'GET');
     }
 
     /**
@@ -72,7 +72,7 @@ class SalamiSms extends BaseSdk
      */
     public function getAppInbox($appId)
     {
-        return $this->fetch('/sms/apps/'.$this->getAppId($appId).'/inbox', 'GET');
+        return $this->call('/sms/apps/'.$this->getAppId($appId).'/inbox', 'GET');
     }
 
     /**
@@ -84,7 +84,7 @@ class SalamiSms extends BaseSdk
      */
     public function getAppOutbox($appId)
     {
-        return $this->fetch('/sms/apps/'.$this->getAppId($appId).'/outbox', 'GET');
+        return $this->call('/sms/apps/'.$this->getAppId($appId).'/outbox', 'GET');
     }
 
     /**
@@ -96,7 +96,7 @@ class SalamiSms extends BaseSdk
      */
     public function getAppsCalls($appId)
     {
-        return $this->fetch('/sms/apps/'.$this->getAppId($appId).'/calls', 'GET');
+        return $this->call('/sms/apps/'.$this->getAppId($appId).'/calls', 'GET');
     }
 
     /**
@@ -107,7 +107,7 @@ class SalamiSms extends BaseSdk
      */
     public function createApp(array $payload = [])
     {
-        return $this->fetch('/sms/apps/create', 'POST', $payload);
+        return $this->call('/sms/apps/create', 'POST', $payload);
     }
 
     /**
@@ -118,6 +118,6 @@ class SalamiSms extends BaseSdk
      */
     public function getSingleMessage($smsId)
     {
-        return $this->fetch('/sms/'.$smsId, 'GET');
+        return $this->call('/sms/'.$smsId, 'GET');
     }
 }

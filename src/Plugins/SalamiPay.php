@@ -27,7 +27,7 @@ class SalamiPay extends BaseSdk
      */
     public function queryTransactions(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId()."/queryTransactions", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/queryTransactions", 'GET', $payload);
     }
 
     /**
@@ -37,7 +37,7 @@ class SalamiPay extends BaseSdk
      */
     public function getTransaction($transactionId)
     {
-        return $this->fetch("/payments/".$this->getAppId()."/transaction/".$transactionId, 'GET');
+        return $this->call("/payments/".$this->getAppId()."/transaction/".$transactionId, 'GET');
     }
 
     /**
@@ -47,7 +47,7 @@ class SalamiPay extends BaseSdk
      */
     public function checkBalance(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId()."/checkBalance", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/checkBalance", 'GET', $payload);
     }
 
     /**
@@ -57,7 +57,7 @@ class SalamiPay extends BaseSdk
      */
     public function extractTransaction(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId()."/extractTransaction", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/extractTransaction", 'GET', $payload);
     }
 
     /**
@@ -67,7 +67,7 @@ class SalamiPay extends BaseSdk
      */
     public function fetchTransactions(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId()."/fetchTransactions", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/fetchTransactions", 'GET', $payload);
     }
 
     /**
@@ -77,7 +77,7 @@ class SalamiPay extends BaseSdk
      */
     public function getTransactionStatus($transactionId)
     {
-        return $this->fetch("/payments/".$this->getAppId()."/getTransactionStatus/".$transactionId, 'GET');
+        return $this->call("/payments/".$this->getAppId()."/getTransactionStatus/".$transactionId, 'GET');
     }
 
     /**
@@ -87,7 +87,7 @@ class SalamiPay extends BaseSdk
      */
     public function registerUrls(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId()."/registerUrls", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/registerUrls", 'GET', $payload);
     }
 
     /**
@@ -97,7 +97,7 @@ class SalamiPay extends BaseSdk
      */
     public function requestPayment(array $payload = [])
     {
-        return $this->fetch("/payments/".$this->getAppId()."/requestPayment", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/requestPayment", 'GET', $payload);
     }
 
     /**

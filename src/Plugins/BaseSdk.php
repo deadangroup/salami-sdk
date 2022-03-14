@@ -34,7 +34,7 @@ abstract class BaseSdk
     /**
      * @var string
      */
-    public $baseEndpoint = 'https://salami.co.ke/api';
+    public $baseUrl = 'https://salami.co.ke/api';
 
     /**
      * @var string
@@ -159,13 +159,13 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $baseEndpoint
+     * @param  string  $baseUrl
      *
      * @return BaseSdk
      */
-    public function withBaseEndpoint($baseEndpoint)
+    public function withBaseUrl($baseUrl)
     {
-        $this->baseEndpoint = $baseEndpoint;
+        $this->baseUrl = $baseUrl;
 
         return $this;
     }
@@ -240,10 +240,10 @@ abstract class BaseSdk
      * @return Transaction
      * @throws \GuzzleHttp\GuzzleException
      */
-    public function fetch($endpoint, $method, $payload = [])
+    public function call($endpoint, $method, $payload = [])
     {
-        $baseEndpoint = $this->getBaseEndpoint(true);
-        $url = $baseEndpoint.$endpoint;
+        $baseUrl = $this->getBaseUrl(true);
+        $url = $baseUrl.$endpoint;
         $this->log("Salami API URL:".$url);
         $this->log("Salami API Payload:", $payload);
 
@@ -269,9 +269,9 @@ abstract class BaseSdk
      *
      * @return string
      */
-    public function getBaseEndpoint($withVersion = false)
+    public function getBaseUrl($withVersion = false)
     {
-        $endpoint = rtrim($this->baseEndpoint, '/\\');
+        $endpoint = rtrim($this->baseUrl, '/\\');
         if ($withVersion && $version = $this->version) {
             $endpoint = $endpoint.'/'.$version;
         }
