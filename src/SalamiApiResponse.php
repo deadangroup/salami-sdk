@@ -28,11 +28,6 @@ class SalamiApiResponse
     public $message;
 
     /**
-     * @var
-     */
-    public $errors;
-
-    /**
      * @var array
      */
     public $data = [];
@@ -48,7 +43,6 @@ class SalamiApiResponse
         $SalamiApiResponse->status_code = 200;
         $SalamiApiResponse->status_name = "HTTP_OK";
         $SalamiApiResponse->message = "OK";
-        $SalamiApiResponse->errors = null;
         $SalamiApiResponse->data = $callbackPayload;
 
         return $SalamiApiResponse;
@@ -65,7 +59,6 @@ class SalamiApiResponse
         $SalamiApiResponse->status_code = $apiResponsePayload['status_code'];
         $SalamiApiResponse->message = $apiResponsePayload['message'];
         $SalamiApiResponse->message = $apiResponsePayload['message'];
-        $SalamiApiResponse->errors = $apiResponsePayload['errors'];
         $SalamiApiResponse->data = isset($apiResponsePayload['data']) ? $apiResponsePayload['data'] : [];
 
         return $SalamiApiResponse;
