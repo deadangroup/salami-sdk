@@ -16,18 +16,18 @@
  */
 function fix_phone($number, $country_code)
 {
-    if (starts_with($number, '+')) {
+    if (begins_with($number, '+')) {
         $number = substr($number, 1);
-    } elseif (starts_with($number, '07')) {
+    } elseif (begins_with($number, '07')) {
         $number = $country_code.substr($number, 1);
-    } elseif (starts_with($number, '7')) {
+    } elseif (begins_with($number, '7')) {
         $number = $country_code.$number;
     }
 
     return $number;
 }
 
-if (!function_exists('starts_with')) {
+if (!function_exists('begins_with')) {
     /**
      * Determine if a given string starts with a given substring.
      *
@@ -35,7 +35,7 @@ if (!function_exists('starts_with')) {
      * @param  string  $needle
      * @return bool
      */
-    function starts_with($haystack, $needle)
+    function begins_with($haystack, $needle)
     {
         if ((string) $needle !== '' && strncmp($haystack, $needle, strlen($needle)) === 0) {
             return true;
