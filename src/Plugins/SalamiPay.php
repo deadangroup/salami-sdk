@@ -10,7 +10,7 @@
 
 namespace Deadan\Salami\Plugins;
 
-use Deadan\Salami\Jobs\ProcessPaymentWebhook;
+use Deadan\Salami\Jobs\ProcessSalamiApiResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -22,27 +22,27 @@ class SalamiPay extends BaseSdk
 {
     /**
      * @param  array  $payload
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function queryTransactions(array $payload = [])
+    public function querySalamiApiResponses(array $payload = [])
     {
-        return $this->call("/payments/".$this->getAppId()."/queryTransactions", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/querySalamiApiResponses", 'GET', $payload);
     }
 
     /**
-     * @param $transactionId
-     * @return \Deadan\Salami\Transaction
+     * @param $SalamiApiResponseId
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function getTransaction($transactionId)
+    public function getSalamiApiResponse($SalamiApiResponseId)
     {
-        return $this->call("/payments/".$this->getAppId()."/transaction/".$transactionId, 'GET');
+        return $this->call("/payments/".$this->getAppId()."/SalamiApiResponse/".$SalamiApiResponseId, 'GET');
     }
 
     /**
      * @param  array  $payload
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
     public function checkBalance(array $payload = [])
@@ -52,37 +52,37 @@ class SalamiPay extends BaseSdk
 
     /**
      * @param  array  $payload
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function extractTransaction(array $payload = [])
+    public function extractSalamiApiResponse(array $payload = [])
     {
-        return $this->call("/payments/".$this->getAppId()."/extractTransaction", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/extractSalamiApiResponse", 'GET', $payload);
     }
 
     /**
      * @param  array  $payload
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function fetchTransactions(array $payload = [])
+    public function fetchSalamiApiResponses(array $payload = [])
     {
-        return $this->call("/payments/".$this->getAppId()."/fetchTransactions", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/fetchSalamiApiResponses", 'GET', $payload);
     }
 
     /**
-     * @param $transactionId
-     * @return \Deadan\Salami\Transaction
+     * @param $SalamiApiResponseId
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function getTransactionStatus($transactionId)
+    public function getSalamiApiResponseStatus($SalamiApiResponseId)
     {
-        return $this->call("/payments/".$this->getAppId()."/getTransactionStatus/".$transactionId, 'GET');
+        return $this->call("/payments/".$this->getAppId()."/getSalamiApiResponseStatus/".$SalamiApiResponseId, 'GET');
     }
 
     /**
      * @param  array  $payload
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
     public function registerUrls(array $payload = [])
@@ -92,7 +92,7 @@ class SalamiPay extends BaseSdk
 
     /**
      * @param  array  $payload
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
     public function requestPayment(array $payload = [])
@@ -127,7 +127,7 @@ class SalamiPay extends BaseSdk
             'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
             'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
             'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiPaymentWebhook::class,
+            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiSalamiApiResponse::class,
         ]);
 
         return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();

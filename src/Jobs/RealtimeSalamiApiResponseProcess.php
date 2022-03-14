@@ -4,7 +4,7 @@ namespace Deadan\Salami\Jobs;
 
 use Illuminate\Http\Request;
 
-class RealtimeWebhookPaymentProcess extends QueuedWebhookPaymentProcess
+class RealtimeSalamiApiResponseProcess extends QueuedSalamiApiResponseProcess
 {
     //ensures run right now.
     public $queue = 'sync';

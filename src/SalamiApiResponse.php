@@ -10,7 +10,7 @@
 
 namespace Deadan\Salami;
 
-class Transaction
+class SalamiApiResponse
 {
     /**
      * @var
@@ -35,30 +35,7 @@ class Transaction
     /**
      * @var array
      */
-    public $data = [
-        'id',
-        'payer_account',
-        'payer_name',
-        'payee_account',
-        'payee_name',
-        'reference',
-        'transaction_id',
-        'amount',
-        'transaction_time',
-        'narration',
-        'raw_details' => [],
-        'status',
-        'currency',
-        'payment_provider',
-        'transaction_type',
-        'transaction_sub_type',
-        'app_id',
-        'created_by',
-        'updated_by',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
+    public $data = [];
 
     /**
      * @param  array  $callbackPayload
@@ -67,14 +44,14 @@ class Transaction
      */
     public static function buildFromCallback(array $callbackPayload = [])
     {
-        $transaction = new static();
-        $transaction->status_code = 200;
-        $transaction->status_name = "HTTP_OK";
-        $transaction->message = "OK";
-        $transaction->errors = null;
-        $transaction->data = $callbackPayload;
+        $SalamiApiResponse = new static();
+        $SalamiApiResponse->status_code = 200;
+        $SalamiApiResponse->status_name = "HTTP_OK";
+        $SalamiApiResponse->message = "OK";
+        $SalamiApiResponse->errors = null;
+        $SalamiApiResponse->data = $callbackPayload;
 
-        return $transaction;
+        return $SalamiApiResponse;
     }
 
     /**
@@ -84,14 +61,14 @@ class Transaction
      */
     public static function buildFromApiCall(array $apiResponsePayload = [])
     {
-        $transaction = new static();
-        $transaction->status_code = $apiResponsePayload['status_code'];
-        $transaction->message = $apiResponsePayload['message'];
-        $transaction->message = $apiResponsePayload['message'];
-        $transaction->errors = $apiResponsePayload['errors'];
-        $transaction->data = $apiResponsePayload['data'];
+        $SalamiApiResponse = new static();
+        $SalamiApiResponse->status_code = $apiResponsePayload['status_code'];
+        $SalamiApiResponse->message = $apiResponsePayload['message'];
+        $SalamiApiResponse->message = $apiResponsePayload['message'];
+        $SalamiApiResponse->errors = $apiResponsePayload['errors'];
+        $SalamiApiResponse->data = isset($apiResponsePayload['data']) ? $apiResponsePayload['data'] : [];
 
-        return $transaction;
+        return $SalamiApiResponse;
     }
 
     /**

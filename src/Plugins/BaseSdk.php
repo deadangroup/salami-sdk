@@ -10,7 +10,7 @@
 
 namespace Deadan\Salami\Plugins;
 
-use Deadan\Salami\Transaction;
+use Deadan\Salami\SalamiApiResponse;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 
@@ -237,7 +237,7 @@ abstract class BaseSdk
      * @param         $method
      * @param  array  $payload
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
      */
     public function call($endpoint, $method, $payload = [])
@@ -261,7 +261,7 @@ abstract class BaseSdk
             ->getContents();
         $this->log("Salami API Response:".$contents);
 
-        return Transaction::buildFromApiCall(json_decode($contents, true));
+        return SalamiApiResponse::buildFromApiCall(json_decode($contents, true));
     }
 
     /**

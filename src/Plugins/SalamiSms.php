@@ -10,7 +10,7 @@
 
 namespace Deadan\Salami\Plugins;
 
-use Deadan\Salami\Transaction;
+use Deadan\Salami\SalamiApiResponse;
 
 class SalamiSms extends BaseSdk
 {
@@ -18,7 +18,7 @@ class SalamiSms extends BaseSdk
      * @param        $to
      * @param        $message
      * @param  null  $appId
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
     public function sendRaw($to, $message, $appId = null)
@@ -32,7 +32,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param  array  $payload
      * @param  null   $appId
-     * @return \Deadan\Salami\Transaction
+     * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
     public function send(array $payload = [], $appId = null)
@@ -43,7 +43,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param  array  $payload
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
      */
     public function getSmsApps(array $payload = [])
@@ -54,7 +54,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param $appId
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -66,7 +66,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param $appId
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -78,7 +78,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param $appId
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -90,7 +90,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param $appId
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \Exception
      * @throws \GuzzleHttp\GuzzleException
      */
@@ -102,7 +102,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param  array  $payload
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
      */
     public function createApp(array $payload = [])
@@ -113,7 +113,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param $smsId
      *
-     * @return Transaction
+     * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
      */
     public function getSingleMessage($smsId)
