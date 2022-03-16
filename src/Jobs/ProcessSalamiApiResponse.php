@@ -7,7 +7,7 @@ use Deadan\Salami\SalamiApiResponse;
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 
-class ProcessSalamiSalamiApiResponse extends SpatieProcessWebhookJob
+class ProcessSalamiApiResponse extends SpatieProcessWebhookJob
 {
     public function handle()
     {

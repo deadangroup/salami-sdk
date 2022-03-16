@@ -13,6 +13,7 @@ namespace Deadan\Salami\Plugins;
 use Deadan\Salami\SalamiApiResponse;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use Illuminate\Http\Request;
 
 abstract class BaseSdk
 {
@@ -330,7 +331,7 @@ abstract class BaseSdk
             'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
             'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
             'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiSalamiApiResponse::class,
+            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiApiResponse::class,
         ]);
 
         return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();

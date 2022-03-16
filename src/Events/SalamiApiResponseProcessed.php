@@ -12,7 +12,7 @@ class SalamiApiResponseProcessed
     /**
      * @var \Deadan\Salami\SalamiApiResponse
      */
-    public $SalamiApiResponse;
+    public $salamiApiResponse;
 
     /**
      * @var string
@@ -22,11 +22,11 @@ class SalamiApiResponseProcessed
     /**
      * SalamiApiResponseProcessed constructor.
      *
-     * @param  \Deadan\Salami\SalamiApiResponse $SalamiApiResponse
+     * @param  \Deadan\Salami\SalamiApiResponse $salamiApiResponse
      */
-    public function __construct(SalamiApiResponse $SalamiApiResponse, $context)
+    public function __construct(SalamiApiResponse $salamiApiResponse, $context)
     {
-        $this->SalamiApiResponse = $SalamiApiResponse;
+        $this->salamiApiResponse = $salamiApiResponse;
         $this->context = $context;
     }
 
@@ -35,7 +35,7 @@ class SalamiApiResponseProcessed
      */
     public function getSalamiApiResponse()
     {
-        return $this->SalamiApiResponse;
+        return $this->salamiApiResponse;
     }
 
     /**

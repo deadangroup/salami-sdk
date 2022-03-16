@@ -11,7 +11,7 @@
 namespace Deadan\Salami\Plugins;
 
 use Deadan\Salami\Jobs\ProcessSalamiApiResponse;
-use Illuminate\Http\Request;
+
 
 /**
  * Class SalamiPay
