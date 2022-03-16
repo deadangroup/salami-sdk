@@ -25,19 +25,19 @@ class SalamiPay extends BaseSdk
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function querySalamiApiResponses(array $payload = [])
+    public function queryPayments(array $payload = [])
     {
-        return $this->call("/payments/".$this->getAppId()."/querySalamiApiResponses", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/queryPayments", 'GET', $payload);
     }
 
     /**
-     * @param $SalamiApiResponseId
+     * @param $paymentId
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function getSalamiApiResponse($SalamiApiResponseId)
+    public function getPayment($paymentId)
     {
-        return $this->call("/payments/".$this->getAppId()."/SalamiApiResponse/".$SalamiApiResponseId, 'GET');
+        return $this->call("/payments/".$this->getAppId()."/payment/".$paymentId, 'GET');
     }
 
     /**
@@ -55,9 +55,9 @@ class SalamiPay extends BaseSdk
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function extractSalamiApiResponse(array $payload = [])
+    public function extractPayment(array $payload = [])
     {
-        return $this->call("/payments/".$this->getAppId()."/extractSalamiApiResponse", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/extractPayment", 'GET', $payload);
     }
 
     /**
@@ -65,19 +65,19 @@ class SalamiPay extends BaseSdk
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function fetchSalamiApiResponses(array $payload = [])
+    public function fetchPayments(array $payload = [])
     {
-        return $this->call("/payments/".$this->getAppId()."/fetchSalamiApiResponses", 'GET', $payload);
+        return $this->call("/payments/".$this->getAppId()."/fetchPayments", 'GET', $payload);
     }
 
     /**
-     * @param $SalamiApiResponseId
+     * @param $paymentId
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
-    public function getSalamiApiResponseStatus($SalamiApiResponseId)
+    public function getPaymentStatus($paymentId)
     {
-        return $this->call("/payments/".$this->getAppId()."/getSalamiApiResponseStatus/".$SalamiApiResponseId, 'GET');
+        return $this->call("/payments/".$this->getAppId()."/getPaymentStatus/".$paymentId, 'GET');
     }
 
     /**
@@ -98,38 +98,5 @@ class SalamiPay extends BaseSdk
     public function requestPayment(array $payload = [])
     {
         return $this->call("/payments/".$this->getAppId()."/requestPayment", 'GET', $payload);
-    }
-
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \Spatie\WebhookClient\Exceptions\InvalidConfig
-     */
-    public function processWebhook(Request $request)
-    {
-        if ($this->signatureVerification == true) {
-            $validator = \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class;
-        } else {
-            $validator = \Deadan\Salami\SignatureValidator\NullValidator::class;
-        }
-
-        if (class_exists(\Stancl\Tenancy\Tenancy::class) && !is_null(tenant('id'))) {
-            $name = 'salami_tenant_'.tenant('id');
-        } else {
-            $name = 'salami_no_tenant';
-        }
-
-        $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
-            'name'                  => $name,
-            'signing_secret'        => $this->webhookSecret,
-            'signature_header_name' => $this->signatureHeaderName,
-            'signature_validator'   => $validator,
-            'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
-            'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
-            'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiSalamiApiResponse::class,
-        ]);
-
-        return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
     }
 }

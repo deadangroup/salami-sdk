@@ -47,11 +47,6 @@ abstract class BaseSdk
     public $apiToken;
 
     /**
-     * @var string
-     */
-    public $webhookSecret;
-
-    /**
      * @var bool
      */
     public $httpErrors = false;
@@ -71,10 +66,9 @@ abstract class BaseSdk
      * @param $apiToken
      * @param $webhookSecret
      */
-    public function __construct($apiToken, $webhookSecret)
+    public function __construct($apiToken)
     {
         $this->apiToken = $apiToken;
-        $this->webhookSecret = $webhookSecret;
     }
 
     /**
@@ -306,5 +300,39 @@ abstract class BaseSdk
             //let users handle errors
             'verify'          => false,
         ]);
+    }
+
+    /**
+     * @param  \Deadan\Salami\Plugins\Request  $request
+     * @param                                  $webhookSecret
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Spatie\WebhookClient\Exceptions\InvalidConfig
+     */
+    public function processWebhook(Request $request, $webhookSecret)
+    {
+        if ($this->signatureVerification == true) {
+            $validator = \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class;
+        } else {
+            $validator = \Deadan\Salami\SignatureValidator\NullValidator::class;
+        }
+
+        if (class_exists(\Stancl\Tenancy\Tenancy::class) && !is_null(tenant('id'))) {
+            $name = 'salami_tenant_'.tenant('id');
+        } else {
+            $name = 'salami_no_tenant';
+        }
+
+        $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
+            'name'                  => $name,
+            'signing_secret'        => $webhookSecret,
+            'signature_header_name' => $this->signatureHeaderName,
+            'signature_validator'   => $validator,
+            'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
+            'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
+            'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
+            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiSalamiApiResponse::class,
+        ]);
+
+        return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
     }
 }
