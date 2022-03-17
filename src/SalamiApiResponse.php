@@ -56,10 +56,10 @@ class SalamiApiResponse
     public static function buildFromApiCall(array $apiResponsePayload = [])
     {
         $SalamiApiResponse = new static();
-        $SalamiApiResponse->status_code = $apiResponsePayload['status_code'];
+        $SalamiApiResponse->status_code = isset($apiResponsePayload['status_code']) ? $apiResponsePayload['status_code'] : null;
+        $SalamiApiResponse->status_name = isset($apiResponsePayload['status_name']) ? $apiResponsePayload['status_name'] : null;
         $SalamiApiResponse->message = $apiResponsePayload['message'];
-        $SalamiApiResponse->message = $apiResponsePayload['message'];
-        $SalamiApiResponse->data = isset($apiResponsePayload['data']) ? $apiResponsePayload['data'] : [];
+        $SalamiApiResponse->data = $apiResponsePayload;
 
         return $SalamiApiResponse;
     }
