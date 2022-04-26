@@ -12,7 +12,7 @@ class Sms
      *
      * @return \Deadan\Salami\SalamiApiResponse|void
      */
-    public static function send($to, $message, $config = [])
+    public static function send($to, $message)
     {
         if (is_null($to)) {
             \Log::emergency("$to is not a valid phonenumber");
