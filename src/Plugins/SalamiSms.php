@@ -42,7 +42,7 @@ class SalamiSms extends BaseSdk
     {
         $response = $this->call("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
 
-        event(new SalamiSmsProcessed($response));
+        event(new SalamiSmsProcessed($response->getAttribute('data')));
 
         return $response;
     }
