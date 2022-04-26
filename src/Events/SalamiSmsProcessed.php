@@ -3,29 +3,26 @@
 namespace Deadan\Salami\Events;
 
 use Deadan\Salami\SalamiApiResponse;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class SalamiSmsProcessed
 {
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
     /**
-     * @var \Deadan\Salami\SalamiApiResponse
+     * @var array
      */
-    public $salamiApiResponse;
+    public $salamiData;
 
     /**
      * SalamiApiResponseProcessed constructor.
      *
-     * @param  \Deadan\Salami\SalamiApiResponse $salamiApiResponse
+     * @param  \Deadan\Salami\SalamiApiResponse $salamiData
      */
-    public function __construct(SalamiApiResponse $salamiApiResponse)
+    public function __construct($salamiData=[])
     {
-        $this->salamiApiResponse = $salamiApiResponse;
-    }
-
-    /**
-     * @return \Deadan\Salami\SalamiApiResponse
-     */
-    public function getSalamiApiResponse()
-    {
-        return $this->salamiApiResponse;
+        $this->salamiData = $salamiData;
     }
 }
