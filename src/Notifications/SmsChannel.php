@@ -16,7 +16,7 @@ class SmsChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        $message = $notification->toSms($notifiable);
+        $message = (string) $notification->toSms($notifiable);
 
         // We are assuming we are notifying a user or a model that has a telephone attribute/field.
         // And the telephone number is correctly formatted.

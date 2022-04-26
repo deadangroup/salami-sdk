@@ -51,15 +51,15 @@ class SmsMessage
     }
 
     /**
-     * @return \Deadan\Salami\SalamiApiResponse|void
+     * @return string
      * @throws \Exception
      */
-    public function send()
+    public function __toString()
     {
         if (! count($this->lines)) {
-            throw new Exception('SMS cannot be empty.');
+            throw new Exception('SMS content cannot be empty.');
         }
 
-        return Sms::send($this->to, join(PHP_EOL, $this->lines));
+        return join(PHP_EOL, $this->lines);
     }
 }
