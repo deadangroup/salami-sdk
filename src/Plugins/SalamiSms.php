@@ -10,6 +10,7 @@
 
 namespace Deadan\Salami\Plugins;
 
+use Deadan\Salami\Events\SalamiSmsProcessed;
 use Deadan\Salami\SalamiApiResponse;
 
 class SalamiSms extends BaseSdk
@@ -18,6 +19,7 @@ class SalamiSms extends BaseSdk
      * @param        $to
      * @param        $message
      * @param  null  $appId
+     *
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
@@ -26,18 +28,23 @@ class SalamiSms extends BaseSdk
         return $this->send([
             'to'      => $to,
             'message' => $message,
-        ],$this->getAppId($appId));
+        ], $this->getAppId($appId));
     }
 
     /**
      * @param  array  $payload
-     * @param  null   $appId
+     * @param  null  $appId
+     *
      * @return \Deadan\Salami\SalamiApiResponse
      * @throws \Exception
      */
     public function send(array $payload = [], $appId = null)
     {
-        return $this->call("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
+        $response = $this->call("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
+
+        event(new SalamiSmsProcessed($response));
+
+        return $response;
     }
 
     /**

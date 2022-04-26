@@ -4,7 +4,7 @@ namespace Deadan\Salami\Events;
 
 use Deadan\Salami\SalamiApiResponse;
 
-class SalamiApiResponseProcessed
+class SalamiSmsProcessed
 {
     /**
      * @var \Deadan\Salami\SalamiApiResponse
@@ -12,18 +12,13 @@ class SalamiApiResponseProcessed
     public $salamiApiResponse;
 
     /**
-     * @var string
+     * SalamiApiResponseProcessed constructor.
+     *
+     * @param  \Deadan\Salami\SalamiApiResponse $salamiApiResponse
      */
-    public $context;
-
-    /**
-     * @param  \Deadan\Salami\SalamiApiResponse  $salamiApiResponse
-     * @param $context
-     */
-    public function __construct(SalamiApiResponse $salamiApiResponse, $context)
+    public function __construct(SalamiApiResponse $salamiApiResponse)
     {
         $this->salamiApiResponse = $salamiApiResponse;
-        $this->context = $context;
     }
 
     /**
@@ -32,13 +27,5 @@ class SalamiApiResponseProcessed
     public function getSalamiApiResponse()
     {
         return $this->salamiApiResponse;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContext()
-    {
-        return $this->context;
     }
 }
