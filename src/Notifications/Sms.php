@@ -25,12 +25,7 @@ class Sms
 
         $to = fix_phone($to, '254');
 
-        try {
-            $salamiResponse = $salamiSms->sendRaw($to, $message);
-
-            return $salamiResponse;
-        } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().' Line:'.$e->getLine().' Message:'.$e->getMessage().' Trace:'.$e->getTraceAsString());
-        }
+        $salamiResponse = $salamiSms->sendRaw($to, $message);
+        return $salamiResponse;
     }
 }
