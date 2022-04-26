@@ -34,7 +34,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "dPOS\\Salami\\Providers\\ModuleServiceProvider"
+        "Deadan\\Salami\\Providers\\ModuleServiceProvider"
       ]
     },
     "branch-alias": {
