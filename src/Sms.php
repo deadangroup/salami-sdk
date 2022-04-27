@@ -20,7 +20,7 @@ class Sms
             return;
         }
 
-        if (config('salami.sms.enabled')) {
+        if (config('salami.sms.enabled') == false) {
             \Log::notice("Sending SMS, To:$to, Content:$message ");
 
             return;
