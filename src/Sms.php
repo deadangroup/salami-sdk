@@ -1,6 +1,6 @@
 <?php
 
-namespace Deadan\Salami\Notifications;
+namespace Deadan\Salami;
 
 use Deadan\Salami\Plugins\SalamiSms;
 
@@ -10,12 +10,18 @@ class Sms
      * @param $to
      * @param $message
      *
-     * @return \Deadan\Salami\SalamiApiResponse|void
+     * @return \Deadan\Salami\Dto\SalamiApiResponse|void
      */
     public static function send($to, $message)
     {
         if (is_null($to)) {
             \Log::emergency("$to is not a valid phonenumber");
+
+            return;
+        }
+
+        if (config('salami.sms.enabled')) {
+            \Log::notice("Sending SMS, To:$to, Content:$message ");
 
             return;
         }
@@ -26,6 +32,7 @@ class Sms
         $to = fix_phone($to, '254');
 
         $salamiResponse = $salamiSms->sendRaw($to, $message);
+
         return $salamiResponse;
     }
 }

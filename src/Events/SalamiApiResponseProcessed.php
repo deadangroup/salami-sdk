@@ -2,12 +2,12 @@
 
 namespace Deadan\Salami\Events;
 
-use Deadan\Salami\SalamiApiResponse;
+use Deadan\Salami\Dto\SalamiApiResponse;
 
 class SalamiApiResponseProcessed
 {
     /**
-     * @var \Deadan\Salami\SalamiApiResponse
+     * @var \Deadan\Salami\Dto\SalamiApiResponse
      */
     public $salamiApiResponse;
 
@@ -17,7 +17,7 @@ class SalamiApiResponseProcessed
     public $context;
 
     /**
-     * @param  \Deadan\Salami\SalamiApiResponse  $salamiApiResponse
+     * @param  \Deadan\Salami\Dto\SalamiApiResponse  $salamiApiResponse
      * @param $context
      */
     public function __construct(SalamiApiResponse $salamiApiResponse, $context)
@@ -27,7 +27,7 @@ class SalamiApiResponseProcessed
     }
 
     /**
-     * @return \Deadan\Salami\SalamiApiResponse
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      */
     public function getSalamiApiResponse()
     {

@@ -2,8 +2,8 @@
 
 namespace Deadan\Salami\Jobs;
 
+use Deadan\Salami\Dto\SalamiApiResponse;
 use Deadan\Salami\Events\SalamiApiResponseProcessed;
-use Deadan\Salami\SalamiApiResponse;
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 

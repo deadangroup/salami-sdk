@@ -2,7 +2,6 @@
 
 namespace Deadan\Salami\Events;
 
-use Deadan\Salami\SalamiApiResponse;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -19,7 +18,7 @@ class SalamiSmsProcessed
     /**
      * SalamiApiResponseProcessed constructor.
      *
-     * @param  \Deadan\Salami\SalamiApiResponse $salamiData
+     * @param  \Deadan\Salami\Dto\SalamiApiResponse $salamiData
      */
     public function __construct($salamiData=[])
     {

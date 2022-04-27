@@ -11,6 +11,8 @@ return [
         'token'    => env('SALAMI_SMS_API_TOKEN'),
         'app_id'   => env('SALAMI_SMS_APP_ID'),
         'base_url' => env('SALAMI_SMS_BASE_URL'),
+        //If not enabled, sms will be entered in the log file
+        'enabled'  => env('SALAMI_SMS_ENABLED', true),
     ],
 
     // Add this to the config/services.php file.
@@ -19,6 +21,6 @@ return [
         'app_id'         => env('SALAMI_PAY_APP_ID'),
         'base_url'       => env('SALAMI_PAY_BASE_URL'),
         'webhook_secret' => env('SALAMI_PAY_WEBHOOK_SECRET'),
-        'verify'         => env('SALAMI_VERIFY_TRANSACTIONS'),
+        'verify'         => env('SALAMI_VERIFY_TRANSACTIONS', true),
     ],
 ];

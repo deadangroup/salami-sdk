@@ -8,7 +8,7 @@
  *
  */
 
-namespace Deadan\Salami;
+namespace Deadan\Salami\Dto;
 
 class SalamiApiResponse
 {
