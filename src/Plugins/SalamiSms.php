@@ -10,8 +10,8 @@
 
 namespace Deadan\Salami\Plugins;
 
+use Deadan\Salami\Dto\SalamiApiResponse;
 use Deadan\Salami\Events\SalamiSmsProcessed;
-use Deadan\Salami\SalamiApiResponse;
 
 class SalamiSms extends BaseSdk
 {
@@ -20,7 +20,7 @@ class SalamiSms extends BaseSdk
      * @param        $message
      * @param  null  $appId
      *
-     * @return \Deadan\Salami\SalamiApiResponse
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function sendRaw($to, $message, $appId = null)
@@ -35,7 +35,7 @@ class SalamiSms extends BaseSdk
      * @param  array  $payload
      * @param  null  $appId
      *
-     * @return \Deadan\Salami\SalamiApiResponse
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function send(array $payload = [], $appId = null)

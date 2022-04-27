@@ -10,10 +10,10 @@
 
 namespace Deadan\Salami\Plugins;
 
-use Deadan\Salami\SalamiApiResponse;
+use Deadan\Salami\Dto\SalamiApiResponse;
 use GuzzleHttp\Client;
-use Psr\Log\LoggerInterface;
 use Illuminate\Http\Request;
+use Psr\Log\LoggerInterface;
 
 abstract class BaseSdk
 {

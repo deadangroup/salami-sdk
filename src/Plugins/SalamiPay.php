@@ -21,7 +21,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param  array  $payload
      * @param         $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function queryPayments(array $payload = [], $appId)
@@ -32,7 +33,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param $paymentId
      * @param $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function getPayment($paymentId, $appId)
@@ -43,7 +45,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param  array  $payload
      * @param         $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function checkBalance(array $payload = [], $appId)
@@ -54,7 +57,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param  array  $payload
      * @param         $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function extractPayment(array $payload = [], $appId)
@@ -65,7 +69,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param  array  $payload
      * @param         $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function fetchPayments(array $payload = [], $appId)
@@ -76,7 +81,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param $paymentId
      * @param $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function getPaymentStatus($paymentId, $appId)
@@ -87,7 +93,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param  array  $payload
      * @param         $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function registerUrls(array $payload = [], $appId)
@@ -98,7 +105,8 @@ class SalamiPay extends BaseSdk
     /**
      * @param  array  $payload
      * @param         $appId
-     * @return \Deadan\Salami\SalamiApiResponse
+     *
+     * @return \Deadan\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function requestPayment(array $payload = [], $appId)

@@ -33,7 +33,7 @@ class SmsMessage
      */
     public function line($line = ''): self
     {
-        $this->lines[] = $line.PHP_EOL;
+        $this->lines[] = $line;
 
         return $this;
     }
