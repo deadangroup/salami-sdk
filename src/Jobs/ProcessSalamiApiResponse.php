@@ -9,13 +9,6 @@ use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 
 class ProcessSalamiApiResponse extends SpatieProcessWebhookJob
 {
-    /**
-     * The name of the queue the job should be sent to.
-     *
-     * @var string|null
-     */
-    public $queue = 'salami_sdk_module';
-
     public function handle()
     {
         // $this->webhookCall // contains an instance of `WebhookCall`
