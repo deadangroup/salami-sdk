@@ -5,6 +5,9 @@ namespace Deadan\Salami\Notifications;
 use Deadan\Salami\Sms;
 use Illuminate\Notifications\Notification;
 
+/**
+ *
+ */
 class SmsChannel
 {
     /**

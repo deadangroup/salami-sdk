@@ -12,6 +12,7 @@
  *
  * @param $number
  * @param $country_code
+ *
  * @return false|mixed|string
  */
 function fix_phone($number, $country_code)

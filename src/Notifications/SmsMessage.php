@@ -4,6 +4,9 @@ namespace Deadan\Salami\Notifications;
 
 use Exception;
 
+/**
+ *
+ */
 class SmsMessage
 {
     /**

@@ -13,6 +13,9 @@ namespace Deadan\Salami\Plugins;
 use Deadan\Salami\Dto\SalamiApiResponse;
 use Deadan\Salami\Events\SalamiSmsProcessed;
 
+/**
+ *
+ */
 class SalamiSms extends BaseSdk
 {
     /**

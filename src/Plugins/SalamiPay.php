@@ -10,7 +10,6 @@
 
 namespace Deadan\Salami\Plugins;
 
-
 /**
  * Class SalamiPay
  *

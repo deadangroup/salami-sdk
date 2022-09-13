@@ -4,11 +4,16 @@ namespace Deadan\Salami\Jobs;
 
 use Deadan\Salami\Dto\SalamiApiResponse;
 use Deadan\Salami\Events\SalamiApiResponseProcessed;
-use Illuminate\Http\Request;
 use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 
+/**
+ *
+ */
 class QueuedSalamiApiResponseProcess extends SpatieProcessWebhookJob
 {
+    /**
+     * @return void
+     */
     public function handle()
     {
         // $this->webhookCall // contains an instance of `WebhookCall`

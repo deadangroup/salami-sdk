@@ -10,6 +10,9 @@
 
 namespace Deadan\Salami\Dto;
 
+/**
+ *
+ */
 class SalamiApiResponse
 {
     /**
@@ -85,7 +88,7 @@ class SalamiApiResponse
      */
     public function getAttribute($key)
     {
-        if (!$key) {
+        if (! $key) {
             return;
         }
 

@@ -4,6 +4,9 @@ namespace Deadan\Salami\Events;
 
 use Deadan\Salami\Dto\SalamiApiResponse;
 
+/**
+ *
+ */
 class SalamiApiResponseProcessed
 {
     /**

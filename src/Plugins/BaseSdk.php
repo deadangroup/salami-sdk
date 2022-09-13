@@ -11,10 +11,23 @@
 namespace Deadan\Salami\Plugins;
 
 use Deadan\Salami\Dto\SalamiApiResponse;
+use Deadan\Salami\Jobs\ProcessSalamiApiResponse;
+use Deadan\Salami\SignatureValidator\NullValidator;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
+use Spatie\WebhookClient\Models\WebhookCall;
+use Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator;
+use Spatie\WebhookClient\WebhookConfig;
+use Spatie\WebhookClient\WebhookProcessor;
+use Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile;
+use Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo;
+use Stancl\Tenancy\Tenancy;
 
+/**
+ *
+ */
 abstract class BaseSdk
 {
     /**
@@ -64,6 +77,7 @@ abstract class BaseSdk
 
     /**
      * BaseSdk constructor.
+     *
      * @param $apiToken
      * @param $webhookSecret
      */
@@ -74,6 +88,7 @@ abstract class BaseSdk
 
     /**
      * @param $signatureVerification
+     *
      * @return BaseSdk
      */
     public function setSignatureVerification($signatureVerification)
@@ -85,11 +100,13 @@ abstract class BaseSdk
 
     /**
      * @param  string  $signatureHeaderName
+     *
      * @return BaseSdk
      */
     public function setSignatureHeaderName(string $signatureHeaderName): BaseSdk
     {
         $this->signatureHeaderName = $signatureHeaderName;
+
         return $this;
     }
 
@@ -193,11 +210,12 @@ abstract class BaseSdk
             return $this->appId;
         }
 
-        throw new \Exception("Please specify an APP Id");
+        throw new Exception("Please specify an APP Id");
     }
 
     /**
      * @param $appId
+     *
      * @return $this
      */
     public function setAppId($appId)
@@ -243,17 +261,17 @@ abstract class BaseSdk
         $this->log("Salami API Payload:", $payload);
 
         $response = $this->getHttpClient()
-            ->request(strtoupper($method), $url, [
-                'form_params' => $payload,
-                'query'       => $payload,
-                'headers'     => [
-                    'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer '.$this->apiToken,
-                ],
-            ]);
+                         ->request(strtoupper($method), $url, [
+                             'form_params' => $payload,
+                             'query'       => $payload,
+                             'headers'     => [
+                                 'Accept'        => 'application/json',
+                                 'Authorization' => 'Bearer '.$this->apiToken,
+                             ],
+                         ]);
 
         $contents = $response->getBody()
-            ->getContents();
+                             ->getContents();
         $this->log("Salami API Response:".$contents);
 
         return SalamiApiResponse::buildFromApiCall(json_decode($contents, true));
@@ -306,34 +324,35 @@ abstract class BaseSdk
     /**
      * @param  \Deadan\Salami\Plugins\Request  $request
      * @param                                  $webhookSecret
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Spatie\WebhookClient\Exceptions\InvalidConfig
      */
     public function processWebhook(Request $request, $webhookSecret)
     {
         if ($this->signatureVerification == true) {
-            $validator = \Spatie\WebhookClient\SignatureValidator\DefaultSignatureValidator::class;
+            $validator = DefaultSignatureValidator::class;
         } else {
-            $validator = \Deadan\Salami\SignatureValidator\NullValidator::class;
+            $validator = NullValidator::class;
         }
 
-        if (class_exists(\Stancl\Tenancy\Tenancy::class) && !is_null(tenant('id'))) {
+        if (class_exists(Tenancy::class) && ! is_null(tenant('id'))) {
             $name = 'salami_tenant_'.tenant('id');
         } else {
             $name = 'salami_no_tenant';
         }
 
-        $webhookConfig = new \Spatie\WebhookClient\WebhookConfig([
+        $webhookConfig = new WebhookConfig([
             'name'                  => $name,
             'signing_secret'        => $webhookSecret,
             'signature_header_name' => $this->signatureHeaderName,
             'signature_validator'   => $validator,
-            'webhook_profile'       => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
-            'webhook_response'      => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
-            'webhook_model'         => \Spatie\WebhookClient\Models\WebhookCall::class,
-            'process_webhook_job'   => \Deadan\Salami\Jobs\ProcessSalamiApiResponse::class,
+            'webhook_profile'       => ProcessEverythingWebhookProfile::class,
+            'webhook_response'      => DefaultRespondsTo::class,
+            'webhook_model'         => WebhookCall::class,
+            'process_webhook_job'   => ProcessSalamiApiResponse::class,
         ]);
 
-        return (new \Spatie\WebhookClient\WebhookProcessor($request, $webhookConfig))->process();
+        return (new WebhookProcessor($request, $webhookConfig))->process();
     }
 }
