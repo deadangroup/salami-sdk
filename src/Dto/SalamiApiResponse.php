@@ -2,7 +2,7 @@
 /**
  * This file is part of the Deadan Group Software Stack
  *
- * (c) James Ngugi <james@deadangroup.com>
+ * (c) James Ngugi <james@dgl.co.ke>
  *
  * <code> Build something people want </code>
  *

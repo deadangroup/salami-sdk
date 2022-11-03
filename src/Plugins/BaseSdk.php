@@ -2,7 +2,7 @@
 
 /**
  *
- * (c) www.deadangroup.com
+ * (c) www.dgl.co.ke
  *
  * <code> Build something people want </code>
  *

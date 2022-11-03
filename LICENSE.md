@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) Deadan Group Limited <info@deadangroup.com>
+Copyright (c) Deadan Group Limited <info@dgl.co.ke>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
