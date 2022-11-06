@@ -3,7 +3,11 @@
 namespace Deadan\Salami;
 
 use Deadan\Salami\Plugins\SalamiSms;
+use Log;
 
+/**
+ *
+ */
 class Sms
 {
     /**
@@ -15,13 +19,13 @@ class Sms
     public static function send($to, $message)
     {
         if (is_null($to)) {
-            \Log::emergency("$to is not a valid phonenumber");
+            Log::emergency("$to is not a valid phonenumber");
 
             return;
         }
 
         if (config('salami.sms.enabled') == false) {
-            \Log::notice("Sending SMS, To:$to, Content:$message ");
+            Log::notice("Sending SMS, To:$to, Content:$message ");
 
             return;
         }

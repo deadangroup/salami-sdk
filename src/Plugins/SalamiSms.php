@@ -2,7 +2,7 @@
 
 /**
  *
- * (c) www.deadangroup.com
+ * (c) www.dgl.co.ke
  *
  * <code> Build something people want </code>
  *
@@ -13,6 +13,9 @@ namespace Deadan\Salami\Plugins;
 use Deadan\Salami\Dto\SalamiApiResponse;
 use Deadan\Salami\Events\SalamiSmsProcessed;
 
+/**
+ *
+ */
 class SalamiSms extends BaseSdk
 {
     /**

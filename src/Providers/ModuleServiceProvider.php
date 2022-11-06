@@ -4,14 +4,11 @@
  * @copyright Deadan Group Limited
  * <code> Build something people want </code>
  */
+
 namespace Deadan\Salami\Providers;
 
 use dPOS\Admin\Commands\GenerateSitemap;
 use dPOS\Admin\Commands\RefreshDemoBusiness;
-use dPOS\Admin\Commands\SynchronizeTenants;
-use dPOS\Admin\Commands\UpdateLandingPageStats;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -43,6 +40,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
     }
 }

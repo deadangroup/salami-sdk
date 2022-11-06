@@ -2,7 +2,7 @@
 /**
  * This file is part of the Deadan Group Software Stack
  *
- * (c) James Ngugi <james@deadangroup.com>
+ * (c) James Ngugi <james@dgl.co.ke>
  *
  * <code> Build something people want </code>
  *
@@ -10,6 +10,9 @@
 
 namespace Deadan\Salami\Dto;
 
+/**
+ *
+ */
 class SalamiApiResponse
 {
     /**
@@ -85,7 +88,7 @@ class SalamiApiResponse
      */
     public function getAttribute($key)
     {
-        if (!$key) {
+        if (! $key) {
             return;
         }
 
