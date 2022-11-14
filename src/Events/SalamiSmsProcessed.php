@@ -1,6 +1,6 @@
 <?php
 
-namespace Deadan\Salami\Events;
+namespace DGL\Salami\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -21,7 +21,7 @@ class SalamiSmsProcessed
     /**
      * SalamiApiResponseProcessed constructor.
      *
-     * @param  \Deadan\Salami\Dto\SalamiApiResponse  $salamiData
+     * @param  \DGL\Salami\Dto\SalamiApiResponse  $salamiData
      */
     public function __construct($salamiData = [])
     {

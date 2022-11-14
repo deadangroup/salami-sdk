@@ -1,6 +1,6 @@
 <?php
 
-namespace Deadan\Salami\SignatureValidator;
+namespace DGL\Salami\SignatureValidator;
 
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\SignatureValidator\SignatureValidator;

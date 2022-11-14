@@ -1,6 +1,6 @@
 <?php
 
-namespace Deadan\Salami\Notifications;
+namespace DGL\Salami\Notifications;
 
 use Exception;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Deadan\Salami\Notifications;
+namespace DGL\Salami\Notifications;
 
-use Deadan\Salami\Sms;
+use DGL\Salami\Sms;
 use Illuminate\Notifications\Notification;
 
 /**

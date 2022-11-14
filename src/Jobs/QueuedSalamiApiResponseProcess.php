@@ -1,9 +1,9 @@
 <?php
 
-namespace Deadan\Salami\Jobs;
+namespace DGL\Salami\Jobs;
 
-use Deadan\Salami\Dto\SalamiApiResponse;
-use Deadan\Salami\Events\SalamiApiResponseProcessed;
+use DGL\Salami\Dto\SalamiApiResponse;
+use DGL\Salami\Events\SalamiApiResponseProcessed;
 use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 
 /**

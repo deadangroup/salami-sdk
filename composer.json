@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Deadan\\Salami\\": "src"
+      "DGL\\Salami\\": "src"
     },
     "files": [
       "src/functions.php"
@@ -34,7 +34,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Deadan\\Salami\\Providers\\ModuleServiceProvider"
+        "DGL\\Salami\\Providers\\ModuleServiceProvider"
       ]
     },
     "branch-alias": {
