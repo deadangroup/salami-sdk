@@ -8,11 +8,11 @@
  *
  */
 
-namespace Deadan\Salami\Plugins;
+namespace DGL\Salami\Plugins;
 
-use Deadan\Salami\Dto\SalamiApiResponse;
-use Deadan\Salami\Jobs\ProcessSalamiApiResponse;
-use Deadan\Salami\SignatureValidator\NullValidator;
+use DGL\Salami\Dto\SalamiApiResponse;
+use DGL\Salami\Jobs\ProcessSalamiApiResponse;
+use DGL\Salami\SignatureValidator\NullValidator;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -322,7 +322,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  \Deadan\Salami\Plugins\Request  $request
+     * @param  \DGL\Salami\Plugins\Request  $request
      * @param                                  $webhookSecret
      *
      * @return \Symfony\Component\HttpFoundation\Response

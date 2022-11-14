@@ -1,8 +1,8 @@
 <?php
 
-namespace Deadan\Salami\Events;
+namespace DGL\Salami\Events;
 
-use Deadan\Salami\Dto\SalamiApiResponse;
+use DGL\Salami\Dto\SalamiApiResponse;
 
 /**
  *
@@ -10,7 +10,7 @@ use Deadan\Salami\Dto\SalamiApiResponse;
 class SalamiApiResponseProcessed
 {
     /**
-     * @var \Deadan\Salami\Dto\SalamiApiResponse
+     * @var \DGL\Salami\Dto\SalamiApiResponse
      */
     public $salamiApiResponse;
 
@@ -20,7 +20,7 @@ class SalamiApiResponseProcessed
     public $context;
 
     /**
-     * @param  \Deadan\Salami\Dto\SalamiApiResponse  $salamiApiResponse
+     * @param  \DGL\Salami\Dto\SalamiApiResponse  $salamiApiResponse
      * @param $context
      */
     public function __construct(SalamiApiResponse $salamiApiResponse, $context)
@@ -30,7 +30,7 @@ class SalamiApiResponseProcessed
     }
 
     /**
-     * @return \Deadan\Salami\Dto\SalamiApiResponse
+     * @return \DGL\Salami\Dto\SalamiApiResponse
      */
     public function getSalamiApiResponse()
     {

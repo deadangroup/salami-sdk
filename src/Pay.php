@@ -1,8 +1,8 @@
 <?php
 
-namespace Deadan\Salami;
+namespace DGL\Salami;
 
-use Deadan\Salami\Plugins\SalamiPay;
+use DGL\Salami\Plugins\SalamiPay;
 
 /**
  *
@@ -10,7 +10,7 @@ use Deadan\Salami\Plugins\SalamiPay;
 class Pay
 {
     /**
-     * @return \Deadan\Salami\Plugins\SalamiPay
+     * @return \DGL\Salami\Plugins\SalamiPay
      */
     public static function init()
     {

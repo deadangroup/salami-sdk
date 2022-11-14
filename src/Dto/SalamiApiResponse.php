@@ -8,7 +8,7 @@
  *
  */
 
-namespace Deadan\Salami\Dto;
+namespace DGL\Salami\Dto;
 
 /**
  *

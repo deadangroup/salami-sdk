@@ -1,8 +1,8 @@
 <?php
 
-namespace Deadan\Salami;
+namespace DGL\Salami;
 
-use Deadan\Salami\Plugins\SalamiSms;
+use DGL\Salami\Plugins\SalamiSms;
 use Log;
 
 /**
@@ -14,7 +14,7 @@ class Sms
      * @param $to
      * @param $message
      *
-     * @return \Deadan\Salami\Dto\SalamiApiResponse|void
+     * @return \DGL\Salami\Dto\SalamiApiResponse|void
      */
     public static function send($to, $message)
     {

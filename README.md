@@ -17,11 +17,11 @@ composer require deadangroup/salami-sdk
 The first thing you need to do is get an api token at Salami.
 
 Look
-in [the source code of `Deadan\Salami\Plugins\SalamiPay`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiPay.php)
+in [the source code of `DGL\Salami\Plugins\SalamiPay`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiPay.php)
 to discover the methods you can use.
 
 ```php
-use Deadan\Salami\Plugins\SalamiPay;
+use DGL\Salami\Plugins\SalamiPay;
 
 //First create an instance
 $apiToken = 'api_token';  //gotten from salami.co.ke
@@ -51,7 +51,7 @@ return $salamiPay->processWebhook($request);
 ```
 
 When a Salami Payment IPN is received, the package emmits the following event:
-``Deadan\Salami\Events\SalamiTransactionProcessed``. 
+``DGL\Salami\Events\SalamiTransactionProcessed``. 
 
 You should implement a listener for this event to save the transaction. 
 An example is shown below:
@@ -61,7 +61,7 @@ An example is shown below:
 
 namespace App\Listeners;
 
-use Deadan\Salami\Events\SalamiTransactionProcessed;
+use DGL\Salami\Events\SalamiTransactionProcessed;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -73,14 +73,14 @@ class SaveSalamiTransaction implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \Deadan\Salami\Events\SalamiTransactionProcessed
+     * @var \DGL\Salami\Events\SalamiTransactionProcessed
      */
     protected $event;
 
     /**
      * ProcessSalamiTransaction constructor.
      *
-     * @param  \Deadan\Salami\Events\SalamiTransactionProcessed  $event
+     * @param  \DGL\Salami\Events\SalamiTransactionProcessed  $event
      */
     public function __construct(SalamiTransactionProcessed $event)
     {
@@ -111,11 +111,11 @@ class SaveSalamiTransaction implements ShouldQueue
 The first thing you need to do is get an api token at Salami.
 
 Look
-in [the source code of `Deadan\Salami\Plugins\SalamiSms`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiSms.php)
+in [the source code of `DGL\Salami\Plugins\SalamiSms`](https://github.com/deadangroup/salami-sdk/blob/master/src/Plugins/SalamiSms.php)
 to discover the methods you can use.
 
 ```php
-use Deadan\Salami\Plugins\SalamiSms;
+use DGL\Salami\Plugins\SalamiSms;
 //First create an instance
 $apiToken = 'api_token';  //gotten from salami.co.ke
 $webhookSecret = 'webhook_secret';  //gotten from salami.co.ke

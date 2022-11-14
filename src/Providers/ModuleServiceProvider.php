@@ -5,7 +5,7 @@
  * <code> Build something people want </code>
  */
 
-namespace Deadan\Salami\Providers;
+namespace DGL\Salami\Providers;
 
 use dPOS\Admin\Commands\GenerateSitemap;
 use dPOS\Admin\Commands\RefreshDemoBusiness;

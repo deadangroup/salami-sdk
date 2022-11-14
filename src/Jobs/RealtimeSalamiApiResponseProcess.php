@@ -1,6 +1,6 @@
 <?php
 
-namespace Deadan\Salami\Jobs;
+namespace DGL\Salami\Jobs;
 
 /**
  *

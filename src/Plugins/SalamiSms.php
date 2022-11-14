@@ -8,10 +8,10 @@
  *
  */
 
-namespace Deadan\Salami\Plugins;
+namespace DGL\Salami\Plugins;
 
-use Deadan\Salami\Dto\SalamiApiResponse;
-use Deadan\Salami\Events\SalamiSmsProcessed;
+use DGL\Salami\Dto\SalamiApiResponse;
+use DGL\Salami\Events\SalamiSmsProcessed;
 
 /**
  *
@@ -23,7 +23,7 @@ class SalamiSms extends BaseSdk
      * @param        $message
      * @param  null  $appId
      *
-     * @return \Deadan\Salami\Dto\SalamiApiResponse
+     * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function sendRaw($to, $message, $appId = null)
@@ -38,7 +38,7 @@ class SalamiSms extends BaseSdk
      * @param  array  $payload
      * @param  null  $appId
      *
-     * @return \Deadan\Salami\Dto\SalamiApiResponse
+     * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function send(array $payload = [], $appId = null)
