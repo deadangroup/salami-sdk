@@ -6,7 +6,7 @@
  */
 
 return [
-    // Add this to the config/services.php file.
+    // Todo move this to config/services.php file.
     'sms' => [
         'token'    => env('SALAMI_SMS_API_TOKEN'),
         'app_id'   => env('SALAMI_SMS_APP_ID'),
@@ -15,7 +15,7 @@ return [
         'enabled'  => env('SALAMI_SMS_ENABLED', true),
     ],
 
-    // Add this to the config/services.php file.
+    // Todo move this to config/services.php file.
     'pay' => [
         'token'          => env('SALAMI_PAY_API_TOKEN'),
         'app_id'         => env('SALAMI_PAY_APP_ID'),

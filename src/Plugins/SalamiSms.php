@@ -41,7 +41,7 @@ class SalamiSms extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function send(array $payload = [], $appId = null)
+    public function send(array $payload, $appId = null)
     {
         $response = $this->call("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
 
@@ -56,7 +56,7 @@ class SalamiSms extends BaseSdk
      * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
      */
-    public function getSmsApps(array $payload = [])
+    public function getSmsApps(array $payload)
     {
         return $this->call('/sms/apps', 'GET', $payload);
     }
@@ -115,7 +115,7 @@ class SalamiSms extends BaseSdk
      * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
      */
-    public function createApp(array $payload = [])
+    public function createApp(array $payload)
     {
         return $this->call('/sms/apps/create', 'POST', $payload);
     }

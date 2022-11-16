@@ -316,7 +316,7 @@ abstract class BaseSdk
             'timeout'         => 60,
             'allow_redirects' => true,
             'http_errors'     => $this->httpErrors,
-            //let users handle errors
+            //let callers handle errors
             'verify'          => false,
         ]);
     }
