@@ -24,7 +24,7 @@ class SalamiPay extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function queryPayments(array $payload = [], $appId)
+    public function queryPayments(array $payload, $appId)
     {
         return $this->call("/payments/".$this->getAppId($appId)."/queryPayments", 'GET', $payload);
     }
@@ -48,7 +48,7 @@ class SalamiPay extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function checkBalance(array $payload = [], $appId)
+    public function checkBalance(array $payload, $appId)
     {
         return $this->call("/payments/".$this->getAppId($appId)."/checkBalance", 'GET', $payload);
     }
@@ -60,7 +60,7 @@ class SalamiPay extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function extractPayment(array $payload = [], $appId)
+    public function extractPayment(array $payload, $appId)
     {
         return $this->call("/payments/".$this->getAppId($appId)."/extractPayment", 'GET', $payload);
     }
@@ -72,7 +72,7 @@ class SalamiPay extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function fetchPayments(array $payload = [], $appId)
+    public function fetchPayments(array $payload, $appId)
     {
         return $this->call("/payments/".$this->getAppId($appId)."/fetchPayments", 'GET', $payload);
     }
@@ -96,7 +96,7 @@ class SalamiPay extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function registerUrls(array $payload = [], $appId)
+    public function registerUrls(array $payload, $appId)
     {
         return $this->call("/payments/".$this->getAppId($appId)."/registerUrls", 'GET', $payload);
     }
@@ -108,7 +108,7 @@ class SalamiPay extends BaseSdk
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
-    public function requestPayment(array $payload = [], $appId)
+    public function requestPayment(array $payload, $appId)
     {
         return $this->call("/payments/".$this->getAppId($appId)."/requestPayment", 'GET', $payload);
     }

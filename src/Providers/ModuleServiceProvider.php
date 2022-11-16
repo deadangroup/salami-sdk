@@ -17,11 +17,12 @@ use Illuminate\Support\ServiceProvider;
 class ModuleServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the module services.
+     * Register the module services.
      *
      * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function boot()
+    public function register()
     {
         $config = __DIR__.'/../../config/salami.php';
 
@@ -30,16 +31,5 @@ class ModuleServiceProvider extends ServiceProvider
         $this->publishes([
             $config => config_path('salami.php'),
         ], 'config');
-    }
-
-    /**
-     * Register the module services.
-     *
-     * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     */
-    public function register()
-    {
-
     }
 }
