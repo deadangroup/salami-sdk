@@ -93,9 +93,9 @@ class SaveSalamiTransaction implements ShouldQueue
     public function handle()
     {
         //the sdk will automatically detect whether multitenancy is enabled and a tenant is available.
-        //if none, the context will be `salami_no_tenant` else it will be `salami_tenant_{TENANT_ID}`
+        //if none, the name will be `salami_no_tenant` else it will be `salami_tenant_{TENANT_ID}`
         // e.g. salami_tenant_10
-        if ($this->event->context == 'salami_no_tenant') {
+        if ($this->event->name == 'salami_no_tenant') {
             $salamiTransaction = $this->event->transaction;
 
             if ($salamiTransaction->isCompleted()) {

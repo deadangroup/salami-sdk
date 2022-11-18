@@ -17,16 +17,16 @@ class SalamiApiResponseProcessed
     /**
      * @var string
      */
-    public $context;
+    public $name;
 
     /**
      * @param  \DGL\Salami\Dto\SalamiApiResponse  $salamiApiResponse
-     * @param $context
+     * @param $name
      */
-    public function __construct(SalamiApiResponse $salamiApiResponse, $context)
+    public function __construct(SalamiApiResponse $salamiApiResponse, $name)
     {
         $this->salamiApiResponse = $salamiApiResponse;
-        $this->context = $context;
+        $this->name = $name;
     }
 
     /**
@@ -40,8 +40,8 @@ class SalamiApiResponseProcessed
     /**
      * @return string
      */
-    public function getContext()
+    public function getname()
     {
-        return $this->context;
+        return $this->name;
     }
 }

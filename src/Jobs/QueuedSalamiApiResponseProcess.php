@@ -4,7 +4,7 @@ namespace DGL\Salami\Jobs;
 
 use DGL\Salami\Dto\SalamiApiResponse;
 use DGL\Salami\Events\SalamiApiResponseProcessed;
-use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
+use Spatie\WebhookClient\Jobs\ProcessWebhookJob as SpatieProcessWebhookJob;
 
 /**
  *
