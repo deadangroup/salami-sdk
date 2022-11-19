@@ -293,8 +293,10 @@ abstract class BaseSdk
     }
 
     /**
-     * @param         $message
-     * @param  array  $context
+     * @param $message
+     * @param $context
+     *
+     * @return void
      */
     public function log($message, $context = [])
     {
