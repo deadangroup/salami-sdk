@@ -294,14 +294,14 @@ abstract class BaseSdk
 
     /**
      * @param $message
-     * @param $name
+     * @param $context
      *
      * @return void
      */
-    public function log($message, $name = [])
+    public function log($message, $context = [])
     {
         if ($this->logger) {
-            $this->logger->log("info", $message, $name);
+            $this->logger->log("info", $message, $context);
         }
     }
 
