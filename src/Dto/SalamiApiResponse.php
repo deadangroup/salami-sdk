@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Deadan Group Software Stack
+ * This file is part of the DGL Software Stack
  *
  * (c) James Ngugi <james@dgl.co.ke>
  *
