@@ -88,8 +88,8 @@ class SalamiApiResponse
      */
     public function getAttribute($key)
     {
-        if (! $key) {
-            return;
+        if (! $key || !isset($this->data[$key])) {
+            return null;
         }
 
         return $this->data[$key];
