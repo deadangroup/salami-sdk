@@ -19,8 +19,7 @@ class Sms
     public static function send($to, $message)
     {
         if (is_null($to)) {
-            Log::emergency("$to is not a valid phonenumber");
-
+//            Log::emergency("$to is not a valid phonenumber");
             return;
         }
 
@@ -31,12 +30,14 @@ class Sms
         }
 
         $salamiSms = (new SalamiSms(config('salami.sms.token')))->withBaseUrl(config('salami.sms.base_url'))
-                                                                ->withAppId(config('salami.sms.app_id'));
+            ->withAppId(config('salami.sms.app_id'));
 
         $to = fix_phone($to, '254');
 
-        $salamiResponse = $salamiSms->sendRaw($to, $message);
+        if ($to) {
+            $salamiResponse = $salamiSms->sendRaw($to, $message);
 
-        return $salamiResponse;
+            return $salamiResponse;
+        }
     }
 }
