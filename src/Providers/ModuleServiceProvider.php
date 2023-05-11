@@ -7,8 +7,6 @@
 
 namespace DGL\Salami\Providers;
 
-use dPOS\Admin\Commands\GenerateSitemap;
-use dPOS\Admin\Commands\RefreshDemoBusiness;
 use Illuminate\Support\ServiceProvider;
 
 /**
