@@ -99,7 +99,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $signatureHeaderName
+     * @param string $signatureHeaderName
      *
      * @return BaseSdk
      */
@@ -111,7 +111,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $apiToken
+     * @param string $apiToken
      *
      * @return BaseSdk
      */
@@ -123,7 +123,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $webhookSecret
+     * @param string $webhookSecret
      *
      * @return BaseSdk
      */
@@ -135,7 +135,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  \GuzzleHttp\Client  $http
+     * @param \GuzzleHttp\Client $http
      *
      * @return BaseSdk
      */
@@ -147,7 +147,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  \Psr\Log\LoggerInterface  $logger
+     * @param \Psr\Log\LoggerInterface $logger
      *
      * @return BaseSdk
      */
@@ -159,7 +159,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $version
+     * @param string $version
      *
      * @return BaseSdk
      */
@@ -171,7 +171,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $baseUrl
+     * @param string $baseUrl
      *
      * @return BaseSdk
      */
@@ -183,7 +183,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  string  $appId
+     * @param string $appId
      *
      * @return BaseSdk
      */
@@ -226,7 +226,7 @@ abstract class BaseSdk
     }
 
     /**
-     * @param  bool  $httpErrors
+     * @param bool $httpErrors
      *
      * @return BaseSdk
      */
@@ -248,7 +248,7 @@ abstract class BaseSdk
     /**
      * @param         $endpoint
      * @param         $method
-     * @param  array  $payload
+     * @param array $payload
      *
      * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
@@ -256,29 +256,29 @@ abstract class BaseSdk
     public function call($endpoint, $method, $payload = [])
     {
         $baseUrl = $this->getBaseUrl(true);
-        $url = $baseUrl.$endpoint;
-        $this->log("Salami API URL:".$url);
+        $url = $baseUrl . $endpoint;
+        $this->log("Salami API URL:" . $url);
         $this->log("Salami API Payload:", $payload);
 
         $response = $this->getHttpClient()
-                         ->request(strtoupper($method), $url, [
-                             'form_params' => $payload,
-                             'query'       => $payload,
-                             'headers'     => [
-                                 'Accept'        => 'application/json',
-                                 'Authorization' => 'Bearer '.$this->apiToken,
-                             ],
-                         ]);
+            ->request(strtoupper($method), $url, [
+                'form_params' => $payload,
+                'query' => $payload,
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->apiToken,
+                ],
+            ]);
 
         $contents = $response->getBody()
-                             ->getContents();
-        $this->log("Salami API Response:".$contents);
+            ->getContents();
+        $this->log("Salami API Response:" . $contents);
 
         return SalamiApiResponse::buildFromApiCall(json_decode($contents, true));
     }
 
     /**
-     * @param  bool  $withVersion
+     * @param bool $withVersion
      *
      * @return string
      */
@@ -286,7 +286,7 @@ abstract class BaseSdk
     {
         $endpoint = rtrim($this->baseUrl, '/\\');
         if ($withVersion && $version = $this->version) {
-            $endpoint = $endpoint.'/'.$version;
+            $endpoint = $endpoint . '/' . $version;
         }
 
         return rtrim($endpoint, '/\\');
@@ -315,16 +315,16 @@ abstract class BaseSdk
         }
 
         return $this->http = new Client([
-            'timeout'         => 60,
+            'timeout' => 60,
             'allow_redirects' => true,
-            'http_errors'     => $this->httpErrors,
+            'http_errors' => $this->httpErrors,
             //let callers handle errors
-            'verify'          => false,
+            'verify' => false,
         ]);
     }
 
     /**
-     * @param  \DGL\Salami\Plugins\Request  $request
+     * @param \DGL\Salami\Plugins\Request $request
      * @param                                  $webhookSecret
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -338,21 +338,21 @@ abstract class BaseSdk
             $validator = NullValidator::class;
         }
 
-        if (class_exists(Tenancy::class) && ! is_null(tenant('id'))) {
-            $name = 'salami_tenant_'.tenant('id');
+        if (class_exists(Tenancy::class) && !is_null(tenant('id'))) {
+            $name = 'salami_tenant_' . tenant('id');
         } else {
             $name = 'salami_no_tenant';
         }
 
         $webhookConfig = new WebhookConfig([
-            'name'                  => $name,
-            'signing_secret'        => $webhookSecret,
+            'name' => $name,
+            'signing_secret' => $webhookSecret,
             'signature_header_name' => $this->signatureHeaderName,
-            'signature_validator'   => $validator,
-            'webhook_profile'       => ProcessEverythingWebhookProfile::class,
-            'webhook_response'      => DefaultRespondsTo::class,
-            'webhook_model'         => WebhookCall::class,
-            'process_webhook_job'   => ProcessSalamiApiResponse::class,
+            'signature_validator' => $validator,
+            'webhook_profile' => ProcessEverythingWebhookProfile::class,
+            'webhook_response' => DefaultRespondsTo::class,
+            'webhook_model' => WebhookCall::class,
+            'process_webhook_job' => ProcessSalamiApiResponse::class,
         ]);
 
         return (new WebhookProcessor($request, $webhookConfig))->process();

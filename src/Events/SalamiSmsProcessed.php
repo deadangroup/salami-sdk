@@ -21,7 +21,7 @@ class SalamiSmsProcessed
     /**
      * SalamiApiResponseProcessed constructor.
      *
-     * @param  \DGL\Salami\Dto\SalamiApiResponse  $salamiData
+     * @param \DGL\Salami\Dto\SalamiApiResponse $salamiData
      */
     public function __construct($salamiData = [])
     {

@@ -20,7 +20,7 @@ class SalamiApiResponseProcessed
     public $name;
 
     /**
-     * @param  \DGL\Salami\Dto\SalamiApiResponse  $salamiApiResponse
+     * @param \DGL\Salami\Dto\SalamiApiResponse $salamiApiResponse
      * @param $name
      */
     public function __construct(SalamiApiResponse $salamiApiResponse, $name)
