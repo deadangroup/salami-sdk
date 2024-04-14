@@ -18,11 +18,6 @@ class Sms
      */
     public static function send($to, $message)
     {
-        if (is_null($to)) {
-            Log::emergency("$to is not a valid phonenumber");
-            return;
-        }
-
         if (config('salami.sms.enabled') == false) {
             Log::notice("Sending SMS, To:$to, Content:$message ");
 
