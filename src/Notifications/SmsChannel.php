@@ -13,19 +13,31 @@ class SmsChannel
     /**
      * Send the given notification.
      *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @param mixed $notifiable
+     * @param \Illuminate\Notifications\Notification $notification
      *
      * @return void
      */
     public function send($notifiable, Notification $notification)
     {
-        $message = (string) $notification->toSms($notifiable);
-
         try {
             // We are assuming we are notifying a user or a model that has a telephone attribute/field.
             // And the telephone number is correctly formatted.
-            return Sms::send($notifiable->routeNotificationFor('sms', $notification), $message);
+            $to = $notifiable->routeNotificationFor('sms', $notification);
+            $message = (string)$notification->toSms($notifiable);
+
+            if (empty($to)) {
+                \Log::emergency("$to is not a valid phonenumber. Aborting");
+                return;
+            }
+
+            if (empty($message)) {
+                \Log::emergency("$message is an empty message. Aborting");
+                return;
+            }
+
+            return Sms::send($to, $message);
+
         } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage());
         }
