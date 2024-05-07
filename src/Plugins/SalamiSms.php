@@ -21,7 +21,7 @@ class SalamiSms extends BaseSdk
     /**
      * @param        $to
      * @param        $message
-     * @param  null  $appId
+     * @param null $appId
      *
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
@@ -29,25 +29,25 @@ class SalamiSms extends BaseSdk
     public function sendRaw($to, $message, $appId = null)
     {
         return $this->send([
-            'to'      => $to,
+            'to' => $to,
             'message' => $message,
         ], $this->getAppId($appId));
     }
 
     /**
-     * @param  array  $payload
-     * @param  null  $appId
+     * @param array $payload
+     * @param null $appId
      *
      * @return \DGL\Salami\Dto\SalamiApiResponse
      * @throws \Exception
      */
     public function send(array $payload, $appId = null)
     {
-        $response = $this->call("/sms/apps/".$this->getAppId($appId)."/send", 'POST', $payload);
+        $response = $this->call("/sms/apps/" . $this->getAppId($appId) . "/send", 'POST', $payload);
 
-        $data=$response->getAttribute('data');
+        $data = $response->getAttribute('data');
 
-        if($data){
+        if ($data) {
             event(new SalamiSmsProcessed($data));
         }
 
@@ -55,7 +55,7 @@ class SalamiSms extends BaseSdk
     }
 
     /**
-     * @param  array  $payload
+     * @param array $payload
      *
      * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
@@ -74,7 +74,7 @@ class SalamiSms extends BaseSdk
      */
     public function getSmsApp($appId)
     {
-        return $this->call('/sms/apps/'.$appId, 'GET');
+        return $this->call('/sms/apps/' . $appId, 'GET');
     }
 
     /**
@@ -86,7 +86,7 @@ class SalamiSms extends BaseSdk
      */
     public function getAppInbox($appId)
     {
-        return $this->call('/sms/apps/'.$this->getAppId($appId).'/inbox', 'GET');
+        return $this->call('/sms/apps/' . $this->getAppId($appId) . '/inbox', 'GET');
     }
 
     /**
@@ -98,7 +98,7 @@ class SalamiSms extends BaseSdk
      */
     public function getAppOutbox($appId)
     {
-        return $this->call('/sms/apps/'.$this->getAppId($appId).'/outbox', 'GET');
+        return $this->call('/sms/apps/' . $this->getAppId($appId) . '/outbox', 'GET');
     }
 
     /**
@@ -110,11 +110,11 @@ class SalamiSms extends BaseSdk
      */
     public function getAppsCalls($appId)
     {
-        return $this->call('/sms/apps/'.$this->getAppId($appId).'/calls', 'GET');
+        return $this->call('/sms/apps/' . $this->getAppId($appId) . '/calls', 'GET');
     }
 
     /**
-     * @param  array  $payload
+     * @param array $payload
      *
      * @return SalamiApiResponse
      * @throws \GuzzleHttp\GuzzleException
@@ -132,6 +132,6 @@ class SalamiSms extends BaseSdk
      */
     public function getSingleMessage($smsId)
     {
-        return $this->call('/sms/'.$smsId, 'GET');
+        return $this->call('/sms/' . $smsId, 'GET');
     }
 }
