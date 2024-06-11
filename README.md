@@ -37,7 +37,7 @@ $salamiPay = (new SalamiPay($apiToken, $webhookSecret))
 //Note: The fields passed depend on the payment app driver
 $result = $salamiPay->requestPayment([  
   'Amount' => 10,  
-  'PhoneNumber' => '+254711800780',  
+  'PhoneNumber' => '+254111 053211',  
   'AccountReference' => 'INV110',  
   'TransactionDesc' => 'Invoice payment',  
 ]);
